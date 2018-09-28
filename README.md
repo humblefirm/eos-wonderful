@@ -29,3 +29,6 @@ EOS-wonderful API and DEMO
 ### 4. CA,SA,dApp(직접 구축) - 직접 이오스 원더풀 멀티버스 구현
 데모용 서버를 사용하지 않고 완전히 별개의 이오스원더풀 기반 멀티버스를 구축하여 사용합니다. 수수료 홀딩량과 홀딩시간을 직접 설정할 수 있으며, 발행량 및 전체적인 컨센서스를 직접 코딩할 수 있습니다. CA는 유저당 210바이트 미만의 램외에도 스마트컨트랙트를 업로드하기 위해 약 700KB 미만의 램을 소모하기 때문에 램이 충분히 확보되어야 합니다.
 
+# 저작권 Licence
+(C) 2018. Suntae Kim all rights reserved. All Page content is property of Suntae Kim
+이 저작물은 CC BY-NC-SA 2.0 KR에 따라 이용할 수 있습니다. (단, 라이선스가 명시된 일부 문서 및 삽화 제외)
