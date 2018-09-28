@@ -32,4 +32,4 @@ EOS-wonderful API and DEMO
 # 저작권 Licence
 (C) 2018. Suntae Kim all rights reserved. All Page content is property of Suntae Kim
 
-이 저작물은 CC BY-NC-SA 2.0 KR에 따라 이용할 수 있습니다. (단, 라이선스가 명시된 일부 문서 및 삽화 제외)
+이 저작물은 [CC BY-NC-SA 2.0 KR](https://creativecommons.org/licenses/by-nc-sa/2.0/kr/)에 따라 이용할 수 있습니다. (단, 라이선스가 명시된 일부 문서 및 삽화 제외)
