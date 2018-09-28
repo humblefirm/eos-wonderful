@@ -1,5 +1,5 @@
 # eos-wonderful
-EOS-wonderful API and DEMO 
+EOS-wonderful API and about DEMO Test-net
 
 
 # 설명 
@@ -27,7 +27,7 @@ EOS-wonderful API and DEMO
 ### 3. CA(원더풀), SA,dApp(직접 구축) - 직접 구현한 dApp이 연결할 SA 구축
 자신의 계정을 SA화하고 데모용 원더풀 CA와 연동합니다. 이후 dApp을 직접 구축한 SA에 연결합니다.
 ### 4. CA,SA,dApp(직접 구축) - 직접 이오스 원더풀 멀티버스 구현
-데모용 서버를 사용하지 않고 완전히 별개의 이오스원더풀 기반 멀티버스를 구축하여 사용합니다. 수수료 홀딩량과 홀딩시간을 직접 설정할 수 있으며, 발행량 및 전체적인 컨센서스를 직접 코딩할 수 있습니다. CA는 유저당 210바이트 미만의 램외에도 스마트컨트랙트를 업로드하기 위해 약 700KB 미만의 램을 소모하기 때문에 램이 충분히 확보되어야 합니다.
+데모용 서버를 사용하지 않고 완전히 별개의 이오스원더풀 기반 멀티버스를 구축하여 사용합니다. 수수료 홀딩량과 홀딩시간을 직접 설정할 수 있으며, 발행량 및 전체적인 컨센서스를 직접 코딩할 수 있습니다. CA는 유저당 210바이트 미만의 램 외에도 스마트컨트랙트를 업로드하기 위해 약 700KB 미만의 램을 소모하기 때문에 램이 충분히 확보되어야 합니다.
 
 # 저작권 Licence
 (C) 2018. Suntae Kim all rights reserved. All Page content is property of Suntae Kim
