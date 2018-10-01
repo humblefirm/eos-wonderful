@@ -3,8 +3,8 @@ var request = require('request');
 const app = express();
 const CA = "humblefirm42"
 const SA = "humblefirm42";
-const SAwif = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" // 프라이빗키
-const SAperm = "pub" //입력한 프라이빗키와 매칭되는 펄미션
+const SAwif = "5K9PSYxo3utJu1D6TcccvMCAfNWLWRcN1NRjjr7DQCLrG6S4TBA" // 프라이빗키
+const SAperm = "active" //입력한 프라이빗키와 매칭되는 펄미션
 var actions = [
     [],
     []
