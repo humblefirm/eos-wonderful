@@ -36,7 +36,7 @@ async function sendcoin() {
 
 }
 async function CheckBalance() {
-    var ret = await getCurrency("EOS8mg3inHz8SHdQGk3CFGWesDNNCDfYwoDLW9adqrKb2GoLNZ9Rc");
+    var ret = await getCurrency(document.getElementsByName("PublicKey")[0].value);
 
     document.getElementsByName("ViewBalance")[0].value = ret.balance;
     document.getElementsByName("ViewFee")[0].value = ret.fee;
