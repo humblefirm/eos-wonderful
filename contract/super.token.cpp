@@ -21,8 +21,8 @@ class token : public contract
 	void create(public_key owner, asset amount)
 	{
 		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "COF"),
-    "only accepts COF");
+		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
+    "only accepts WDF");
 		asset new_balance;
 
 		usrbalance_table usrbalance(_self, _self);
@@ -51,8 +51,8 @@ class token : public contract
 	void change(public_key owner, asset amount)
 	{
 		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "COF"),
-    "only accepts COF");
+		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
+    "only accepts WDF");
 		asset new_balance;
 
 		usrbalance_table usrbalance(_self, _self);
@@ -86,8 +86,8 @@ class token : public contract
 	void mint(string from, public_key key, asset amount, string memo)
 	{
 		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "COF"),
-    "only accepts COF");
+		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
+    "only accepts WDF");
 
 
 		bool newaccount = false;
@@ -140,8 +140,8 @@ class token : public contract
 	void transfer(public_key sender, public_key receiver, asset amount, string memo, signature sig)
 	{
 		require_auth2(_self, N(pub));
-		eosio_assert(amount.symbol == string_to_symbol(4, "COF"),
-    "only accepts COF");
+		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
+    "only accepts WDF");
 		eosio_assert(amount.amount > 0, "must transfer positive quantity");
 		eosio_assert(memo.size() <= 256, "memo has more than 256 bytes");
 		eosio_assert(amount.is_valid(), "invalid quantity");
