@@ -1,11 +1,6 @@
 /* based on https://github.com/jbenet/go-base58/blob/master/base58.go */
 
-var contract = "1thefull2bot"
-var account_tb = "usrbalance"
-//var contract = "humblefirm42"
-var symbol = "COF"
-var fee = 10000; //1.0000코인
-var feeRstTime = 8 * 3600; // 8시간
+
 var data = [];
 
 $(document).ready(function () {
@@ -18,7 +13,7 @@ async function filterActions(data, account) {
     var i = 0;
     var ret = [];
     for (i = 0; i < data.length; i++) {
-        if (data[i].action_trace.act.data.key != account&&data[i].action_trace.act.data.from != account) continue;
+        if (data[i].action_trace.act.data.key != account && data[i].action_trace.act.data.from != account) continue;
         ret.push({
             txid: data[i].action_trace.trx_id,
             time: data[i].block_time,
@@ -26,15 +21,15 @@ async function filterActions(data, account) {
             info: data[i].action_trace.act.data
         });
     }
-return ret;
+    return ret;
 }
 async function getAllActions(contract, part = 100) {
     var last = await eos.getActions(contract, -1, -1);
     last = last.actions[0].account_action_seq;
     if (last == undefined) return "Contract account undefined";
     var i = 0;
-    if(data!=undefined&&data.length>0) i=data[data.length-1].account_action_seq;
-    console.log(i+""+last);
+    if (data != undefined && data.length > 0) i = data[data.length - 1].account_action_seq;
+    console.log(i + "" + last);
     while (i < last) {
         var offset = part;
         if (i + part > last) offset = last - i;
@@ -116,23 +111,21 @@ async function transfer(wif, to, amount, memo) {
     return ret;
 }
 async function sendmoney(from, to, amount, memo, sig) {
-    return eos.transaction({
-        actions: [{
-            account: contract,
-            name: 'transfer',
-            authorization: [{
-                actor: contract,
-                permission: 'pub'
-            }],
-            data: {
-                sender: from,
-                receiver: to,
-                amount: amount,
-                memo: memo,
-                sig: sig
-            }
-        }]
-    }).then();
+    data = {
+        sender: from,
+        receiver: to,
+        amount: amount,
+        memo: memo,
+        sig: sig
+    }
+    return httpGet(SAurl+"/transfer?data="+encodeURI(JSON.stringify(data)));
+}
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
 }
 async function getaccount(key) {
     var ret;
@@ -168,7 +161,6 @@ function maketxdata(from, to, amount, memo, nonce, key) {
 
     for (i = 0; i < 8; i++)
         e.push(nonceD[i]);
-    console.log(a.concat(b).concat(c).concat(d).concat(e));
     return eosjs_ecc.signHash(eosjs_ecc.sha256(a.concat(b).concat(c).concat(d).concat(e)), key);
 }
 
