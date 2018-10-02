@@ -1,7 +1,19 @@
 # EOS-Wonderful
 EOS-Wonderful API and Test Network for DEMO
+- - -
+# 테스트넷
+토큰 발행 및 전송 dApp  
+```http://35.194.102.54/client/```  
 
+SA API http link  
+```http://35.194.102.54:9880```  
 
+대상 체인  
+```Crypto Kylin TestNet https://github.com/cryptokylin```  
+
+CA 계정명  
+```humblefirm42```  
+- - -
 # 설명 
 EOS-Wonderful(이하 이오스 원더풀)은 이중검증 스마트 컨트랙트를 기반으로 이용하여 '탈중앙' 이라는 블록체인의 기본 컨셉을 유지함과 동시에 퍼블릭 블록체인인 이오스 메인 네트워크(이하 메인넷)에 계정을 생성하지 않고도 이용 할 수 있도록 한다.
 
@@ -28,6 +40,8 @@ EOS-Wonderful(이하 이오스 원더풀)은 이중검증 스마트 컨트랙트
 자신의 계정을 SA로 만들고 데모용 원더풀 CA와 연동한 다음 이후 dApp을 직접 구축한 SA에 연결한다.
 ### 4. CA,SA,dApp(직접 개발) - 직접 이오스 원더풀 멀티버스 구현
 데모용 서버를 사용하지 않고 완전히 별개의 이오스 원더풀 기반 멀티버스를 구축하여 이용한다. 이 경우 멀티버스를 구축한 제 3자는 수수료의 홀딩량과 홀딩 시간을 직접 설정할 수 있으며, 토큰 발행량 및 전체적인 컨센서스를 직접 개발할 수 있다. 다만 이 경우 CA는 유저당 210바이트 미만의 램 외에도 스마트 컨트랙트를 업로드하기 위해 약 700KB 미만의 램을 소모하기 때문에 사전에 충분한 램이 확보되어야 한다.
+
+# 
 
 # 저작권 Licence
 (C) 2018. Suntae Kim all rights reserved. All Page content is property of Suntae Kim
