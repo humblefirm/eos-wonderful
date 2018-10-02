@@ -16,12 +16,9 @@ async function mint() {
     var to = document.getElementsByName("MintTo")[0].value;
     var amount = parseFloat(document.getElementsByName("MintAmount")[0].value).toFixed(4) + " " + symbol;;
     var memo = document.getElementsByName("MintMemo")[0].value;
-
+    alert(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
     var ret = httpGet(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
-    ret = JSON.parse(ret);
-    if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + ret.transaction_id))
-        window.open("https://eoscanner.io/transaction/c9e6a950b670c52e5c05f84e92f472d9f58e6ec32de0c0058affa735afdd06b8", "_blank");
-
+    
 }
 async function sendcoin() {
     var from = document.getElementsByName("OwnerPrivateKey")[0].value;
@@ -30,10 +27,6 @@ async function sendcoin() {
     var memo = document.getElementsByName("SendMemo")[0].value;
 
     var ret = await transfer(from,to,amount,memo);
-    ret = JSON.parse(ret);
-    if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + ret.transaction_id))
-        window.open("https://eoscanner.io/transaction/c9e6a950b670c52e5c05f84e92f472d9f58e6ec32de0c0058affa735afdd06b8", "_blank");
-
 }
 async function CheckBalance() {
     var ret = await getCurrency(document.getElementsByName("PublicKey")[0].value);
@@ -169,17 +162,10 @@ async function sendmoney(from, to, amount, memo, sig) {
 
 function httpGet(theUrl) {
     $.get( theUrl, function(jqXHR) {
+        if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + jqXHR.transaction_id))
+            window.open("https://eoscanner.io/transaction/c9e6a950b670c52e5c05f84e92f472d9f58e6ec32de0c0058affa735afdd06b8", "_blank");
         return jqXHR;
-    }, 'json' /* xml, text, script, html */)
-    .done(function(jqXHR) {
-        return jqXHR;
-    })
-    .fail(function(jqXHR) {
-        return jqXHR;
-    })
-    .always(function(jqXHR) {
-        return jqXHR;
-    });
+    }, 'json' /* xml, text, script, html */);
     
 }
 async function getaccount(key) {
