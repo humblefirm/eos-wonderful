@@ -58,14 +58,14 @@ CA 계정명
 
 ### 2. 테스트넷에서 댑 개발
 직접 dApp을 개발하고 테스트넷 SA API http link에 연결한다.  
-> Client 소스코드를 참조하여 직접 댑을 만들어 봅니다.  
+> (Client 소스코드)[https://github.com/humblefirm/eos-wonderful/tree/master/client]를 참조하여 직접 댑을 만들어 봅니다.  
 > 댑 개발에 필요한 능력은 다음과 같습니다.  
 >> 블록체인에 대한 이해도  
 >> 이오스 개발 능력 (eosjs, Web programming)  
 
 ### 3. 테스트넷에서 SA 구축
 테스트넷에서 SA를 구성하여 자신의 EOS 계정을 댑에 연동해본다
-> server 소스코드를 참조하여 직접 SA를 만들어 봅니다.  
+> (server 소스코드)[https://github.com/humblefirm/eos-wonderful/tree/master/server]를 참조하여 직접 SA를 만들어 봅니다.  
 > server 개발에 필요한 능력은 다음과 같습니다.  
 >> Client에 대한 이해도
 >> 이오스 개발 능력 (eosjs, nodejs, Web Programming)  
@@ -74,7 +74,7 @@ CA 계정명
 테스트넷을 사용하지 않고 완전히 별개의 이오스 원더풀 기반 멀티버스를 구축하여 이용한다.  
 이 경우 멀티버스를 구축한 제 3자는 수수료의 홀딩량과 홀딩 시간을 직접 설정할 수 있으며, 토큰 발행량 및 전체적인 컨센서스를 직접 개발할 수 있다.  
 다만 이 경우 CA는 유저당 210바이트 미만의 램 외에도 스마트 컨트랙트를 업로드하기 위해 약 700KB 미만의 램을 소모하기 때문에 사전에 충분한 램이 확보되어야 한다.
-> contract 소스코드를 참조하여 직접 CA를 만들어 봅니다.  
+> (contract 소스코드)[https://github.com/humblefirm/eos-wonderful/tree/master/contract]를 참조하여 직접 CA를 만들어 봅니다.  
 > CA 개발에 필요한 능력은 다음과 같습니다.
 >> Server에 대한 이해도 및 개발 능력  
 >> 이오스 개발 능력 (Smart contract, eosjs, nodejs, Web Programming)
