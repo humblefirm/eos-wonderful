@@ -42,32 +42,34 @@
     <div class="row">
 
       <h2 class="col-12">My Imformation</h2>
+
       <div class="col-12 input-group" style="margin-top:10px;">
         <div class="input-group-prepend">
           <span class="input-group-text">Public Key:</span>
         </div>
         <input class="form-control" type="text" readonly="readonly" name="myPublicKey">
-      </div><br>
+      </div>
+
       <div class="col-12 input-group" style="margin-top:10px;">
         <div class="input-group-prepend">
           <span class="input-group-text">Private Key:</span>
         </div>
         <input class="form-control" type="text" onchange="makeKeyPublic()" name="myPrivateKey">
       </div>
+
       <div class="col-12" style="margin-top:10px;">
         <button class="btn btn-primary" onclick="makeKey()">Generate New Key</button>
       </div>
 
     </div>
 
-    <div class="row" style="margin-top:10px;">
-      <div class="col-12">
-        <div class="alert alert-info">
+    <div class="row col-12 alert alert-info" style="margin-top:10px;">
           사용중인 프라이빗키는 따로 저장해주세요! <br>이후 사용중인 프라이빗키를 입력하면 계정을 불러올 수 있습니다!
-        </div>
-      </div>
     </div>
+
   </div>
+
+
   <div>
     <h2>Mint Coin</h2>
     <label>FROM:</label>
