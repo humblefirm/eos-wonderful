@@ -16,7 +16,7 @@ async function mint() {
     var to = document.getElementsByName("MintTo")[0].value;
     var amount = parseFloat(document.getElementsByName("MintAmount")[0].value).toFixed(4) + " " + symbol;;
     var memo = document.getElementsByName("MintMemo")[0].value;
-    alert(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
+    //alert(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
     var ret = httpGet(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
     
 }
