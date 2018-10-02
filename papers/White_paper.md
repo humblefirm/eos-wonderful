@@ -15,24 +15,30 @@ White paper, v1.0
 
 Important Notice
 ----------------
-
-
+ 
+- - -
 The EOS-wonderful Ecosystem
 ---------------------------
 
 
+- - -
 Token Economy
 -------------
 
 
+- - -
 Technology Architecture
 -----------------------
 
 
+- - -
 Roadmap
 -------
 
 
+- - -
 Important Notes
 ---------------
 
+
+- - -
