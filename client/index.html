@@ -95,7 +95,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">MEMO:</span>
         </div>
-        <input class="form-control" type="text"  name="MintMemo">
+        <input class="form-control" type="text" name="MintMemo">
       </div>
       <div class="col-5" style="margin-top:10px;">
         <button class="btn btn-primary" onclick="mint()">Mint!</button>
@@ -145,7 +145,7 @@
       </div>
       <div class="col-12" style="margin-top:10px;">
         <div class="alert alert-info">
-          송금 기능입니다. 나의 프라이빗키를 입력하고, 받을 상대방의 퍼블릭키를 입력해주세요. 하단에 다른 유저의 퍼블릭키가 존재합니다. 
+          송금 기능입니다. 나의 프라이빗키를 입력하고, 받을 상대방의 퍼블릭키를 입력해주세요. 하단에 다른 유저의 퍼블릭키가 존재합니다.
         </div>
       </div>
 
@@ -153,29 +153,12 @@
 
 
 
-      <div>
-        <h2>View Money</h2>
-        <label>Public Key:</label>
-        <input type="text" name="PublicKey">
-        <button class="btn btn-primary" onclick="CheckBalance()">Check!</button>
-        <br>
-        <label>Balance:</label>
-        <input type="text" readonly="readonly" name="ViewBalance">
-        <label>Fee:</label>
-        <input type="text" readonly="readonly" name="ViewFee">
-        <br>
-        특정 계정의 잔고 및 수수료 현황을 확인할 수 있습니다.
-        <br>
-      </div>
       <h2 class="col-12" style="margin-top:50px;">Account Info</h2>
-
       <div class="col-12 input-group" style="margin-top:10px;">
         <div class="input-group-prepend">
           <span class="input-group-text">Public Key:</span>
         </div>
         <input class="form-control" type="text" name="PublicKey">
-      </div>
-      <div class="col-5" style="margin-top:10px;">
         <button class="btn btn-primary" onclick="CheckBalance()">Get info</button>
       </div>
       <div class="col-12 input-group" style="margin-top:10px;">
@@ -192,29 +175,30 @@
       </div>
       <div class="col-12" style="margin-top:10px;">
         <div class="alert alert-info">
-          특정 계좌의 잔고 및 수수료 현황을 확인할 수 있습니다. 
+          특정 계좌의 잔고 및 수수료 현황을 확인할 수 있습니다.
         </div>
       </div>
 
 
 
-
+      <div class="container">
+        <h2>Account List</h2>
+        <table class="table table-striped" style="text-align: center;">
+          <thead>
+            <tr>
+              <th>Public Key</th>
+              <th>balance</th>
+              <th>fee</th>
+            </tr>
+          </thead>
+          <tbody name="AccountList">
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
 
-  <h2>Account List</h2>
-  <table style="text-align: center;">
-    <thead>
-      <tr>
-        <th>Public Key</th>
-        <th>balance</th>
-        <th>fee</th>
-      </tr>
-    </thead>
-    <tbody name="AccountList">
-    </tbody>
-  </table>
 </body>
 
 </html>
