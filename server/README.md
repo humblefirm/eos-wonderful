@@ -1,6 +1,6 @@
 ## Service Account - Software Development Toolkit
 
-<<<<<<< HEAD
+
 Service Account를 구성하기 위한 nodejs api 서버입니다.
 기본으로 9880 포트를 사용합니다.
 
