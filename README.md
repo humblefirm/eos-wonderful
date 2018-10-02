@@ -3,16 +3,16 @@ EOS-Wonderful API and Test Network for DEMO
 - - -
 # 테스트넷
 토큰 발행 및 전송 dApp  
-```[http://35.194.102.54/client/](http://35.194.102.54/client/)```  
+> [http://35.194.102.54/client/](http://35.194.102.54/client/)  
 
 SA API http link  
-```http://35.194.102.54:9880```  
+> http://35.194.102.54:9880   
 
 대상 체인  
-```Crypto Kylin TestNet https://github.com/cryptokylin```  
+> Crypto Kylin TestNet https://github.com/cryptokylin  
 
 CA 계정명  
-```humblefirm42```  
+> humblefirm42  
 - - -
 # 설명 
 EOS-Wonderful(이하 이오스 원더풀)은 이중검증 스마트 컨트랙트를 기반으로 이용하여 '탈중앙' 이라는 블록체인의 기본 컨셉을 유지함과 동시에 퍼블릭 블록체인인 이오스 메인 네트워크(이하 메인넷)에 계정을 생성하지 않고도 이용 할 수 있도록 한다.
