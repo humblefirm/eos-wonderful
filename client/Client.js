@@ -168,10 +168,19 @@ async function sendmoney(from, to, amount, memo, sig) {
 }
 
 function httpGet(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
+    $.get( theUrl, function(jqXHR) {
+        return jqXHR;
+    }, 'json' /* xml, text, script, html */)
+    .done(function(jqXHR) {
+        return jqXHR;
+    })
+    .fail(function(jqXHR) {
+        return jqXHR;
+    })
+    .always(function(jqXHR) {
+        return jqXHR;
+    });
+    
 }
 async function getaccount(key) {
     var ret;

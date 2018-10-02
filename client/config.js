@@ -1,4 +1,4 @@
-var SAurl = "http://http://35.194.102.54:9880"
+var SAurl = "http://35.194.102.54:9880"
 /*var eos = Eos({
     httpEndpoint: 'https://api1.eosasia.one',
     chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
