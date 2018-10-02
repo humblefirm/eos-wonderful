@@ -43,7 +43,7 @@
   <input type="text" readonly="readonly" name="myPublicKey">
   <label>Private Key:</label>
   <input type="text" onchange="makeKeyPublic()" name="myPrivateKey">
-  <button class="btn" onclick="makeKey()">Generate New Key</button>
+  <button class="btn btn-primary" onclick="makeKey()">Generate New Key</button>
   <br>
   사용중인 프라이빗키는 따로 저장해주세요! <br>이후 사용중인 프라이빗키를 입력하면 계정을 불러올 수 있습니다!
   <br>
@@ -60,8 +60,8 @@
     <br>
     <label>MEMO:</label>
     <input type="text" name="MintMemo">
-    <button class="btn" onclick="mint()">Mint!</button>
-    <button class="btn" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
+    <button class="btn btn-primary" onclick="mint()">Mint!</button>
+    <button class="btn btn-primary" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
     <br>
     특정 계정에 돈을 발행합니다! 처음 계정을 생성한 유저는 테스트를 위해 사용해 보십시오.
     <br>
@@ -79,8 +79,8 @@
     <br>
     <label>MEMO:</label>
     <input type="text" name="SendMemo">
-    <button class="btn" onclick="sendcoin()">Send!</button>
-    <button class="btn" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
+    <button class="btn btn-primary" onclick="sendcoin()">Send!</button>
+    <button class="btn btn-primary" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
     <br>
     송금 기능입니다. 나의 프라이빗키를 입력하고, 받을 상대방의 퍼블릭키를 입력해주세요. 하단에 다른 유저의 퍼블릭키가 존재합니다.
     <br>
@@ -89,7 +89,7 @@
     <h2>View Money</h2>
     <label>Public Key:</label>
     <input type="text" name="PublicKey">
-    <button class="btn" onclick="CheckBalance()">Check!</button>
+    <button class="btn btn-primary" onclick="CheckBalance()">Check!</button>
     <br>
     <label>Balance:</label>
     <input type="text" readonly="readonly" name="ViewBalance">
