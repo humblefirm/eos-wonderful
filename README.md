@@ -3,7 +3,7 @@ EOS-Wonderful API and Test Network for DEMO
 - - -
 # 테스트넷
 토큰 발행 및 전송 dApp  
-```http://35.194.102.54/client/```  
+```[http://35.194.102.54/client/](http://35.194.102.54/client/)```  
 
 SA API http link  
 ```http://35.194.102.54:9880```  
