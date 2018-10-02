@@ -1,5 +1,6 @@
 ## Service Account - Software Development Toolkit
 
+<<<<<<< HEAD
 Service Account를 구성하기 위한 nodejs api 서버입니다.
 기본으로 9880 포트를 사용합니다.
 
@@ -36,11 +37,15 @@ cleos set action permission humblefirm42 humblefirm42 transfer pub
 
 
 우선 의존성 패키지를 설치해줍니다.
+=======
+
+>>>>>>> 8b96aae4f26b78588acc3307bf6be8ebcc3e2f52
 ```
 npm install express
 npm install request
 npm install eosjs
 ```
+<<<<<<< HEAD
 
 SA.js 파일을 열어, 4번째 줄을 확인합니다.
 설정에 맞게 변경하면 됩니다.
@@ -62,3 +67,5 @@ nohup node SA.js &
 ```
 
 이후 클라이언트에서 http://[IPAdress]:9880 으로 연결하여 SA를 사용할 수 있습니다.
+=======
+>>>>>>> 8b96aae4f26b78588acc3307bf6be8ebcc3e2f52
