@@ -66,29 +66,58 @@
           사용중인 프라이빗키는 따로 저장해주세요! <br>이후 사용중인 프라이빗키를 입력하면 계정을 불러올 수 있습니다!
         </div>
       </div>
+
+
+
+      <h2 class="col-12">Mint Coin</h2>
+
+      <div class="col-12 input-group" style="margin-top:10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">FROM:</span>
+        </div>
+        <input class="form-control" type="text" value="1thefull" name="Minter">
+      </div>
+      <div class="col-12 input-group" style="margin-top:10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">TO:</span>
+        </div>
+        <input class="form-control" type="text" name="MintTo">
+      </div>
+      <div class="col-12 input-group" style="margin-top:10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">AMOUNT:</span>
+        </div>
+        <input class="form-control" type="text" readonly="readonly" name="MintAmount">
+      </div>
+      <div class="col-12 input-group" style="margin-top:10px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">MEMO:</span>
+        </div>
+        <input class="form-control" type="text"  name="MintMemo">
+      </div>
+
+
+      <div class="col-12" style="margin-top:10px;">
+        <button class="btn btn-primary" onclick="mint()">Mint!</button>
+      </div>
+
+      <div class="col-12" style="margin-top:10px;">
+        <div class="alert alert-info">
+          특정 계정에 돈을 발행합니다! 처음 계정을 생성한 유저는 테스트를 위해 사용해 보십시오.
+        </div>
+      </div>
+
+
+
+
+
+      <div class="col-12" style="margin-top:10px;">
+        <button class="btn btn-primary" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
+      </div>
     </div>
   </div>
 
 
-  <div>
-    <h2>Mint Coin</h2>
-    <label>FROM:</label>
-    <input type="text" name="Minter" value="1thefull">
-    <br>
-    <label>TO Public Key:</label>
-    <input type="text" name="MintTo">
-    <br>
-    <label>AMOUNT:</label>
-    <input type="text" value="5" readonly name="MintAmount">
-    <br>
-    <label>MEMO:</label>
-    <input type="text" name="MintMemo">
-    <button class="btn btn-primary" onclick="mint()">Mint!</button>
-    <button class="btn btn-info" onclick="window.open('https://eosflare.io/account/1thefull2bot')">Log Check</button>
-    <br>
-    특정 계정에 돈을 발행합니다! 처음 계정을 생성한 유저는 테스트를 위해 사용해 보십시오.
-    <br>
-  </div>
   <div>
     <h2>Send Coin</h2>
     <label>FROM Private Key:</label>
