@@ -154,7 +154,7 @@
 				</section>
 
 
-				<section id="mintcoin" style="margin-top:10px;">
+				<section id="accountcurrency" style="margin-top:10px;">
 					<center>
 						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
 
@@ -176,10 +176,59 @@
 						<p>
 							<h4>우와! 대박!</h4>
 							0 코인이나 있네요! 축하해요! <br />
-							이게 비트코인이었으면 좋을텐데 말이죠. ;D <br />
+							이게 비트코인이었으면 좋을텐데 말이죠 ;D <br />
 							지금 갖고 계신 WDF 코인은 EOS 코인과 마찬가지로 소수점 4자리 까지 분리가 가능해요!<br />
-							<strong>하지만 이 데모용 댑은 송금 기능 외에는 코인을 사용하는 기능이 없어요 T,T</strong><br />
-							<a href="https://github.com/humblefirm/eos-wonderful/tree/master/client">직접 WDF 코인을 사용하는 댑을 만들어보고 싶지 않나요?</a> <br />
+							이제 내가 가진 코인을 좋아하는 대상에게 전송해 볼게요.<br />
+							<strong>충격적이게도... 이 데모용 댑은 송금 기능 외에는 코인을 사용하는 기능이 없어요 T,T</strong><br />
+							<a href="https://github.com/humblefirm/eos-wonderful/tree/master/client">직접 WDF 코인을 사용하는 댑을 만들어보고 싶지 않나요?</a>
+							<br />
+							<a href="https://blog.naver.com/onethefullplatform/221362170050">이오스 원더풀을 이용해 만든 댑이 이것 외에도 이미 있어요! 커피코인 코코를
+								소개합니다!</a> <br />
+						</p>
+					</center>
+				</section>
+
+
+
+				<section id="transfer" style="margin-top:10px;">
+					<center>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+
+							<h2 class="col-12">Transfer coin</h2>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">FROM:</span>
+								</div>
+								<input class="form-control" type="text" name="OwnerPrivateKey">
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">TO:</span>
+								</div>
+								<input class="form-control" type="text" name="sendPublicKey">
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">AMOUNT:</span>
+								</div>
+								<input class="form-control" type="text" name="SendAmount">
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">MEMO:</span>
+								</div>
+								<input class="form-control" type="text" name="SendMemo"  maxlength=10>
+							</div>
+							<div class="col-12" style="margin-top:10px;">
+								<button class="button" onclick="sendcoin()">Transfer</button>
+
+							</div>
+						</div>
+
+						<p>
+							<h4>코인이 보내졌어요!</h4>
+							방금 블록체인을 사용해 직접 코인을 보냈어요! <br />
+							어떤가요? 생각보다 어렵지 않죠?<br />
 						</p>
 					</center>
 				</section>
