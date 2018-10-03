@@ -2,8 +2,8 @@
 
 **황서**: 기술적인 부분을 포함한 서비스 전반에 대하여 '아주 상세하게' 소개하는 문서
 
-***청서(작성 중): 기술적인 부분을 일부 포함한 서비스 전반에 대하여 '누구나' 이해하기 쉽도록 소개하는 문서***
+***청서(작성 중)***: 기술적인 부분을 일부 포함한 서비스 전반에 대하여 '누구나' 이해하기 쉽도록 소개하는 문서
 
 
 
-출처 - https://steemit.com/steem/@segyepark/steemitblog 에서 유저 segyepark의 댓글 
+출처 - [이곳](https://steemit.com/steem/@segyepark/steemitblog) 에서 유저 segyepark의 댓글 
