@@ -1,9 +1,9 @@
 const express = require('express');
 var request = require('request');
 const app = express();
-const CA = "humblefirm42"
-const SA = "humblefirm42";
-const SAwif = "5K9PSYxo3utJu1D6TcccvMCAfNWLWRcN1NRjjr7DQCLrG6S4TBA" // 프라이빗키
+const CA = "eos1thefull1"
+const SA = "eos1thefull1";
+const SAwif = "" // 프라이빗키
 const SAperm = "active" //입력한 프라이빗키와 매칭되는 펄미션
 var actions = [
     [],
@@ -11,11 +11,11 @@ var actions = [
 ];
 Eos = require('eosjs');
 var eos = Eos({
-    httpEndpoint: 'https://api-kylin.eosasia.one',
-    chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191',
+    httpEndpoint: 'https://api1.eosasia.one',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
     keyProvider: SAwif,
     debug: true
-})
+  })
 
 
 getAllActions(eos, CA);

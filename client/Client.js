@@ -5,7 +5,7 @@ $(document).ready(function () {
     listAccount();
 });
 async function listAccount() {
-    var data = await eos.getTableRows(1,"humblefirm42","humblefirm42","usrbalance","","","",100);
+    var data = await eos.getTableRows(1,"eos1thefull1","eos1thefull1","usrbalance","","","",100);
     data=data.rows;
     var i=0;
     for(i=0;i<data.length;i++)

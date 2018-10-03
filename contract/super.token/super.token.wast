@@ -72,7 +72,7 @@
  (data (i32.const 752) "no account found\00")
  (data (i32.const 784) "overdrawn balance\00")
  (data (i32.const 816) "not enough balance for transfer fee\00")
- (data (i32.const 864) "only accepts COF\00")
+ (data (i32.const 864) "only accepts WDF\00")
  (data (i32.const 896) "attempt to subtract asset with different symbol\00")
  (data (i32.const 944) "subtraction underflow\00")
  (data (i32.const 976) "subtraction overflow\00")
@@ -1072,7 +1072,7 @@
     (i64.load offset=8
      (get_local $2)
     )
-    (i64.const 1179599620)
+    (i64.const 1178883844)
    )
    (i32.const 864)
   )
@@ -2134,7 +2134,7 @@
     (i64.load offset=8
      (get_local $2)
     )
-    (i64.const 1179599620)
+    (i64.const 1178883844)
    )
    (i32.const 864)
   )
@@ -3958,7 +3958,7 @@
     (i64.load offset=8
      (get_local $3)
     )
-    (i64.const 1179599620)
+    (i64.const 1178883844)
    )
    (i32.const 864)
   )
@@ -4850,7 +4850,7 @@
     (i64.load offset=8
      (get_local $3)
     )
-    (i64.const 1179599620)
+    (i64.const 1178883844)
    )
    (i32.const 864)
   )
