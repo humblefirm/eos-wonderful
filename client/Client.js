@@ -9,7 +9,7 @@ async function listAccount() {
     data=data.rows;
     var i=0;
     for(i=0;i<data.length;i++)
-    document.getElementsByName("AccountList")[0].innerHTML = document.getElementsByName("AccountList")[0].innerHTML+"<tr><td class='col-6'>"+data[i].user+"</td><td>"+data[i].balance+"</td><td>"+data[i].fee+"</td></tr>";
+    document.getElementsByName("AccountList")[0].innerHTML = document.getElementsByName("AccountList")[0].innerHTML+"<tr><td style='width: 50%'>"+data[i].user+"</td><td>"+data[i].balance+"</td><td>"+data[i].fee+"</td></tr>";
 }
 async function mint() {
     var from = document.getElementsByName("Minter")[0].value;
