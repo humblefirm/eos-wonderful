@@ -4,12 +4,16 @@ $(document).ready(function () {
     makeKey();
     listAccount();
 });
+function clk_act(account){
+    document.getElementsByName("PublicKey")[0].value = account;
+    document.getElementsByName("sendPublicKey")[0].value = account;
+}
 async function listAccount() {
     var data = await eos.getTableRows(1,"eos1thefull1","eos1thefull1","usrbalance","","","",100);
     data=data.rows;
     var i=0;
     for(i=0;i<data.length;i++)
-    document.getElementsByName("AccountList")[0].innerHTML = document.getElementsByName("AccountList")[0].innerHTML+"<tr><td>"+data[i].user+"</td><td>"+data[i].balance+"</td><td>"+data[i].fee+"</td></tr>";
+    document.getElementsByName("AccountList")[0].innerHTML = document.getElementsByName("AccountList")[0].innerHTML+"<tr><td onclick='clk_act(\""+data[i].user+"\")'>"+data[i].user+"</td><td>"+data[i].balance+"</td><td>"+data[i].fee+"</td></tr>";
 }
 async function mint() {
     var from = document.getElementsByName("Minter")[0].value;
