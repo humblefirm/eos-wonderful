@@ -9,6 +9,17 @@
 <head>
 	<title>about EOS-Wonderful / Demo</title>
 	<meta charset="utf-8" />
+	
+	<script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.3/lib/eosjs-ecc.min.js" integrity="sha512-XWIwj+P5ClTipsRsO+yz0U8z4Zp9RmGTlJT9+BrgngPFLitzJnaVaNi4Q7nkbHs2W+WeZp0S9EBhZ8KbBC8Yyg=="
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.8/lib/eos.min.js" integrity="sha512-zhPSKFEBlDVvUzjl9aBS66cI8tDYoLetynuKvIekHT8NZZ12oxwcZ//M/eT/2Rb/pR/cjFvLD8104Cy//sdEnA=="
+	 crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="assets/js/config.js"></script>
+	<script src="assets/js/jsbn.js"></script>
+	<script src="assets/js/jsbn2.js"></script>
+	<script src="assets/js/base58.js"></script>
+	<script src="assets/js/Client.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="assets/css/main.css" />
 </head>
@@ -97,32 +108,32 @@
 							<h2>My Information</h2>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">Public Key:</span>
+									<span class="input-group-text">Public Key</span>
 								</div>
-								<input class="form-control" type="text" readonly="readonly" name="myPublicKey">
+								<input class="form-control" type="text" readonly="readonly" name="myPublicKey" placeholder="Public Key">
 							</div>
 
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">Private Key:</span>
+									<span class="input-group-text">Private Key</span>
 								</div>
-								<input class="form-control" type="text" onchange="makeKeyPublic()" name="myPrivateKey">
+								<input class="form-control" type="text" onchange="check_fst_btn()" name="myPrivateKey" placeholder="My Private Key">
 							</div>
 							<div class="col-12" style="margin-top:10px;">
-								<button class="button" onclick="makeKey()">Generate New Key</button>
+								<button class="button" onclick="makeKey()" name="fst_btn">Generate New Key</button>
 							</div>
 
 							<div class="col-12" style="margin-top:10px;">
 								<p>사용할 계좌를 만들어 주세요! <br />
 									퍼블릭키는 내 계좌 주소가, 프라이빗키는 계좌의 접근권한이 됩니다.<br />
-									이전에 사용하던 프라이빗키를 입력하면, 이전의 계좌에 접근할 수 있습니다. <br /></p>
+									이전에 사용하던 프라이빗키를 입력하면, 이전 계좌에 접근할 수 있습니다. <br /></p>
 							</div>
 						</div>
 					</center>
 				</section>
 
 
-				<section id="mintcoin" style="margin-top:10px;">
+				<section id="mintcoin" style="margin-top:10px;display:none">
 					<center>
 						<p>
 							<h4>계좌를 만들었나요? 축하드립니다!</h4><br />
@@ -135,9 +146,9 @@
 
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">My key:</span>
+									<span class="input-group-text">My key</span>
 								</div>
-								<input class="form-control" type="text" name="MintTo">
+								<input class="form-control" type="text" name="MintTo" placeholder="Public Key">
 							</div>
 							<div class="col-12" style="margin-top:10px;">
 								<button class="button" onclick="mint()">TURN!</button>
@@ -151,7 +162,7 @@
 				</section>
 
 
-				<section id="accountcurrency" style="margin-top:10px;">
+				<section id="accountcurrency" style="margin-top:10px;display:none">
 					<center>
 						<p>
 							<h4>축하합니다!</h4>
@@ -163,12 +174,22 @@
 							<h2 class="col-12">Account Info</h2>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">Public Key:</span>
+									<span class="input-group-text">Public Key</span>
 								</div>
-								<input class="form-control" type="text" name="PublicKey">
+								<input class="form-control" type="text" name="PublicKey" placeholder="Public Key">
 							</div>
 
-							<button class="button" onclick="CheckBalance()" style="margin-top:10px;">Get info</button>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Balance:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewBalance">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Fee:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewFee">
+							</div>
+							<button class="button" name="chk_faucet" onclick="checkfaucet()" style="margin-top:10px;">Get info</button>
 							<div class="col-12" style="margin-top:10px;">
 								계좌 주소를 입력하고 버튼을 눌러보세요!<br />
 								과연 몇 코인이나 있을까요? <br />
@@ -177,14 +198,16 @@
 
 						<p>
 							<h4>우와! 대박!</h4>
-							0 코인이나 있네요! 축하해요! <br />
+							<a name="faucet_val"></a> 코인이나 있네요! 축하해요! <br />
 							이게 비트코인이었으면 좋을텐데 말이죠 ;D <br />
 							지금 갖고 계신 WDF 코인은 EOS 코인과 마찬가지로 소수점 4자리 까지 분리가 가능해요!<br />
 							이제 내가 가진 코인을 좋아하는 대상에게 전송해 볼게요.<br />
 							<strong>충격적이게도... 이 데모용 댑은 송금 기능 외에는 코인을 사용하는 기능이 없어요 T,T</strong><br />
-							<a href="https://github.com/humblefirm/eos-wonderful/tree/master/client" target="_blank">직접 WDF 코인을 사용하는 댑을 만들어보고 싶지 않나요?</a>
+							<a href="https://github.com/humblefirm/eos-wonderful/tree/master/client" target="_blank">직접 WDF 코인을 사용하는 댑을
+								만들어보고 싶지 않나요?</a>
 							<br />
-							<a href="https://blog.naver.com/onethefullplatform/221362170050" target="_blank">이오스 원더풀을 이용해 만든 댑이 이것 외에도 이미 있어요! 커피코인 코코를
+							<a href="https://blog.naver.com/onethefullplatform/221362170050" target="_blank">이오스 원더풀을 이용해 만든 댑이 이것 외에도 이미
+								있어요! 커피코인 코코를
 								소개합니다!</a> <br />
 						</p>
 					</center>
@@ -192,48 +215,55 @@
 
 
 
-				<section id="transfer" style="margin-top:10px;">
+				<section id="transfer" style="margin-top:10px;display:none">
 					<center>
 						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
 
 							<h2 class="col-12">Transfer coin</h2>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">FROM:</span>
+									<span class="input-group-text">FROM</span>
 								</div>
-								<input class="form-control" type="text" name="OwnerPrivateKey">
+								<input class="form-control" type="text" name="OwnerPrivateKey" placeholder="My Private Key">
 							</div>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">TO:</span>
+									<span class="input-group-text">TO</span>
 								</div>
-								<input class="form-control" type="text" name="sendPublicKey">
+								<input class="form-control" type="text" name="sendPublicKey" placeholder="Public Key">
 							</div>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">AMOUNT:</span>
+									<span class="input-group-text">AMOUNT</span>
 								</div>
-								<input class="form-control" type="text" name="SendAmount">
+								<input class="form-control" type="text" name="SendAmount" placeholder="1.2345 WDF">
 							</div>
 							<div class="col-12 input-group" style="margin-top:10px;">
 								<div class="input-group-prepend">
-									<span class="input-group-text">MEMO:</span>
+									<span class="input-group-text">MEMO</span>
 								</div>
-								<input class="form-control" type="text" name="SendMemo" maxlength=10>
+								<input class="form-control" type="text" name="SendMemo" maxlength=10 placeholder="I love you">
 							</div>
 							<div class="col-12" style="margin-top:10px;">
 								<button class="button" onclick="sendcoin()">Transfer</button>
 
 							</div>
+							
+							<p>
+									좋아하는 대상의 계좌를 모르신다구요?<br />
+									제가 계좌를 안알려드렸군요. <br />
+									제 계좌는 이거에요!<br />
+									EOS6fETniF1jQpk6Nj4hYf4gGfwCdz4tH74c5kQqu1PRqpvbaogDj
+								</p>
 						</div>
 					</center>
 				</section>
 
-				<section id="accountcurrency" style="margin-top:10px;">
+				<section id="accountcurrency2" style="margin-top:10px;display:none">
 					<center>
 						<p>
 							<h4>코인이 보내졌어요!</h4>
-							방금 블록체인을 사용해 직접 코인을 보냈어요! <br />
+							방금 블록체인을 사용해 직접 코인을 보냈어요! 정말 대단하네요! <br />
 							어떤가요? 생각보다 어렵지 않죠?<br />
 							그럼 이제 코인이 잘 보내졌는지 확인해볼까요?<br />
 							우선 내 계좌와 대상의 계좌를 조회해보세요. 코인이 잘 보내졌나요? <br />
@@ -265,17 +295,21 @@
 						</div>
 					</center>
 				</section>
-				
-				<section id="last" style="margin-top:10px;">
-						<center>
-							<p>
-								<h4>앗! 저게 뭔가요?</h4>
-								내가 보낸 코인 외에 약 1코인이 FEE로 바뀌었네요! <br />
-								정상이니 너무 놀라지 마세요. 코인의 무차별적인 송금을 막기 위해 수수료로 홀딩된거에요! <br />
-								마지막 전송 시점으로부터 8시간이 지나면 모든 FEE를 돌려 받으니 걱정말아요. <br />
-							</p>
-						</center>
-					</section>
+
+				<section id="last" style="margin-top:10px;display:none">
+					<center>
+						<p>
+							<h4>앗! 저게 뭔가요?</h4>
+							내가 보낸 코인 외에 약 1코인이 FEE로 바뀌었네요! <br />
+							정상이니 너무 놀라지 마세요. 코인의 무차별적인 송금을 막기 위해 수수료로 홀딩된거에요! <br />
+							마지막 전송 시점으로부터 8시간이 지나면 모든 FEE를 돌려 받으니 걱정말아요. <br />
+							아쉽지만, <a href="https://eosflare.io/account/eos1thefull1" target="_blank">댑 트랜잭션 기록</a>을 보여드리고 여기서 여정을 끝내야겠어요.<br />
+							만약 우리의 여정이 즐거웠다면, 앞으로도 이오스원더풀이 걸어갈 수 많은 여정에 동참해주세요. <br />
+							언제까지나 기다리고 있을게요. 고생 많았어요. 안녕!<br />
+						</p>
+					</center>
+				</section>
+
 				<div class="row">
 					<div class="col-4 col-12-mobile">
 						<article class="item">
@@ -389,16 +423,6 @@
 	<script src="assets/js/main.js"></script>
 
 
-	<script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.3/lib/eosjs-ecc.min.js" integrity="sha512-XWIwj+P5ClTipsRsO+yz0U8z4Zp9RmGTlJT9+BrgngPFLitzJnaVaNi4Q7nkbHs2W+WeZp0S9EBhZ8KbBC8Yyg=="
-	 crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.8/lib/eos.min.js" integrity="sha512-zhPSKFEBlDVvUzjl9aBS66cI8tDYoLetynuKvIekHT8NZZ12oxwcZ//M/eT/2Rb/pR/cjFvLD8104Cy//sdEnA=="
-	 crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="assets/config.js"></script>
-	<script src="assets/jsbn.js"></script>
-	<script src="assets/jsbn2.js"></script>
-	<script src="assets/base58.js"></script>
-	<script src="assets/Client.js"></script>
 	<meta charset="UTF-8">
 	<!-- Required meta tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">

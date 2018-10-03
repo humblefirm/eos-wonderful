@@ -1,28 +1,42 @@
 var data = [];
 
-$(document).ready(function () {
-    makeKey();
-    listAccount();
-});
-function clk_act(account){
+$(document).ready(function () {});
+
+function clk_act(account) {
     document.getElementsByName("PublicKey")[0].value = account;
     document.getElementsByName("sendPublicKey")[0].value = account;
 }
-async function listAccount() {
-    var data = await eos.getTableRows(1,"eos1thefull1","eos1thefull1","usrbalance","","","",100);
-    data=data.rows;
-    var i=0;
-    for(i=0;i<data.length;i++)
-    document.getElementsByName("AccountList")[0].innerHTML = document.getElementsByName("AccountList")[0].innerHTML+"<tr><td onclick='clk_act(\""+data[i].user+"\")'>"+data[i].user+"</td><td>"+data[i].balance+"</td><td>"+data[i].fee+"</td></tr>";
+
+function check_fst_btn() {
+    // 수학적으로 안전한 프라이빗키를 하나 생성
+    var wif = document.getElementsByName("myPrivateKey")[0].value;
+    var pub = document.getElementsByName("myPublicKey")[0].value;
+    var newpub = eosjs_ecc.privateToPublic(wif);
+    if (pub != newpub) {
+        document.getElementsByName("myPublicKey")[0].value = newpub;
+        document.getElementsByName("fst_btn")[0].value = "Copy public key";
+        document.getElementsByName("fst_btn")[0].onclick = "copypub()";
+    }else{
+        document.getElementsByName("fst_btn")[0].value = "Generate New Key";
+        document.getElementsByName("fst_btn")[0].onclick = "makeKey()";
+    }
+}
+
+function copypub() {
+    var copyText = document.getElementsByName("myPublicKey")[0];
+    copyText.select();
+    document.execCommand("Copy");
+    alert("퍼블릭키가 클립보드에 복사되었습니다!");
 }
 async function mint() {
-    var from = document.getElementsByName("Minter")[0].value;
+    var from = "Suntae"
     var to = document.getElementsByName("MintTo")[0].value;
-    var amount = parseFloat(document.getElementsByName("MintAmount")[0].value).toFixed(4) + " " + symbol;;
-    var memo = document.getElementsByName("MintMemo")[0].value;
+    var amount = "8.0000 WDF";
+    var memo = "Welcome";
     //alert(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
     var ret = httpGet(SAurl + "/mint?account=" + from + "&to=" + to + "&amount=" + amount + "&memo=" + memo + "");
-    
+
+    document.getElementById("accountcurrency").style="display:block";
 }
 async function sendcoin() {
     var from = document.getElementsByName("OwnerPrivateKey")[0].value;
@@ -30,13 +44,23 @@ async function sendcoin() {
     var amount = parseFloat(document.getElementsByName("SendAmount")[0].value).toFixed(4) + " " + symbol;;
     var memo = document.getElementsByName("SendMemo")[0].value;
 
-    var ret = await transfer(from,to,amount,memo);
+    var ret = await transfer(from, to, amount, memo);
+    document.getElementById("accountcurrency2").style="display:block";
 }
 async function CheckBalance() {
+    var ret = await getCurrency(document.getElementsByName("PublicKey")[1].value);
+
+    document.getElementsByName("ViewBalance")[1].value = ret.balance;
+    document.getElementsByName("ViewFee")[1].value = ret.fee;
+    document.getElementById("last").style="display:block";
+}
+async function checkfaucet() {
     var ret = await getCurrency(document.getElementsByName("PublicKey")[0].value);
 
     document.getElementsByName("ViewBalance")[0].value = ret.balance;
     document.getElementsByName("ViewFee")[0].value = ret.fee;
+    document.getElementsByName("faucet_val")[0].innerText = ret.balance;
+    document.getElementById("transfer").style="display:block";
 }
 //data = await getAllActions();
 //result = await filterActions(data,"EOS7jFs7j4Mbc3bq5Azc5QfzHn7YanzEgUpAo9WZFENbeCesrHtdm");
@@ -88,6 +112,10 @@ function amount2hex(amount) {
 }
 async function getCurrency(key) {
     recv = await getaccount(key);
+    if(recv==undefined){
+        alert("계정을 찾을 수 없습니다!");
+        return undefined;
+    }
     now = parseInt(new Date().getTime() / 1000); //초
     lastclaim = parseInt(recv.lastclaim / 1000000); //초
     refund = (now - lastclaim) * parseFloat(recv.fee) / feeRstTime;
@@ -117,7 +145,10 @@ async function makeKey() {
                 document.cookie = v1;
                 privateKey = v1;
                 publicKey = key;
-                makeKeyPublic();
+                document.getElementsByName("OwnerPrivateKey")[0].value = v1;
+                document.getElementsByName("fst_btn")[0].innerText = "Copy public key";
+                document.getElementsByName("fst_btn")[0].setAttribute("onclick","copypub()");
+                document.getElementById("mintcoin").style="display:block";
                 return key;
             } else
                 //사용중이면 재귀호출(수학적으로 재귀호출이 3번 진행될 확률은 1/(1<<28)^3, 재귀호출로 인한 메모리 문제등의 발생 확률은 0에 수렴
@@ -126,13 +157,6 @@ async function makeKey() {
     })
 }
 
-function makeKeyPublic() {
-    document.getElementsByName("myPublicKey")[0].value = eosjs_ecc.privateToPublic(document.getElementsByName("myPrivateKey")[0].value);
-    document.getElementsByName("myPublicKey")[0].value = eosjs_ecc.privateToPublic(document.getElementsByName("myPrivateKey")[0].value);
-    document.getElementsByName("MintTo")[0].value = document.getElementsByName("myPublicKey")[0].value;
-    document.getElementsByName("PublicKey")[0].value = document.getElementsByName("myPublicKey")[0].value;
-    document.getElementsByName("OwnerPrivateKey")[0].value = document.getElementsByName("myPrivateKey")[0].value;
-}
 
 function nonce2hex(nonce) {
     var a = nonce;
@@ -165,12 +189,12 @@ async function sendmoney(from, to, amount, memo, sig) {
 }
 
 function httpGet(theUrl) {
-    $.get( theUrl, function(jqXHR) {
+    $.get(theUrl, function (jqXHR) {
         if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + jqXHR.transaction_id))
-            window.open("https://eoscanner.io/transaction/"+ jqXHR.transaction_id, "_blank");
+            window.open("https://eoscanner.io/transaction/" + jqXHR.transaction_id, "_blank");
         return jqXHR;
-    }, 'json' /* xml, text, script, html */);
-    
+    }, 'json' /* xml, text, script, html */ );
+
 }
 async function getaccount(key) {
     var ret;
