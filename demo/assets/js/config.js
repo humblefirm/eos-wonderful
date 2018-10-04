@@ -1,4 +1,4 @@
-var SAurl = "http://demo_node.1thefull.io"
+var SAurl = "https://demo_node.1thefull.io"
 var eos = Eos({
   httpEndpoint: 'https://api1.eosasia.one',
   chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
