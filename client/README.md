@@ -35,7 +35,7 @@ var eos = Eos({
 EOS 체인에서 데이터를 불러올 때 사용하는 CA 계정 정보를 입력해주세요.  
 계정명과 심볼을 입력하면 됩니다.
 ```
-var contract = "humblefirm42" // CA 계정명입니다.
-var symbol = "COF" // 심볼명입니다.
+var contract = "eos1thefull1" // CA 계정명입니다.
+var symbol = "WDF" // 심볼명입니다.
 ```
 
