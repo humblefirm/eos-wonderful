@@ -150,7 +150,7 @@ async function makeKey() {
                 privateKey = v1;
                 publicKey = key;
                 document.getElementsByName("OwnerPrivateKey")[0].value = v1;
-                document.getElementsByName("fst_btn")[0].innerText = "Copy public key";
+                document.getElementsByName("fst_btn")[0].innerText = "Paste public key";
                 document.getElementsByName("fst_btn")[0].setAttribute("onclick","copypub()");
                 document.getElementById("mintcoin").style="display:block";
                 return key;
