@@ -191,7 +191,8 @@ async function sendmoney(from, to, amount, memo, sig) {
 function httpGet(theUrl) {
     $.get(theUrl, function (jqXHR) {
         if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + jqXHR.transaction_id))
-            window.open("https://eoscanner.io/transaction/" + jqXHR.transaction_id, "_blank");
+            //window.open("https://eoscanner.io/transaction/" + jqXHR.transaction_id, "_blank");
+            window.open("https://eosflare.io/tx/" + jqXHR.transaction_id, "_blank");
         return jqXHR;
     }, 'json' /* xml, text, script, html */ );
 
