@@ -14,7 +14,7 @@ function check_fst_btn() {
     var newpub = eosjs_ecc.privateToPublic(wif);
     if (pub != newpub) {
         document.getElementsByName("myPublicKey")[0].value = newpub;
-        document.getElementsByName("fst_btn")[0].value = "Copy public key";
+        document.getElementsByName("fst_btn")[0].value = "Paste public key";
         document.getElementsByName("fst_btn")[0].onclick = "copypub()";
     }else{
         document.getElementsByName("fst_btn")[0].value = "Generate New Key";
@@ -23,6 +23,7 @@ function check_fst_btn() {
 }
 
 function copypub() {
+    var pub = document.getElementsByName("myPublicKey")[0].value;
     document.getElementsByName("MintTo")[0].value = pub;
     document.getElementsByName("PublicKey")[0].value = pub;
     document.getElementsByName("PublicKey")[1].value = pub;
