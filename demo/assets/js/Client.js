@@ -27,6 +27,15 @@ function copypub() {
     copyText.select();
     document.execCommand("Copy");
     alert("퍼블릭키가 클립보드에 복사되었습니다!");
+    document.getElementsByName("fst_btn")[0].value = "Paste public key";
+    document.getElementsByName("fst_btn")[0].onclick = "pastepub()";
+}
+function pastepub() {
+    var pub = document.getElementsByName("myPublicKey")[0].value;
+    getElementsByName("MintTo")[0].value = pub;
+    getElementsByName("PublicKey")[0].value = pub;
+    getElementsByName("PublicKey")[1].value = pub;
+    alert("퍼블릭키가 자동적으로 입력되었습니다!");
 }
 async function mint() {
     var from = "Suntae"
