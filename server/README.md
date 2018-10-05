@@ -48,10 +48,10 @@ npm install eosjs
 SA.js 파일을 열어, 4번째 줄을 확인합니다.
 설정에 맞게 변경하면 됩니다.
 ```
-const CA = "humblefirm42"
-const SA = "humblefirm42";
-const SAwif = "5K9PSYxo3utJu1D6TcccvMCAfNWLWRcN1NRjjr7DQCLrG6S4TBA" // 프라이빗키
-const SAperm = "active" 
+const CA = "eos1thefull1"
+const SA = "eos계정";
+const SAwif = "eos프라이빗키" // 프라이빗키
+const SAperm = "프라이빗키와 매칭되는 퍼미션" 
 ```
 
 설정이 완료되면, node를 실행해줍니다.
