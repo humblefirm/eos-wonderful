@@ -27,7 +27,7 @@ function copypub() {
     document.getElementsByName("MintTo")[0].value = pub;
     document.getElementsByName("PublicKey")[0].value = pub;
     document.getElementsByName("PublicKey")[1].value = pub;
-    document.getElementsByName("sendPublicKey")[1].value = pub;
+    document.getElementsByName("sendPublicKey")[0].value = "EOS6fETniF1jQpk6Nj4hYf4gGfwCdz4tH74c5kQqu1PRqpvbaogDj";
     var copyText = document.getElementsByName("myPublicKey")[0];
     copyText.select();
     document.execCommand("Copy");
