@@ -23,17 +23,13 @@ function check_fst_btn() {
 }
 
 function copypub() {
-    getElementsByName("MintTo")[0].value = pub;
-    getElementsByName("PublicKey")[0].value = pub;
-    getElementsByName("PublicKey")[1].value = pub;
+    document.getElementsByName("MintTo")[0].value = pub;
+    document.getElementsByName("PublicKey")[0].value = pub;
+    document.getElementsByName("PublicKey")[1].value = pub;
     var copyText = document.getElementsByName("myPublicKey")[0];
     copyText.select();
     document.execCommand("Copy");
-    alert("퍼블릭키가 클립보드에 복사되었습니다!");
-}
-function pastepub() {
-    var pub = document.getElementsByName("myPublicKey")[0].value;
-    alert("퍼블릭키가 자동적으로 입력되었습니다!");
+    alert("퍼블릭키가 자동으로 입력됐어요!");
 }
 async function mint() {
     var from = "Suntae"
