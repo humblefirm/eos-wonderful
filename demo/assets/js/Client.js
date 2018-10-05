@@ -49,7 +49,7 @@ async function sendcoin() {
     var amount = parseFloat(document.getElementsByName("SendAmount")[0].value).toFixed(4) + " " + symbol;;
     var memo = document.getElementsByName("SendMemo")[0].value;
     if(to=="") alert("어떤 계좌로 코인을 보내고 싶으신가요?");
-    if(amount="") alert("얼마나 보내실래요?");
+    if(amount=" COF") alert("얼마나 보내실래요?");
     var ret = await transfer(from, to, amount, memo);
     document.getElementById("accountcurrency2").style="display:block";
 }
