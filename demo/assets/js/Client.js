@@ -26,9 +26,9 @@ function copypub() {
     var copyText = document.getElementsByName("myPublicKey")[0];
     copyText.select();
     document.execCommand("Copy");
-    alert("퍼블릭키가 클립보드에 복사되었습니다!");
     document.getElementsByName("fst_btn")[0].value = "Paste public key";
     document.getElementsByName("fst_btn")[0].onclick = "pastepub()";
+    alert("퍼블릭키가 클립보드에 복사되었습니다!");
 }
 function pastepub() {
     var pub = document.getElementsByName("myPublicKey")[0].value;
