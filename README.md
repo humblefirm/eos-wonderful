@@ -34,10 +34,10 @@ SA API http link
 > http://35.194.102.54:9880   
 
 대상 체인  
-> Crypto Kylin TestNet https://github.com/cryptokylin  
+> EOS Mainnet 
 
 CA 계정명  
-> humblefirm42   
+> eos1thefull1   
 ### 1. 테스트넷 사용
 간단한 테스트를 위해 원더풀 플랫폼에서 구축한 데모용 CA와 SA로 구성된 가상 dApp을 사용해본다.  
 1. http://35.194.102.54/client/ 에 접속하고 계좌를 불러옵니다.
