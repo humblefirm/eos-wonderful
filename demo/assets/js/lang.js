@@ -1,7 +1,5 @@
 
-var currentLang='ko';
 $(document).ready(function () {
-currentLang='ko';
 //언어팩 선언.
 $.lang = {};
 
