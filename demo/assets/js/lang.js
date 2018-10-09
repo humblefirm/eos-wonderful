@@ -39,7 +39,7 @@ $.lang.ko = {
 };
 
 $.lang.en = {
-    0: 'Welcome to the trial version<br />of a real actual public blockchain based dApp platform<strong>EOSWonderful</strong>',
+    0: 'Welcome to the trial version<br />of a real actual public blockchain based dApp platform <strong>EOSWonderful</strong>',
     1: 'Don’t understand Blockchain? No worries. Anyone can make a blockchain dApp.<br />It’s simple, cost effective, secure and safe',
     2: 'More Info',
     3: 'Trial dApp',
