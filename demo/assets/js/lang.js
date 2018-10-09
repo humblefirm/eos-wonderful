@@ -66,7 +66,11 @@ $.lang.en = {
     24: 'Teashouse',
     25: 'Rey and Cream',
     26: '<a href="https://blog.naver.com/PostView.nhn?blogId=onethefullplatform&logNo=221360751690&categoryNo=9&parentCategoryNo=&from=thumbnailList" target="_blank">If you own a small coffee shop, try out our FREE (3month trial) Coffee Coin and become a Blockchain member!</a><br /> Did you know that? Coffee Coin is now being Airdropped! You can get coins if you visit any of our Coffee shops!<br /> The COCO App <a href="https://play.google.com/store/apps/details?id=com.onethefull.coffeecoinweb&hl=ko" target="_blank">Can be Downloaded</a> and get coins! <br />You can also find membered coffee shops too! Become a member and be a part of EOSWonderful!</p>',
-    27: 'Blockchain Project Consulting, Utilizing EOSWonderful for Token Modelling/SmartContracts. Contact us for more information. We are happy to Consult!</p></br><A href="mailto:sales@1thefull.com,r3v4@1thefull.com,kstae@1thefull.com?subject=EOSWonderful Contact">이메일 문의</A>'
+    27: 'Blockchain Project Consulting, Utilizing EOSWonderful for Token Modelling/SmartContracts. Contact us for more information. We are happy to Consult!</p></br><A href="mailto:sales@1thefull.com,r3v4@1thefull.com,kstae@1thefull.com?subject=EOSWonderful Contact">이메일 문의</A>',
+    28: 'Which key do you want to transfer?',
+    29: 'Account not found!',
+    30: 'How much will you transfer?',
+    31: 'Transfer successful. Do you want to verify the transaction?'
 };
 
 	
