@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-
+var currentLang='ko';
 // 언어팩 선언.
 $.lang = {};
 
