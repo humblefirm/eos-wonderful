@@ -48,8 +48,8 @@ async function sendcoin() {
     var to = document.getElementsByName("sendPublicKey")[0].value;
     var amount = parseFloat(document.getElementsByName("SendAmount")[0].value).toFixed(4) + " " + symbol;;
     var memo = document.getElementsByName("SendMemo")[0].value;
-    if(to=="") alert("어떤 계좌로 코인을 보내고 싶으신가요?");
-    if(document.getElementsByName("SendAmount")[0].value=="") alert("얼마나 보내실래요?");
+    if(to=="") alert($.lang[currentLang][28]);
+    if(document.getElementsByName("SendAmount")[0].value=="") alert($.lang[currentLang][30]);
     var ret = await transfer(from, to, amount, memo);
     document.getElementById("accountcurrency2").style="display:block";
 }
@@ -119,7 +119,7 @@ function amount2hex(amount) {
 async function getCurrency(key) {
     recv = await getaccount(key);
     if(recv==undefined){
-        alert("계정을 찾을 수 없습니다!");
+        alert($.lang[currentLang][29]);
         return undefined;
     }
     now = parseInt(new Date().getTime() / 1000); //초
@@ -196,7 +196,7 @@ async function sendmoney(from, to, amount, memo, sig) {
 
 function httpGet(theUrl) {
     $.get(theUrl, function (jqXHR) {
-        if (confirm("성공! 트랜잭션을 확인하시겠습니까? \r\n txid: " + jqXHR.transaction_id))
+        if (confirm($.lang[currentLang][31]+" \r\n txid: " + jqXHR.transaction_id))
             //window.open("https://eoscanner.io/transaction/" + jqXHR.transaction_id, "_blank");
             window.open("https://bloks.io/transaction/" + jqXHR.transaction_id, "_blank");
         return jqXHR;

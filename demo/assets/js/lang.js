@@ -32,7 +32,11 @@ $.lang.ko = {
     24: '티하우스',
     25: '레이앤크림',
     26: '<a href="https://blog.naver.com/PostView.nhn?blogId=onethefullplatform&logNo=221360751690&categoryNo=9&parentCategoryNo=&from=thumbnailList" target="_blank">혹시 카페를 운영하고 계시면 무료로 커피코인 가맹점이 돼보세요!</a><br />혹시 그거 알아요? 커피코인이 지금 에어드랍 중이래요! 가맹점에 방문하면 커피코인을 받을 수 있대요!<br />지금 코코앱을 <a href="https://play.google.com/store/apps/details?id=com.onethefull.coffeecoinweb&hl=ko" target="_blank">다운로드</a>하시면 코인도 받고, 가맹점도 찾을 수 있어요! 매일 마시는 커피, 이오스원더풀과 함께해요!</p>',
-    27: '블록체인 프로젝트 컨설팅, 이오스원더풀 적용 혹은 토큰 모델링/스마트컨트랙 개발에서 도움이 필요하시다면 연락주세요!</p></br><A href="mailto:sales@1thefull.com,r3v4@1thefull.com,kstae@1thefull.com?subject=이오스 원더풀 문의">이메일 문의</A>'
+    27: '블록체인 프로젝트 컨설팅, 이오스원더풀 적용 혹은 토큰 모델링/스마트컨트랙 개발에서 도움이 필요하시다면 연락주세요!</p></br><A href="mailto:sales@1thefull.com,r3v4@1thefull.com,kstae@1thefull.com?subject=이오스 원더풀 문의">이메일 문의</A>',
+    28: '어떤 계좌로 코인을 보내고 싶으신가요?',
+    29: '계좌를 찾을 수 없습니다!',
+    30: '얼마나 보내실래요?',
+    31: '전송 성공. 트랜잭션을 확인하시겠습니까?'
 };
 
 $.lang.en = {
@@ -88,6 +92,7 @@ function setLanguage(currentLanguage) {
 // 언어 변경
 function changeLang(lang) {
   setLanguage(lang); 
+  currentLang=lang;
 };
 
 /*
