@@ -67,7 +67,7 @@ CA 계정명
 테스트넷에서 SA를 구성하여 자신의 EOS 계정을 댑에 연동해본다
 > [server 소스코드](https://github.com/humblefirm/eos-wonderful/tree/master/server)를 참조하여 직접 SA를 만들어 봅니다.  
 > server 개발에 필요한 능력은 다음과 같습니다.  
->> Client에 대한 이해도
+>> Client에 대한 이해도  
 >> 이오스 개발 능력 (eosjs, nodejs, Web Programming)  
 
 ### 4. 멀티버스 직접 구현
