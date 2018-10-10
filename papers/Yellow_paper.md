@@ -49,14 +49,14 @@ EOS-Wonderful은 실생활에 사용이 가능한 퍼블릭 체인 기반의 댑
  EOS-Wonderful의 주요 구성 요소는 크게 이중검증/접근성/SDK 3가지로 나눌 수 있습니다. 
 
 ### 이중검증
+<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/ETS.png" width="90%"></img>  
 > 기존 이오스의 송금 트랜잭션 구조  
 
-<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/ETS.png" width="90%"></img>  
  이중검증을 설명하기 전에, 이오스의 트랜잭션 검증이 어떻게 이루어지는 지 설명하겠습니다. 이오스에서 트랜잭션을 생성하기 위해선 우선 목표하는 행위와 계정을 이용하여 액션을 생성합니다. 이렇게 만들어진 하나 이상의 액션을 트랜잭션에 담고, 트랜잭션 내부의 모든 데이터를 계정의 공개키와 매칭되는 개인키로 서명하여 트래잭션에 포함시켜 전송합니다. 이후 노드들은 트랜잭션에 적힌 계정명의 공개키로 서명을 해제하여 본인임을 확인합니다.
  
+<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWTS.png" width="90%"></img>  
  > 이오스 원더풀에서의 송금 트랜잭션 구조  
  
-<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWTS.png" width="90%"></img>  
  여기서 서명 정보는 트랜잭션 가장 외부에 기록되어 있습니다. 이 부분에서 이중검증과 차이가 있습니다. 이중검증은 트랜잭션의 서명이 정상인 경우, 트랜잭션 안의, 액션 안의, 데이터 안에 적힌 공개키 정보와 서명 정보를 이용해 개인을 식별하게 됩니다. 즉 개인을 식별함에 있어서 해당 트랜잭션을 발생시킨 계정이 무엇인지는 전혀 상관이 없으며, 오직 데이터안의 서명 정보만으로 개인을 식별하기 때문에 하나의 계정을 여럿이 공유하는것이 가능합니다.
 
 ### 접근성
