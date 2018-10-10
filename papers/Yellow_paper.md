@@ -21,7 +21,7 @@ EOS-Wonderful(이하 이오스 원더풀)의 목적은 위와 같은 어려움�
 >	5. 이소스 원더풀의 영속성을 위해 필요한 모든 소스들을 깃허브에 공개하고 알맞는 라이센스를 지정한다.  
 
 ## 솔루션
-<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWKAS.png" width="90%"></img>  
+<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWKAS.png" width="100%"></img>  
 > [좌]기존 이오스 계정의 구조, [우]이오스원더풀 컨트랙트가 적용된 계정의 구조.  
 
 비용 절감을 위해 사용자마다 계정을 생성하지는 않는다. 하나의 계정을 모두가 공유하기 때문에 자원도 효율적으로 사용된다. 하나의 계정을 공유하면서 생기는 각종 문제를 해결하기 위해 이중 검증을 통해 사용자를 구별한다. 이중검증은 EOS-Wonderful 계정내에 스마트컨트랙으로 구현돼있다.
@@ -52,19 +52,19 @@ EOS-Wonderful은 실생활에 사용이 가능한 퍼블릭 체인 기반의 댑
  EOS-Wonderful의 주요 구성 요소는 크게 이중검증/접근성/SDK 3가지로 나눌 수 있습니다. 
 
 ### 이중검증
-<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/ETS.png" width="90%"></img>  
+<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/ETS.png" width="100%"></img>  
 > 기존 이오스의 송금 트랜잭션 구조  
 
  이중검증을 설명하기 전에, 이오스의 트랜잭션 검증이 어떻게 이루어지는 지 설명하겠습니다. 이오스에서 트랜잭션을 생성하기 위해선 우선 목표하는 행위와 계정을 이용하여 액션을 생성합니다. 이렇게 만들어진 하나 이상의 액션을 트랜잭션에 담고, 트랜잭션 내부의 모든 데이터를 계정의 공개키와 매칭되는 개인키로 서명하여 트래잭션에 포함시켜 전송합니다. 이후 노드들은 트랜잭션에 적힌 계정명의 공개키로 서명을 해제하여 본인임을 확인합니다.
  
-<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWTS.png" width="90%"></img>  
+<img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWTS.png" width="100%"></img>  
  > 이오스 원더풀에서의 송금 트랜잭션 구조  
  
  여기서 서명 정보는 트랜잭션 가장 외부에 기록되어 있습니다. 이 부분에서 이중검증과 차이가 있습니다. 이중검증은 트랜잭션의 서명이 정상인 경우, 트랜잭션 안의, 액션 안의, 데이터 안에 적힌 공개키 정보와 서명 정보를 이용해 개인을 식별하게 됩니다. 즉 개인을 식별함에 있어서 해당 트랜잭션을 발생시킨 계정이 무엇인지는 전혀 상관이 없으며, 오직 데이터안의 서명 정보만으로 개인을 식별하기 때문에 하나의 계정을 여럿이 공유하는것이 가능합니다.
 
 ### 접근성
  접근성은 아주 중요한 요소 중 하나입니다. 계정을 생성하는 중간 과정을 제외하고, 계정없이 사용하기 위해서 EOS-Wonderful은 이더리움과 비슷한 키-계정 방식을 이용합니다. 공개키 자체가 계정이 되는것입니다. 
- <img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWPI.png" width="90%"></img>  
+ <img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWPI.png" width="100%"></img>  
  > 빠른 멀티인덱스 조회를 위한 Key to Index 방식 
  
  즉각적인 계정의 조회를 위해 공개키의 앞 28비트를 정수형으로 변환하여 인덱스 키로 사용합니다. 그덕에 사용자는 자신의 키-계정 데이터를 즉시 조회할 수 있습니다. 만약 이런 설계가 없는 경우에는 사용자가 자신의 데이터를 조회하거나 다른 사람에게 입금하기 위해서는 EOS-Wonderful 계정을 사용하는 모든 사람의 계정 정보를 전부 조회하고, 자신과 대상의 키를 대조해서 찾아야 합니다. 이덕에 이오스를 처음 사용하는 사용자도 중간 단계없이 키쌍 하나로 입금/조회/송금 및 그외에 모든 행위가 즉시 가능해집니다.
