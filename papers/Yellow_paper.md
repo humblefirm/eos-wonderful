@@ -64,7 +64,7 @@ EOS-Wonderful은 실생활에 사용이 가능한 퍼블릭 체인 기반의 댑
 
 ### 접근성
  접근성은 아주 중요한 요소 중 하나입니다. 계정을 생성하는 중간 과정을 제외하고, 계정없이 사용하기 위해서 EOS-Wonderful은 이더리움과 비슷한 키-계정 방식을 이용합니다. 공개키 자체가 계정이 되는것입니다. 
- <img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWTS.png" width="90%"></img>  
+ <img src="https://github.com/humblefirm/eos-wonderful/blob/master/papers/images/EWPI.png" width="90%"></img>  
  > 빠른 멀티인덱스 조회를 위한 Key to Index 방식 
  
  즉각적인 계정의 조회를 위해 공개키의 앞 28비트를 정수형으로 변환하여 인덱스 키로 사용합니다. 그덕에 사용자는 자신의 키-계정 데이터를 즉시 조회할 수 있습니다. 만약 이런 설계가 없는 경우에는 사용자가 자신의 데이터를 조회하거나 다른 사람에게 입금하기 위해서는 EOS-Wonderful 계정을 사용하는 모든 사람의 계정 정보를 전부 조회하고, 자신과 대상의 키를 대조해서 찾아야 합니다. 이덕에 이오스를 처음 사용하는 사용자도 중간 단계없이 키쌍 하나로 입금/조회/송금 및 그외에 모든 행위가 즉시 가능해집니다.
