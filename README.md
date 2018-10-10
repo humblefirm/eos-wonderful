@@ -28,10 +28,10 @@ EOS-Wonderful(이하 이오스 원더풀)은 이중검증 스마트 컨트랙트
 
 ### 테스트넷 정보
 토큰 발행 및 전송 dApp  
-> [http://demo.1thefull.io](http://demo.1thefull.io)  
+> [https://demo.1thefull.io](https://demo.1thefull.io)  
 
 SA API http link  
-> http://demo_node.1thefull.io  
+> https://demo_node.1thefull.io  
 
 대상 체인  
 > EOS Mainnet 
@@ -40,7 +40,7 @@ CA 계정명
 > eos1thefull1   
 ### 1. 테스트넷 사용
 간단한 테스트를 위해 원더풀 플랫폼에서 구축한 데모용 CA와 SA로 구성된 가상 dApp을 사용해본다.  
-1. http://demo.1thefull.io 에 접속하고 계좌를 불러옵니다.
+1. https://demo.1thefull.io 에 접속하고 계좌를 불러옵니다.
 > 브라우저에서 즉시 임의의 프라이빗키와 계좌를 생성합니다.  이전에 사용하던 프라이빗키를 입력하는 경우 이전의 계좌를 재사용할 수 있습니다.  
 
 2. 내 계좌에 새로운 코인을 발행 받습니다.
