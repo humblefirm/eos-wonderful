@@ -44,7 +44,7 @@ $.lang.en = {
     2: 'More Info',
     3: 'Trial dApp',
     4: 'Why are public blockchains are often linked to pontze’s, illegal gambling & fraudulent trading scheme’s? <br />The reasons are accessibility and costs of using public blockchains.<br />But now its all settled! EOS-Wonderful offers a safe and swift solutions to use public blockchains at a cost effective rate to create dApp’s for your use. <br /><h5> Below <strong>you can use EOS-Wonderful to test a simple working dApp! </strong></h5>',
-    5: '<h3>Welcome!</h3> Would you like to try our EOS-Wonderful dAPP? <br />It’s quite Simple. First, read the following and create your own account. <br />',
+    5: '<h3>Welcome!</h3> Would you like to try our EOS-Wonderful dApp? <br />It’s quite Simple. First, read the following and create your own account. <br />',
     6: '<p data-langNum="6">Create my account!<br /> Public key is my account ID, whilst Private key allows access to the account.<br /> You can enter your previous private key to enter your previous account <br />',
     7: '<h4>Congratulations! Now you have an account!</h4><br /> But currently its only in A key format and not logged into the Blockchain yet. <br /> EOS-Wonderful is similar to Ethereum creating a Key-Account where the Blockchain starts once there are coins allocated into the account.<br /> Hold on! Worried that you don’t have coins? Let me give you some! <br />',
     8: 'Input your account and I will provide you with some coins.<br /> Let’s say it’s a welcome gift!',
