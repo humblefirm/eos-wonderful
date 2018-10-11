@@ -28,7 +28,7 @@ The EOS-Wonderful Ecosystem
 ---------------------------
 ### The three components of the EOS Wonderful ecosystem
 
-**1. Multi-verse smartcontract **
+**1. Multi-verse smartcontract**
 ```
 The developer of the dApp can implement a multi-verse that adds new functions directly.
 It can also be connected to other multi-verses or share data.
@@ -36,31 +36,31 @@ You can share your account information by connecting to the main Multiverse on t
 ```
 
 
-**2. Resources and compensation **
+**2. Resources and compensation**
 ```
 A person with an EOS account can earn commission reimbursement by mining transactions from someone else who does not have an EOS account.
 Investors who are wasting too much resources can contribute to the Wisdom of EOS with their resources and get rewards.
 ```
 
 
-** 3. Free participation **
+**3. Free participation**
 ```
 Multi-verse concert allows you to implement not only the transmission of tokens, but also all functions such as decentralized exchanges and games that can be implemented as smart contours.
 Create a real-life dumb through EOS Wonders, a community-driven force.
 ```
 
 ### EOS Wonderful Participants
-**1. Wonderful platform **
+**1. Wonderful platform**
 ```
 It is the developer of the EOS who is always working for the development of community and EOS Wonderful.
 ```
-**2. dApp developer **
+**2. dApp developer**
 ```
 EOS is a developer who creates an dApp that works through Wonderful.
 You can build a multi-verse dApp with new functions and work with the main multi-verse to create an eco-system with a good coin to create an effective import model.
 By making a dive, you will contribute greatly to the value of EOS Wonderfulness.
 ```
-** 3. Contributors **
+**3. Contributors**
 ```
 All users participating in the EOS Wonderful ecosystem are contributors.
 EOS Users who use the droids made with the wonders,

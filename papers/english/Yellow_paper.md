@@ -41,12 +41,12 @@ EOS Wonderful is developing to achieve the above purpose with the following aim.
 
 
 ### Terminology
-** Dual Verification ** - A key way to validate your signature once more to identify multiple users sharing your account, a core feature of EOS Wonderful
-** EOS Wonderful Smart Contract ** - Smart contract code with dual verification and user data management capabilities and adapter related features
-** EOS WONDERFUL ACCOUNT ** - EOS account with EOS Wonderful Smart Contract, decentralized, but with default, owner of the account has admin and setup rights
-** Server accounts ** - Accounts that lend resources to users without accounts, consume resources that they do not use, and receive commissions as compensation
-** Client SDK ** - A development kit with the ability for user applications to communicate with the EOS WON account via a server account
-** Server SDK ** - Development kit for lending an account with resources that the client SDK will consume
+**Dual Verification**- A key way to validate your signature once more to identify multiple users sharing your account, a core feature of EOS Wonderful
+**EOS Wonderful Smart Contract**- Smart contract code with dual verification and user data management capabilities and adapter related features
+**EOS WONDERFUL ACCOUNT**- EOS account with EOS Wonderful Smart Contract, decentralized, but with default, owner of the account has admin and setup rights
+**Server accounts**- Accounts that lend resources to users without accounts, consume resources that they do not use, and receive commissions as compensation
+**Client SDK**- A development kit with the ability for user applications to communicate with the EOS WON account via a server account
+**Server SDK**- Development kit for lending an account with resources that the client SDK will consume
 
 ### summary
  With EOS Wonderful, users without an account will be able to use the adapter. While all users' information is managed in the EOS WONDERFUL account, the account is decentralized and the smart concurrency doubly verifies the identity of the user, so there is no security issue and the same decentralization as using an existing account is guaranteed . Even if the resources of the Eos Wonderful Account are exhausted or the account providing server is down, it can be restarted immediately using another EOS account, or a server SDK opened by a third party with an EOS account. Decentralization is not compromised. This is because the identification of an individual is done through a double validation rather than a transaction's creator. Consequently, as long as the EOS chain is maintained, the EOS Wonderful continues accessibility / decentralization / security / integrity.
