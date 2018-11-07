@@ -1,9 +1,19 @@
+/*var config = {
+    httpEndpoint: 'https://api-kylin.eosasia.one',
+    chainId: '5fff1dae8dc8e2fc4d5b23b2c7665c97f9e9d8edf2b6485a86ba311c25639191',
+    CA: "humblefirm43",
+    SA: "humblefirm12",
+    SAkey: "EOS8NvFPyMHopRbX241k2bH3roNCDxAL9t1mhQrj9kwh6WucaqEHd",
+    SAwif: "5JRuuYTCYvVcXnYzyaGpB7GvGwpScEmA6GBRMqhnKjDH4QhfZAU",
+    SAperm: "active",
+    MinFee: 0,
+}*/
 var config = {
     httpEndpoint: 'https://api1.eosasia.one',
     chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
     CA: "eos1thefull1",
-    SA: "eos1thefull1",
-    SAkey: "EOS8NvFPyMHopRbX241k2bH3roNCDxAL9t1mhQrj9kwh6WucaqEHd",
+    SA: "",
+    SAkey: "",
     SAwif: "",
     SAperm: "active",
     MinFee: 0,
@@ -38,7 +48,7 @@ app.use(function (req, res, next) {
 app.get('/transmit', (req, res) => {
     var data = JSON.parse(req.query.data)
     data['sakey']=config['SAkey'];
-    if(data['fee']<MinFee) return res.status(300).send("Fee must >="+config['MinFee']);
+    if(data['fee']<config['MinFee']) return res.status(300).send("Fee must >="+config['MinFee']);
     eos.transaction({
             actions: [{
                 account: config['CA'],

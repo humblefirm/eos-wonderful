@@ -17,7 +17,7 @@ class token : public contract
 		: contract(self)
 	{
 	}
-
+	int version=0;
 	void mint(public_key to, asset amount, string memo)
 	{
 		//함수 작동 흐름
@@ -61,7 +61,7 @@ class token : public contract
 		usrbalance_table usrbalance(_self, _self);
 		auto creater = usrbalance.find(keytoid(creator));
 		auto creating = usrbalance.find(keytoid(key));
-		auto miner = usrbalance.find(keytoid(sa));
+		auto miner = usrbalance.find(keytoid(sakey));
 
 		uint64_t nonce = creater->nonce;
 		CheckSigCreateKey(creator, key, memo, fee, nonce, sig);
@@ -104,7 +104,7 @@ class token : public contract
 		usrbalance_table usrbalance(_self, _self);
 		auto sender = usrbalance.find(keytoid(from));
 		auto receiver = usrbalance.find(keytoid(to));
-		auto miner = usrbalance.find(keytoid(sa));
+		auto miner = usrbalance.find(keytoid(sakey));
 
 		VerifyCheck(amount, memo, fee);
 		eosio_assert(sender->balance.amount >= amount.amount + fee.amount, "Overdrawn balance");
@@ -194,7 +194,7 @@ class token : public contract
 
 		usrbalance_table usrbalance(_self, _self);
 		auto sender = usrbalance.find(keytoid(from));
-		auto miner = usrbalance.find(keytoid(sa));
+		auto miner = usrbalance.find(keytoid(sakey));
 
 		uint64_t nonce = sender->nonce;
 		CheckSigWithdraw(from, to, amount, memo, fee, nonce, sig);
