@@ -5,6 +5,7 @@
 #include <vector>
 #include <super.token.hpp>
 #include <eosiolib/time.hpp>
+#include <eosiolib/print.h>
 
 using namespace eosio;
 using namespace std;
@@ -16,83 +17,18 @@ class token : public contract
 		: contract(self)
 	{
 	}
-	uint64_t transfer_fee = 10000;
-	uint64_t feeRstTime = 8 * HOUR * 1000 * 1000;
-	void create(public_key owner, asset amount)
+
+	void mint(public_key to, asset amount, string memo)
 	{
+		//함수 작동 흐름
+		//사용자 및 정합성 체크
+		//
 		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
-    "only accepts WDF");
-		asset new_balance;
+		asset fee = amount - amount;
+		VerifyCheck(amount, memo, fee);
 
 		usrbalance_table usrbalance(_self, _self);
-		auto itr_balance = usrbalance.find(keytoid(owner));
-		if (itr_balance != usrbalance.end())
-		{
-			usrbalance.modify(itr_balance, _self, [&](auto &r) {
-				r.balance = amount;
-				r.fee += amount - amount;
-				r.lastclaim = 0;
-			});
-		}
-		else
-		{
-
-			usrbalance.emplace(_self, [&](auto &r) {
-				r.id = keytoid(owner);
-				r.user = owner;
-				r.nonce = 0;
-				r.balance = amount;
-				r.fee = amount - amount;
-				r.lastclaim = 0;
-			});
-		}
-	}
-	void change(public_key owner, asset amount)
-	{
-		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
-    "only accepts WDF");
-		asset new_balance;
-
-		usrbalance_table usrbalance(_self, _self);
-		auto itr_balance = usrbalance.find(keytoid(owner));
-		eosio_assert(itr_balance != usrbalance.end(), "Account doesn't exist");
-		usrbalance.modify(itr_balance, _self, [&](auto &r) {
-			r.balance = amount;
-			r.fee += amount - amount;
-			r.lastclaim = 0;
-		});
-	}
-	void remove(public_key owner)
-	{
-		require_auth2(_self, N(active));
-		asset new_balance;
-
-		usrbalance_table usrbalance(_self, _self);
-		auto itr_balance = usrbalance.find(keytoid(owner));
-		eosio_assert(itr_balance != usrbalance.end(), "Account doesn't exist");
-		usrbalance.erase(itr_balance);
-	}
-	void removest()
-	{
-		require_auth2(_self, N(active));
-		globalstate_table globalstate(_self, _self);
-		auto itr_state = globalstate.find(0);
-
-		globalstate.erase(itr_state);
-	}
-
-	void mint(string from, public_key key, asset amount, string memo)
-	{
-		require_auth2(_self, N(active));
-		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
-    "only accepts WDF");
-
-
-		bool newaccount = false;
-		usrbalance_table usrbalance(_self, _self);
-		auto itr_balance = usrbalance.find(keytoid(key));
+		auto itr_balance = usrbalance.find(keytoid(to));
 		if (itr_balance != usrbalance.end())
 		{
 			usrbalance.modify(itr_balance, _self, [&](auto &r) {
@@ -101,174 +37,194 @@ class token : public contract
 		}
 		else
 		{
-			newaccount = true;
 			usrbalance.emplace(_self, [&](auto &r) {
-				r.id = keytoid(key);
-				r.user = key;
+				r.id = keytoid(to);
+				r.user = to;
 				r.nonce = 0;
 				r.balance = amount;
-				r.fee = amount - amount;
-				r.lastclaim = 0;
-			});
-		}
-
-
-		globalstate_table globalstate(_self, _self);
-		auto itr_state = globalstate.find(0);
-
-		if (itr_state != globalstate.end())
-		{
-			//globalstate.erase(itr_state);
-			globalstate.modify(itr_state, _self, [&](auto &r) {
-				r.total_issued.amount += amount.amount;
-				r.total_volume.amount += amount.amount;
-			});
-		}
-		else
-		{
-			globalstate.emplace(_self, [&](auto &r) {
-				r.id = 0;
-				r.total_issued = amount;
-				r.total_volume = amount;
-				r.transfer_volume = amount - amount;
-				r.transfer_count = 0;
-				r.avg_delay_transfer = 0;
+				r.eos = amount - amount;
+				r.eos.symbol = string_to_symbol(4, "EOS");
 			});
 		}
 	}
 
-	void transfer(public_key sender, public_key receiver, asset amount, string memo, signature sig)
+	void createkey(public_key creator, public_key key, string memo, asset fee, signature sig, public_key sakey)
 	{
-		eosio_assert(amount.symbol == string_to_symbol(4, "WDF"),
-    "only accepts WDF");
-		eosio_assert(memo.size() <= 256, "memo has more than 256 bytes");
-		eosio_assert(amount.is_valid(), "invalid quantity");
-		eosio_assert(amount.amount > 0, "must transfer positive quantity");
+		//함수 작동 흐름
+		//사용자 및 정합성 체크
+		//1코인 지불해야함
+		eosio_assert(fee.symbol == string_to_symbol(4, "WDF"),
+					 "only accepts WDF for fee");
+		eosio_assert(fee.is_valid(), "Invalid token transfer");
+		eosio_assert(fee.amount >= 0, "Quantity must be positive");
 
 		usrbalance_table usrbalance(_self, _self);
-		auto from = usrbalance.find(keytoid(sender));
+		auto creater = usrbalance.find(keytoid(creator));
+		auto creating = usrbalance.find(keytoid(key));
+		auto miner = usrbalance.find(keytoid(sa));
 
-		eosio_assert(from != usrbalance.end(), "no account found");
-		eosio_assert(from->balance.amount + from->fee.amount >= amount.amount, "overdrawn balance");
-		eosio_assert(from->balance.amount + from->fee.amount >= transfer_fee, "not enough balance for transfer fee");
-
-		transfer_st datas;
-		datas.amount = amount;
-		datas.memo = memo;
-		datas.sender = sender;
-		datas.receiver = receiver;
-		datas.nonce = from->nonce;
-		//need recovery and verrify sig
-		checksig(datas, sig);
-		uint64_t now = current_time();
-		uint64_t delay = 0;
-		//send money
-		usrbalance.modify(from, _self, [&](auto &r) {
-			//수수료 환원
-			delay = now - r.lastclaim;
-			int64_t refund = (now / 100000 - r.lastclaim / 100000) * r.fee.amount / (feeRstTime / 100000);
-			if (refund > r.fee.amount)
-				refund = r.fee.amount;
-			r.balance.amount += refund;
-			r.fee.amount -= refund;
-			eosio_assert(r.balance.amount >= amount.amount + transfer_fee, "Too much transfer, Please try again in a few hours");
-
-			//수수료 부과
-			r.balance.amount -= transfer_fee;
-			r.fee.amount += transfer_fee;
-
-			r.balance.amount -= amount.amount;
-			r.lastclaim = now;
+		uint64_t nonce = creater->nonce;
+		CheckSigCreateKey(creator, key, memo, fee, nonce, sig);
+		eosio_assert(creater->balance.amount >= 10000 + fee.amount, "Overdrawn balance");
+		//송금자 돈 -
+		eosio_assert(creater != usrbalance.end(), "Account not found! please make new account");
+		usrbalance.modify(creater, _self, [&](auto &r) {
+			r.balance.amount -= 10000 + fee.amount;
 			r.nonce++;
 		});
 
-		auto to = usrbalance.find(keytoid(receiver));
-		bool newaccount = false;
-		if (to != usrbalance.end())
-		{
-			usrbalance.modify(to, _self, [&](auto &r) {
-				r.balance.amount += amount.amount;
-			});
-		}
-		else
-		{
-			newaccount = true;
+		//키 생성
+		eosio_assert(creating == usrbalance.end(), "Key already exists");
+		usrbalance.emplace(_self, [&](auto &r) {
+			r.id = keytoid(key);
+			r.user = key;
+			r.nonce = 0;
+			r.balance = fee - fee;
+			r.eos = fee - fee;
+			r.eos.symbol = string_to_symbol(4, "EOS");
+		});
+
+		//처리자 돈 +
+		eosio_assert(miner != usrbalance.end(), "Service-Account not found! please make new account");
+		usrbalance.modify(miner, _self, [&](auto &r) {
+			r.balance.amount += fee.amount;
+		});
+	}
+	void transfer(public_key from, public_key to, asset amount, string memo, asset fee, signature sig, public_key sakey)
+	{
+		//함수 작동 흐름
+		//정합성 체크
+		//시그니쳐 체크
+		//송금자 돈 -
+		//입금자 돈 +
+		//처리자 돈 +
+		//처리자 로그 (SA평판 및 횟수/총 수수료)
+
+		//정합성 체크
+		usrbalance_table usrbalance(_self, _self);
+		auto sender = usrbalance.find(keytoid(from));
+		auto receiver = usrbalance.find(keytoid(to));
+		auto miner = usrbalance.find(keytoid(sa));
+
+		VerifyCheck(amount, memo, fee);
+		eosio_assert(sender->balance.amount >= amount.amount + fee.amount, "Overdrawn balance");
+
+		//시그니쳐 체크
+		transfer_st datas;
+		datas.from = from;
+		datas.to = to;
+		datas.amount = amount;
+		datas.memo = memo;
+		datas.nonce = sender->nonce;
+		CheckSigTransfer(datas, fee, sig);
+
+		//송금자 돈 -
+		eosio_assert(sender != usrbalance.end(), "Account not found! please make new account");
+		usrbalance.modify(sender, _self, [&](auto &r) {
+			r.balance.amount -= amount.amount + fee.amount;
+			r.nonce++;
+		});
+
+		//처리자 돈 +
+		eosio_assert(miner != usrbalance.end(), "Service-Account not found! please make new account");
+		usrbalance.modify(miner, _self, [&](auto &r) {
+			r.balance.amount += fee.amount;
+		});
+
+		//입금자 돈 +
+		eosio_assert(receiver != usrbalance.end(), "Receiver-Account not found! please make new account");
+		usrbalance.modify(receiver, _self, [&](auto &r) {
+			r.balance.amount += amount.amount;
+		});
+
+		/* make new account
 			usrbalance.emplace(_self, [&](auto &r) {
-				r.id = keytoid(receiver);
-				r.user = receiver;
+				r.id = keytoid(to);
+				r.user = to;
 				r.nonce = 0;
 				r.balance = amount;
-				r.fee = amount - amount;
-
-				r.lastclaim = 0;
 			});
-		}
-
-		globalstate_table globalstate(_self, _self);
-		auto itr_state = globalstate.find(0);
-		int transfer_count;
-		globalstate.modify(itr_state, _self, [&](auto &r) {
-			r.transfer_volume.amount += amount.amount;
-			if(delay!=now)
-			r.avg_delay_transfer = (r.avg_delay_transfer * r.transfer_count + delay) / (r.transfer_count + 1);
-			r.transfer_count += 1;
-		});
+		*/
 
 		print("complete!");
 	}
-
-	void verify(public_key sender, public_key receiver, asset amount, string memo, signature sig)
+	void deposit(uint64_t sender, uint64_t receiver)
 	{
-		string str;
-		int i;
-		checksum256 digest;
-		char potato[34 * 2 + 8 + 256 + 8];
+		auto transfer_data = unpack_action_data<st_transfer>();
+		if (transfer_data.from == _self || transfer_data.to != _self)
+		{
+			return;
+		}
+
+		eosio_assert(transfer_data.quantity.symbol == string_to_symbol(4, "EOS"),
+					 "only accepts EOS for deposits");
+		eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
+		eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
 
 		usrbalance_table usrbalance(_self, _self);
-		auto from = usrbalance.find(keytoid(sender));
+		auto key = usrbalance.find(fast_atoi(transfer_data.memo.c_str()));
 
-		transfer_st datas;
-		datas.sender = sender;
-		datas.receiver = receiver;
-		datas.amount = amount;
-		datas.memo = memo;
-		datas.nonce = from->nonce;
-
-		memcpy(potato, &datas.sender, sizeof(datas.sender));
-		memcpy(potato + 34, &datas.receiver, sizeof(datas.receiver));
-		memcpy(potato + 34 + 34, &datas.amount.amount, sizeof(datas.amount.amount));
-		memcpy(potato + 34 + 34 + 8, &datas.memo, sizeof(datas.memo));
-		memcpy(potato + 34 + 34 + 8 + 256, &datas.nonce, sizeof(datas.nonce));
-		for (i = 0; i < sizeof(potato); i++)
-			str.append(std::to_string(potato[i]));
-
-		//sha256(const_cast<char *>(str.c_str()), str.size(), &digest);
-		sha256(potato, sizeof(potato), &digest);
-
-		data_table tablek(_self, _self);
-		auto itr_balance = tablek.find(keytoid(sender));
-		if (itr_balance != tablek.end())
-		{
-			tablek.modify(itr_balance, _self, [&](auto &r) {
-				r.digest = digest;
-				r.pk = sender;
-				r.sig = sig;
-				r.data = datas;
-				r.merge = str;
+		//입금자 돈 +
+		if (key != usrbalance.end())
+			usrbalance.modify(key, _self, [&](auto &r) {
+				r.eos.amount += transfer_data.quantity.amount;
 			});
-		}
-		else
-		{
-			tablek.emplace(_self, [&](auto &r) {
-				r.id = keytoid(sender);
-				r.digest = digest;
-				r.pk = sender;
-				r.sig = sig;
-				r.data = datas;
-				r.merge = str;
-			});
-		}
-		//assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&sender, sizeof(sender));
+	}
+	void withdraw(public_key from, account_name to, asset amount, string memo, asset fee, signature sig, public_key sakey)
+	//void withdraw(account_name memo)
+	{
+		/*char strchar[8];
+		memcpy(strchar, &memo, sizeof(strchar));
+		printhex(strchar,8);
+		
+		char data2[256];
+		checksum256 digest = name2chksum(memo);
+		memcpy(data2, &digest, sizeof(digest));
+		printhex(data2, sizeof(digest));*/
+
+		eosio_assert(amount.symbol == string_to_symbol(4, "EOS"),
+					 "only accepts EOS for deposits");
+		eosio_assert(amount.is_valid(), "Invalid token transfer");
+		eosio_assert(amount.amount > 0, "Quantity must be positive");
+
+		eosio_assert(fee.symbol == string_to_symbol(4, "WDF"),
+					 "only accepts WDF for fee");
+		eosio_assert(fee.is_valid(), "Invalid token transfer");
+		eosio_assert(fee.amount >= 0, "Quantity must be positive");
+
+		usrbalance_table usrbalance(_self, _self);
+		auto sender = usrbalance.find(keytoid(from));
+		auto miner = usrbalance.find(keytoid(sa));
+
+		uint64_t nonce = sender->nonce;
+		CheckSigWithdraw(from, to, amount, memo, fee, nonce, sig);
+		eosio_assert(sender->eos >= amount, "Not enough eos");
+		eosio_assert(sender->balance.amount >= fee.amount, "Overdrawn balance");
+
+		//송금자 돈 -
+		eosio_assert(sender != usrbalance.end(), "Account not found! please make new account");
+		usrbalance.modify(sender, _self, [&](auto &r) {
+			r.eos -= amount;
+			r.balance.amount -= fee.amount;
+			r.nonce++;
+		});
+
+		//처리자 돈 +
+		eosio_assert(miner != usrbalance.end(), "Service-Account not found! please make new account");
+		usrbalance.modify(miner, _self, [&](auto &r) {
+			r.balance.amount += fee.amount;
+		});
+		//입금자 돈 +
+		action(
+			permission_level{_self, N(active)},
+			N(eosio.token),
+			N(transfer),
+			std::make_tuple(
+				_self,
+				to,
+				amount,
+				memo))
+			.send();
 	}
 
   private:
@@ -284,46 +240,135 @@ class token : public contract
 		}
 		return ret;
 	}
-	uint32_t my_strlen(const char *str)
+	int fast_atoi(const char *str)
 	{
-		uint32_t len = 0;
-		while (str[len])
-			++len;
-		return len;
+		int val = 0;
+		while (*str)
+		{
+			val = val * 10 + (*str++ - '0');
+		}
+		return val;
 	}
-	string datatostr(transfer_st data)
+	void CheckSigWithdraw(public_key from, account_name to, asset amount, string memo, asset fee, uint64_t nonce, signature sig)
 	{
-		char ret[sizeof(data) + 1];
-		memcpy(ret, &data.sender, sizeof data.sender);
-		memcpy(ret + sizeof data.sender, &data.receiver, sizeof data.receiver);
-		memcpy(ret + sizeof data.sender + sizeof data.receiver, &data.amount, sizeof data.amount);
-		memcpy(ret + sizeof data.sender + sizeof data.receiver + sizeof data.amount, &data.memo, 8);
-		return (string)ret;
-	}
-	void checksig(transfer_st datas, signature sig)
-	{
-		int i;
+		char strchar[256];
+		strncpy(strchar, memo.c_str(), sizeof(strchar));
+		strchar[sizeof(strchar) - 1] = 0;
+
 		checksum256 digest;
-		char potato[34 * 2 + 8 + 256 + 8];
+		char potato[34 + 8 * 3 + 256];
 
-		memcpy(potato, &datas.sender, sizeof(datas.sender));
-		memcpy(potato + 34, &datas.receiver, sizeof(datas.receiver));
-		memcpy(potato + 34 + 34, &datas.amount.amount, sizeof(datas.amount.amount));
-		memcpy(potato + 34 + 34 + 8, &datas.memo, sizeof(datas.memo));
-		memcpy(potato + 34 + 34 + 8 + 256, &datas.nonce, sizeof(datas.nonce));
+		memcpy(potato, &from, sizeof(from));
+		memcpy(potato + 34, &to, sizeof(to));
+		memcpy(potato + 34 + 8, &amount.amount, sizeof(amount.amount));
+		memcpy(potato + 34 + 8 + 8, &strchar, sizeof(strchar));
+		memcpy(potato + 34 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
+		memcpy(potato + 34 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
 
-		//sha256(const_cast<char *>(str.c_str()), str.size(), &digest);
 		sha256(potato, sizeof(potato), &digest);
 
-		/*checksum256 digest;
-		string str;
-		str.append(std::to_string(keytoid(datas.sender)));
-		str.append(std::to_string(keytoid(datas.receiver)));
-		str.append(std::to_string(datas.amount.amount));
-		str.append(datas.memo);
-		sha256(const_cast<char *>(str.c_str()), str.size(), &digest);
-*/
-		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&datas.sender, sizeof(datas.sender));
+		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
+	}
+	void CheckSigTransfer(transfer_st datas, asset fee, signature sig)
+	{
+
+		char strchar[256];
+		strncpy(strchar, datas.memo.c_str(), sizeof(strchar));
+		strchar[sizeof(strchar) - 1] = 0;
+
+		checksum256 digest;
+		char potato[34 * 2 + 8 + 256 + 8 + 8];
+
+		memcpy(potato, &datas.from, sizeof(datas.from));
+		memcpy(potato + 34, &datas.to, sizeof(datas.to));
+		memcpy(potato + 34 + 34, &datas.amount.amount, sizeof(datas.amount.amount));
+		memcpy(potato + 34 + 34 + 8, &strchar, sizeof(strchar));
+		memcpy(potato + 34 + 34 + 8 + 256, &fee.amount, sizeof(fee.amount));
+		memcpy(potato + 34 + 34 + 8 + 256 + 8, &datas.nonce, sizeof(datas.nonce));
+
+		sha256(potato, sizeof(potato), &digest);
+
+		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&datas.from, sizeof(datas.from));
+	}
+	void CheckSigCreateKey(public_key creator, public_key key, string memo, asset fee, uint64_t nonce, signature sig)
+	{
+
+		char strchar[256];
+		strncpy(strchar, memo.c_str(), sizeof(strchar));
+		strchar[sizeof(strchar) - 1] = 0;
+
+		checksum256 digest;
+		char potato[34 * 2 + 256 + 8 + 8];
+
+		memcpy(potato, &creator, sizeof(creator));
+		memcpy(potato + 34, &key, sizeof(key));
+		memcpy(potato + 34 + 34, &strchar, sizeof(strchar));
+		memcpy(potato + 34 + 34 + 256, &fee.amount, sizeof(fee.amount));
+		memcpy(potato + 34 + 34 + 256 + 8, &nonce, sizeof(nonce));
+		//printhex(potato, sizeof(potato));
+		sha256(potato, sizeof(potato), &digest);
+
+		//char data2[256];
+		//memcpy(data2, &digest, sizeof(digest));
+		//printhex(data2, sizeof(digest));
+		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&creator, sizeof(creator));
+	}
+	void VerifyCheck(asset amount, string memo, asset fee)
+	{
+		eosio_assert(memo.size() <= 256, "memo has more than 256 bytes");
+		eosio_assert(amount.symbol == string_to_symbol(4, "WDF") && fee.symbol == string_to_symbol(4, "WDF"),
+					 "only accepts WDF");
+		eosio_assert(amount.is_valid() && fee.is_valid(), "invalid quantity");
+		eosio_assert(amount.amount > 0 && fee.amount >= 0, "must transfer positive quantity");
+	}
+	checksum256 str2chksum(string str)
+	{
+		checksum256 digest;
+		char strchar[256];
+		strncpy(strchar, str.c_str(), sizeof(strchar));
+		strchar[sizeof(strchar) - 1] = 0;
+		sha256(strchar, sizeof(strchar), &digest);
+		return digest;
+	}
+	checksum256 name2chksum(account_name user)
+	{
+		checksum256 digest;
+		char strchar[8];
+		memcpy(strchar, &user, sizeof(strchar));
+		sha256(strchar, sizeof(strchar), &digest);
+		return digest;
 	}
 };
-EOSIO_ABI(token, (create)(change)(remove)(removest)(mint)(transfer)(verify))
+
+#undef EOSIO_ABI
+#define EOSIO_ABI(TYPE, MEMBERS)                                                                                                 \
+	extern "C"                                                                                                                   \
+	{                                                                                                                            \
+		void apply(uint64_t receiver, uint64_t code, uint64_t action)                                                            \
+		{                                                                                                                        \
+			auto self = receiver;                                                                                                \
+			TYPE thiscontract(self);                                                                                             \
+			if (action == N(onerror))                                                                                            \
+			{                                                                                                                    \
+				/* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
+				eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account");             \
+			}                                                                                                                    \
+			if (code == self)                                                                                                    \
+			{                                                                                                                    \
+				if (action != N(deposit))                                                                                        \
+				{                                                                                                                \
+					switch (action)                                                                                              \
+					{                                                                                                            \
+						EOSIO_API(TYPE, MEMBERS)                                                                                 \
+					}                                                                                                            \
+					/* does not allow destructor of thiscontract to run: eosio_exit(0);    */                                    \
+				}                                                                                                                \
+			}                                                                                                                    \
+			else if (code == N(eosio.token) && action == N(transfer))                                                            \
+			{                                                                                                                    \
+				execute_action(&thiscontract, &token::deposit);                                                                  \
+			}                                                                                                                    \
+		}                                                                                                                        \
+	}
+
+EOSIO_ABI(token, (mint)(transfer)(createkey)(deposit)(withdraw))

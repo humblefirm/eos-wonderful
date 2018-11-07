@@ -14,29 +14,6 @@ constexpr uint32_t DAY = 86400;
 constexpr uint32_t HOUR = 3600;
 constexpr uint32_t MINUTE = 60;
 
-struct st_transfer
-{
-	account_name from;
-	account_name to;
-	asset quantity;
-	string memo;
-};
-
-// @abi table globalstate i64
-struct globalstate
-{
-	uint64_t id;
-	asset total_issued;
-	asset total_volume;
-	asset transfer_volume;
-	uint64_t transfer_count;
-	uint64_t avg_delay_transfer;
-	
-	uint64_t primary_key() const { return id; }
-
-	EOSLIB_SERIALIZE(globalstate, (id)(total_issued)(total_volume)(transfer_volume)(transfer_count)(avg_delay_transfer))
-};
-typedef multi_index<N(globalstate), globalstate> globalstate_table;
 // @abi table usrbalance i64
 struct usrbalance
 {
@@ -44,39 +21,41 @@ struct usrbalance
 	public_key user;
 	uint64_t nonce;
 	asset balance;
-	asset fee;
-	uint64_t lastclaim;
-
+	asset eos;
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(usrbalance, (id)(user)(nonce)(balance)(fee)(lastclaim))
+	EOSLIB_SERIALIZE(usrbalance, (id)(user)(nonce)(balance)(eos))
 };
 typedef multi_index<N(usrbalance), usrbalance> usrbalance_table;
 
+// @abi table test i64
+struct test
+{
+	uint64_t id;
+	std::vector<int8_t> key;
+
+	uint64_t primary_key() const { return id; }
+
+	EOSLIB_SERIALIZE(test, (id)(key))
+};
+typedef multi_index<N(test), test> test_table;
 
 struct transfer_st
 {
-	public_key sender;
-	public_key receiver;
+	public_key from;
+	public_key to;
 	asset amount;
 	string memo;
 	uint64_t nonce;
 };
-// @abi table tablek i64
-struct tablek
+
+struct st_transfer
 {
-	uint64_t id;
-	checksum256 digest;
-	public_key pk;
-	signature sig;
-	transfer_st data;
-	string merge;
-
-	uint64_t primary_key() const { return id; }
-
-	EOSLIB_SERIALIZE(tablek, (id)(digest)(pk)(sig)(data)(merge))
+	account_name from;
+	account_name to;
+	asset quantity;
+	string memo;
 };
-typedef multi_index<N(tablek), tablek> data_table;
 
 } // namespace types

@@ -27,7 +27,7 @@ function gen_sig_transfer(from, to, amount, memo, fee, nonce, key) {
         [amount, 'asset'],
         [memo, 'string'],
         [fee, 'asset'],
-        [nonce, 'amount'],
+        [nonce, 'int'],
         [key]
     ]
 
