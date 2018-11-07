@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<!--
+	Prologue by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>Demo for EOS-Wonderful</title>
+	<meta charset="utf-8" />
+	<script> currentLang='ko';</script>
+	<script src="https:////code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eosjs-ecc@4.0.3/lib/eosjs-ecc.min.js" integrity="sha512-XWIwj+P5ClTipsRsO+yz0U8z4Zp9RmGTlJT9+BrgngPFLitzJnaVaNi4Q7nkbHs2W+WeZp0S9EBhZ8KbBC8Yyg=="
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.8/lib/eos.min.js" integrity="sha512-zhPSKFEBlDVvUzjl9aBS66cI8tDYoLetynuKvIekHT8NZZ12oxwcZ//M/eT/2Rb/pR/cjFvLD8104Cy//sdEnA=="
+	 crossorigin="anonymous"></script>
+	<script src="assets/js/config.js"></script>
+	<script src="assets/js/jsbn.js"></script>
+	<script src="assets/js/jsbn2.js"></script>
+	<script src="assets/js/base58.js"></script>
+	<script src="assets/js/Client.js"></script>
+	<script src="assets/js/lang.js"></script>
+	<script src="assets/js/browser.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body class="is-preload">
+
+	<!-- Header -->
+	<div id="header">
+		<div class="top">
+
+			<!-- Logo -->
+			<div id="logo">
+				<div style="width:100%; height:180px">
+						<span class="image avatar48" style="float: right;"><img src="images/eoswonderfull.logo.png" alt="" /></span>
+				</div>
+				<h1 id="title">EOS-Wonderful</h1>
+				<p>1thefull</p>
+			</div>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul>
+					<li><a href="#top" id="top-link"><span class="icon fa-home">Intro</span></a></li>
+					<li><a href="#portfolio" id="portfolio-link"><span class="icon fa-th">dApp Demo</span></a></li>
+					<li><a href="#about" id="about-link"><span class="icon fa-user">About Us</span></a></li>
+					<li><a href="#contact" id="contact-link"><span class="icon fa-envelope">Contact Us</span></a></li>
+				</ul>
+			</nav>
+
+		</div>
+
+		<div class="bottom">
+
+			<!-- Social Icons -->
+			<ul class="icons">
+				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="https://github.com/humblefirm/eos-wonderful" target="_blank" class="icon fa-github"><span class="label">Github</span></a></li>
+				<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+				<li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+			</ul>
+
+		</div>
+
+	</div>
+...
+	<!-- Main -->
+	<div id="main">
+		<!-- Intro -->
+		<section id="top" class="one dark cover">
+			<div class="container">
+				<header>
+					<a onclick="changeLang('ko')" style="cursor: pointer;">한국어(Korean)</a>&nbsp;&nbsp;
+					<a onclick="changeLang('en')" style="cursor: pointer;">English(English)</a>&nbsp;&nbsp;
+					<a onclick="changeLang('ch')" style="cursor: pointer;">漢語(Chinese)</a>&nbsp;&nbsp;
+					<br>
+					<br>
+					<h2 class="alt" data-langNum="0"></h2>
+
+					<p data-langNum="1"></p>
+				</header>
+
+				<footer>
+					<a href="#portfolio" class="button scrolly" data-langNum="2"></a>
+				</footer>
+
+			</div>
+		</section>
+
+		<!-- Portfolio -->
+		<section id="portfolio" class="two">
+			<div class="container">
+
+				<header>
+					<h2 data-langNum="3"></h2>
+				</header>
+
+				<p data-langNum="4">
+				</p>
+				<hr>
+				<p data-langNum="5">
+
+				</p>
+				<section id="myinfo" style="margin-top:10px;">
+					<center>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+							<h2>Key-Pair Generation</h2>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Public Key</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="myPublicKey" placeholder="Public Key">
+							</div>
+
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Private Key</span>
+								</div>
+								<input class="form-control" type="text" onchange="check_fst_btn()" name="myPrivateKey" placeholder="My Private Key">
+							</div>
+							<div class="col-12" style="margin-top:10px;">
+								<button class="button" onclick="makeKey()" name="fst_btn">Generate New Key</button>
+							</div>
+
+							<div class="col-12" style="margin-top:10px;">
+								</p>
+							</div>
+						</div>
+					</center>
+				</section>
+
+
+				<section id="mintcoin" style="margin-top:10px;display:none">
+					<center>
+						<p data-langNum="7">
+
+						</p>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+							<h2 class="col-12">Faucet</h2>
+
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">My key</span>
+								</div>
+								<input class="form-control" type="text" name="MintTo" placeholder="Public Key">
+							</div>
+							<div class="col-12" style="margin-top:10px;">
+								<button class="button" onclick="mint()">TURN!</button>
+							</div>
+							<div class="col-12" style="margin-top:10px;" data-langNum="8">
+
+							</div>
+						</div>
+					</center>
+				</section>
+
+
+				<section id="accountcurrency" style="margin-top:10px;display:none">
+					<center>
+						<p data-langNum="9">
+
+						</p>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+
+							<h2 class="col-12">Account Info</h2>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Public Key</span>
+								</div>
+								<input class="form-control" type="text" name="PublicKey" placeholder="Public Key">
+							</div>
+
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Balance:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewBalance">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Fee:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewFee">
+							</div>
+							<button class="button" name="chk_faucet" onclick="checkfaucet()" style="margin-top:10px;">Get info</button>
+							<div class="col-12" style="margin-top:10px;" data-langNum="10">
+
+							</div>
+						</div>
+
+
+					</center>
+				</section>
+
+
+
+				<section id="transfer" style="margin-top:10px;display:none">
+					<center>
+						<p data-langNum="11">
+
+						</p>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+
+							<h2 class="col-12">Transfer Coin</h2>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">FROM</span>
+								</div>
+								<input class="form-control" type="text" name="OwnerPrivateKey" placeholder="My Private Key" readonly>
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">TO</span>
+								</div>
+								<input class="form-control" type="text" name="sendPublicKey" placeholder="Public Key">
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">AMOUNT</span>
+								</div>
+								<input class="form-control" type="text" name="SendAmount" placeholder="1.2345 WDF">
+							</div>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">MEMO</span>
+								</div>
+								<input class="form-control" type="text" name="SendMemo" maxlength=10 value="I love you">
+							</div>
+							<div class="col-12" style="margin-top:10px;">
+								<button class="button" onclick="sendcoin()">Transfer</button>
+
+							</div>
+
+							<p data-langNum="12">
+
+							</p>
+						</div>
+					</center>
+				</section>
+
+				<section id="accountcurrency2" style="margin-top:10px;display:none">
+					<center>
+						<p data-langNum="13">
+
+						</p>
+						<div class="alert alert-info col-10" style="background-color:#ecf1f1;">
+
+							<h2 class="col-12">Account Info</h2>
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Public Key:</span>
+								</div>
+								<input class="form-control" type="text" name="PublicKey">
+							</div>
+
+							<div class="col-12 input-group" style="margin-top:10px;">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Balance:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewBalance">
+								<div class="input-group-prepend">
+									<span class="input-group-text">Fee:</span>
+								</div>
+								<input class="form-control" type="text" readonly="readonly" name="ViewFee">
+							</div>
+							<button class="button" onclick="CheckBalance()" style="margin-top:10px;">Get info</button>
+							<p data-langNum="14">
+
+							</p>
+						</div>
+					</center>
+				</section>
+
+				<section id="last" style="margin-top:10px;display:none">
+					<center>
+						<p data-langNum="15">
+
+
+						</p>
+					</center>
+				</section>
+
+
+			</div>
+		</section>
+
+		<!-- About Me -->
+		<section id="about" class="three">
+			<div class="container">
+
+				<header>
+					<h2>About Us</h2>
+				</header>
+
+				<a href="#about" class="image featured"><img src="images/aboutuslogo.jpeg" alt="" /></a>
+
+				<p data-langNum="16">
+				</p>
+				<div class="row">
+					<div class="col-4 col-12-mobile">
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/blossom.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="17"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/chatte.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="18"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/vitamin.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="19"></h3>
+							</header>
+						</article>
+					</div>
+					<div class="col-4 col-12-mobile">
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/kongdang.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="20"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/mattari.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="21"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/crepecream.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="22"></h3>
+							</header>
+						</article>
+					</div>
+					<div class="col-4 col-12-mobile">
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/mr.breeze.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="23"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/teahouse.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="24"></h3>
+							</header>
+						</article>
+						<article class="item">
+							<a href="#" class="image fit"><img src="images/store/leiandcream.jpg" alt="" /></a>
+							<header>
+								<h3 data-langNum="25"></h3>
+							</header>
+						</article>
+					</div>
+				</div>
+				<p data-langNum="26">
+					<br />
+			</div>
+		</section>
+
+		<!-- Contact -->
+		<section id="contact" class="four">
+			<div class="container">
+
+				<header>
+					<h2>Contact Us</h2>
+				</header>
+
+				<p data-langNum="27"></p>
+
+
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Footer -->
+	<div id="footer">
+
+		<!-- Copyright -->
+		<ul class="copyright">
+			<li>license: <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/kr/">CC BY-NC-SA 2.0 KR</a></li>
+		</ul>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+
+	<meta charset="UTF-8">
+	<!-- Required meta tags -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	 crossorigin="anonymous">
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+	 crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+	 crossorigin="anonymous"></script>
+
+</body>
+
+</html>

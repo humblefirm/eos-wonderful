@@ -58,7 +58,7 @@ CA 계정명
 
 ### 2. 테스트넷에서 댑 개발
 직접 dApp을 개발하고 테스트넷 SA API http link에 연결한다.  
-> [Client 소스코드](https://github.com/humblefirm/eos-wonderful/tree/master/client)를 참조하여 직접 댑을 만들어 봅니다.  
+> [Client 소스코드](https://github.com/humblefirm/eos-wonderful/tree/master/Client2)를 참조하여 직접 댑을 만들어 봅니다.  
 > 댑 개발에 필요한 능력은 다음과 같습니다.  
 >> 블록체인에 대한 이해도  
 >> 이오스 개발 능력 (eosjs, Web programming)  
