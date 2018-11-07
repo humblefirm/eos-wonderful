@@ -14,7 +14,7 @@ config.js 파일을 열어주세요.
 
 타인 혹은 직접 구축한 SA서버의 주소를 설정해주세요.
 ```
-var SAurl = "http://http://35.194.102.54:9880" // SA HTTP API 주소입니다.
+var SAurl = "http://35.194.102.54:9880" // SA HTTP API 주소입니다.
 ```
 
 
