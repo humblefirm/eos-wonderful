@@ -49,13 +49,18 @@ npm install request
 npm install eosjs
 ```
 
-SA.js 파일을 열어, 4번째 줄을 확인합니다.
-설정에 맞게 변경하면 됩니다.
+SA.js 파일을 열어 설정해줍니다.
 ```
-const CA = "eos1thefull1"
-const SA = "eos계정";
-const SAwif = "eos프라이빗키" // 프라이빗키
-const SAperm = "프라이빗키와 매칭되는 퍼미션" 
+var config = {
+    httpEndpoint: 'https://api1.eosasia.one',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+    CA: "eos1thefull1",
+    SA: "", //자원을 제공하는 이오스 계정입니다.
+    SAkey: "", //수수료를 받을 퍼블릭키입니다.
+    SAwif: "", //자원 제공 계정의 프라이빗키입니다.
+    SAperm: "active", //프라이빗키와 매칭되는 펄미션입니다.
+    MinFee: 0, //수수료로 받을 최소 금액입니다. 숫자 1 당 0.0001 코인입니다.
+}
 ```
 
 설정이 완료되면, node를 실행해줍니다.
