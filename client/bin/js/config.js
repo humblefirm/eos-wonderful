@@ -12,5 +12,3 @@ var eos = Eos({
 var contract = "eos1thefull1" // NEED CHANGE
 var symbol = "WDF"
 var account_tb = "usrbalance"
-var fee = 10000; //1.0000코인
-var feeRstTime = 8 * 3600; // 8시간
