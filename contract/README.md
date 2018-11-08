@@ -46,23 +46,19 @@ eosio.prods@prod.minor // 21개 중 8개 이상 동의
 2. 오너 권한 변경
 
 #### 액티브 권한 삭제
-```
-cleos set account permission [CA] active '{"threshold": 1, "accounts": [{"permission": {"actor": "[CA]", "permission": "active"}, "weight": 1}]}'
-```
 active권한을 [CA]@active 권한으로 재귀 시켜, 권한 소유주를 삭제합니다.
 
 예제
 ```
+cleos set account permission [CA] active '{"threshold": 1, "accounts": [{"permission": {"actor": "[CA]", "permission": "active"}, "weight": 1}]}'
 cleos set account permission humblefirm42 active '{"threshold": 1, "accounts": [{"permission": {"actor": "humblefirm42", "permission": "active"}, "weight": 1}]}'
 ```
 #### 오너 권한 변경
-```
-cleos set account permission [CA] owner '{"threshold": 1, "accounts": [{"permission": {"actor": "eosio.prods", "permission": "[active/prod.major/prod.minor]"}, "weight": 1}]}' -p [CA]@owner
-```
 owner 권한을 eosio.prods로 변경합니다.
 
 예제
 ```
+cleos set account permission [CA] owner '{"threshold": 1, "accounts": [{"permission": {"actor": "eosio.prods", "permission": "[active/prod.major/prod.minor]"}, "weight": 1}]}' -p [CA]@owner
 cleos set account permission humblefirm42 owner '{"threshold": 1, "accounts": [{"permission": {"actor": "eosio.prods", "permission": "prod.minor"}, "weight": 1}]}' -p humblefirm42@owner
 ```
 
