@@ -49,23 +49,23 @@ app.use(function (req, res, next) {
 
 app.get('/transmit', (req, res) => {
     var data = JSON.parse(req.query.data)
-    data['sakey']=config['SAkey'];
-    if(data['fee']<config['MinFee']) return res.status(300).send("Fee must >="+config['MinFee']);
+    data['sakey'] = config['SAkey'];
+    if (data['fee'] < config['MinFee']) return res.status(300).send("Fee must >=" + config['MinFee']);
     eos.transaction({
-            actions: [{
-                account: config['CA'],
-                name: req.query.name,
-                authorization: [{
-                    actor: config['SA'],
-                    permission: config['SAperm']
-                }],
-                data: data
-            }]
-        }).catch(reason => {
-            //에러 메세지
-            console.log(reason)
-            return res.status(500).json(reason)
-        })
+        actions: [{
+            account: config['CA'],
+            name: req.query.name,
+            authorization: [{
+                actor: config['SA'],
+                permission: config['SAperm']
+            }],
+            data: data
+        }]
+    }).catch(reason => {
+        //에러 메세지
+        console.log(reason)
+        return res.status(500).json(reason)
+    })
         .then(value => {
             //성공 메세지
             console.log(value)
@@ -73,13 +73,44 @@ app.get('/transmit', (req, res) => {
         })
 });
 
+app.get('/mint', (req, res) => {
+    eos.transaction({
+        actions: [{
+            account: req.query.account,
+            name: 'mint',
+            authorization: [{
+                actor: req.query.account,
+                permission: 'active'
+            }],
+            data: {
+                from: req.query.account,
+                key: req.query.to,
+                amount: req.query.amount,
+                memo: req.query.memo
+            }
+        }]
+    })
+        .catch(reason => {
+            //에러 메세지
+            //console.log(reason)
+            return res.status(500).json({
+                error: reason
+            })
+        })
+        .then(value => {
+            //성공 메세지
+            console.log("[+] MINT\r\n");
+            return res.status(200).json(value)
+        })
+});
+
 
 app.get('/get_info', (req, res) => {
-    var temp=config;
-    temp['SAwif']=undefined;
+    var temp = config;
+    temp['SAwif'] = undefined;
     return res.status(200).json(temp)
 });
 
-app.listen(9880, () => {
-    console.log('listening on port 9880!');
+app.listen(8080, () => {
+    console.log('listening on port 8080!');
 });

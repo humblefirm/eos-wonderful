@@ -20,5 +20,6 @@
         "iterator": "cpp",
         "memory": "cpp",
         "utility": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }
