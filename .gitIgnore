@@ -5,6 +5,9 @@
 #PrivateKey
 **/eoswonderful.json
 
+# npm
+**/node_modules
+
 ### macOS ###
 # General
 .DS_Store

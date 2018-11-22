@@ -13,12 +13,12 @@ const subscription = pubsub.subscription(subscriptionName);
 
 
 var config = {
-  httpEndpoint: 'http://api.hkeos.com:80',
+  httpEndpoint: 'https://proxy.eosnode.tools',
   chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
-  CA: "eos1thefull1",
-  SA: "",
-  SAkey: "",
-  SAwif: "",
+  CA: "1thefull2bot",
+  SA: "1thefull2bot",
+  SAkey: "EOS5BNXZvDrA8v6N9o7zxy8t7TqnVLvyrm9r2ZASesfsGyYfhMYwo",
+  SAwif: "5KEarc2N1zteTk3PfdcvdAHxKxoeVcPd58EToJLjxQ9861GZ7ja",
   SAperm: "active",
   MinFee: 0,
 }

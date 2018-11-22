@@ -7,6 +7,15 @@ const pubsubClient = new PubSub({
     projectId: projectId,
     keyFilename: 'eoswonderful.json'
 });
+var config = {
+    httpEndpoint: 'https://proxy.eosnode.tools',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+    CA: "1thefull2bot",
+    SA: "1thefull2bot",
+    SAkey: "EOS5BNXZvDrA8v6N9o7zxy8t7TqnVLvyrm9r2ZASesfsGyYfhMYwo",
+    SAperm: "active",
+    MinFee: 0,
+  }
 var topic = pubsubClient.topic('projects/eoswonderful/topics/transaction');
 const publisher = topic.publisher();
 
@@ -58,8 +67,7 @@ app.get('/mint', (req, res) => {
                 permission: 'active'
             }],
             data: {
-                from: req.query.account,
-                key: req.query.to,
+                to: req.query.to,
                 amount: req.query.amount,
                 memo: req.query.memo
             }

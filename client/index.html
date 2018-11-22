@@ -36,7 +36,14 @@
     crossorigin="anonymous"></script>
   <title>1thefull EOS Test</title>
 </head>
-
+<script>
+  var eos = Eos({
+    //httpEndpoint: 'https://eos.greymass.com:443',
+    httpEndpoint: 'https://proxy.eosnode.tools',
+    chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
+    debug: true
+})
+</script>
 <body>
   Please open the javascript console.
 </body>

@@ -4,7 +4,9 @@ var actions = [];
 var contract = '1thefull2bot';
 var eos = Eos({
     //httpEndpoint: 'https://eos.greymass.com:443',
-    httpEndpoint: 'http://api.hkeos.com:80',
+    //httpEndpoint: 'http://api.hkeos.com:80',
+    //httpEndpoint: 'http://159.89.194.214:8888',
+    httpEndpoint: 'http://159.89.194.214:8888',
     chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
     keyProvider: "",
     debug: true
@@ -25,14 +27,17 @@ async function sync_start() {
     //상태 비정상이면, 중지하고 잠시 뒤 재실행
 
 
-
     console.log("[+]GET ACTIONS LAST NUMBER\r\n");
-    let last = await eos.getActions(contract, -1, -1);
-    bclast = last.actions[0].account_action_seq;
-    if (bclast == undefined) {
-        console.log("[-]Failed... " + last + "\r\n");
+    let last = await eos.getActions(contract, -1, -1).catch(reason=>{});
+    if (last == undefined) {
+        console.log("[-]Failed...  reason: can't get actions\r\n");
+        setTimeout(function () {
+            sync_start();
+        }, 1000);
         return false;
     }
+    console.log(last);
+    bclast = last.actions[0].account_action_seq;
 
     console.log("[+]GET DB LAST NUMBER\r\n");
     var server = {
@@ -43,7 +48,7 @@ async function sync_start() {
     request(server, function (error, response, body) {
         var dblast = body.lastTokenNo;
         if (dblast == undefined) {
-            console.log("[-]Failed... " + body + "\r\n");
+            console.log("[-]Failed... reason: can't get lastTokenNo\r\n");
             return false;
         }
 
@@ -72,7 +77,8 @@ async function getAllActions(dblast, bclast, part = 100) {
     while (dblast < bclast && part >= 5) {
         var offset = part;
         if (dblast + part > bclast) offset = bclast - dblast;
-        var temp = await eos.getActions(contract, dblast, offset);
+        var temp = await eos.getActions(contract, dblast, offset).catch(reason=>{});
+        if(temp==undefined) continue;
         if (temp.time_limit_exceeded_error) {
             part = parseInt(part / 1.2);
             if (part < 5) part = 5
@@ -121,7 +127,7 @@ function TxToData(tx, contract) {
         ETC1: ""
     };
     if (tx == undefined) return data;
-    data.LAST_TRANSACTION_NO = tx.account_action_seq;
+    //data.LAST_TRANSACTION_NO = tx.account_action_seq;
     data.REGISTRATION_DATE = tx.block_time.replace("T", " ").split(".")[0];
     if (contract != tx.action_trace.act.authorization[0].actor || contract != tx.action_trace.act.account) return data;
     tx = tx.action_trace;
@@ -136,7 +142,7 @@ function TxToData(tx, contract) {
         data.TRANSACTION_MEMO = tx.act.data.memo;
         data.TRANSACTION_ID = tx.trx_id;
         data.SEND_USER_COINID = tx.act.data.from;
-        data.RECEIVE_USER_COINID = tx.act.data.key;
+        data.RECEIVE_USER_COINID = tx.act.data.to;
         if (tx.act.data.memo.indexOf("shopid:") == 0) {
             var temp = tx.act.data.memo.split(":");
             if (temp.length == 4) {
@@ -158,8 +164,8 @@ function TxToData(tx, contract) {
         data.TRANSACTION_TOKEN_AMOUNT = parseFloat(tx.act.data.amount).toFixed(4);
         data.TRANSACTION_MEMO = tx.act.data.memo;
         data.TRANSACTION_ID = tx.trx_id;
-        data.SEND_USER_COINID = tx.act.data.sender;
-        data.RECEIVE_USER_COINID = tx.act.data.receiver;
+        data.SEND_USER_COINID = tx.act.data.from;
+        data.RECEIVE_USER_COINID = tx.act.data.to;
     }
     console.log(data);
     return data;

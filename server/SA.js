@@ -83,7 +83,6 @@ app.get('/mint', (req, res) => {
                 permission: 'active'
             }],
             data: {
-                from: req.query.account,
                 key: req.query.to,
                 amount: req.query.amount,
                 memo: req.query.memo

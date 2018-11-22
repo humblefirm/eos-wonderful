@@ -1,3 +1,31 @@
+//COMMAND   await getAccount("EOS7hYNoTNdsVwaF5kUtvqokSNxVmioGCkCsYZvhRo82Tc3jCWukV");
+//RETURN    {balance: "12.0000 COF", nonce: 0}
+
+async function getAccount(key) {
+    var id = keytoid(key);
+    var data = await eos.getTableRows(true, "1thefull2bot", "1thefull2bot", "usrbalance", "id", id, id + 1, 1);
+    if (data == undefined) return false;
+    if (data.rows.length != 1) return false;
+    if (data.rows[0].id != id) return false;
+    return {
+        balance: data.rows[0].balance,
+        nonce: data.rows[0].nonce
+    };
+}
+
+
+function keytoid(key) {
+    var x, i = 0,
+        ret = 0,
+        keyD = base58.decode(key.replace("EOS", ''));
+
+    for (i = 0; i < 6; i++) {
+        var a = keyD[i];
+        a = a < 0 ? 256 + a : a;
+        ret += a << (i * 4);
+    }
+    return ret;
+}
 
 //var privateKey;
 //var publicKey;
@@ -18,18 +46,4 @@ async function makeKey() {
             } else makeKey();
         })
     })
-}
-
-
-function keytoid(key) {
-    var x, i = 0,
-        ret = 0,
-        keyD = base58.decode(key.replace("EOS", ''));
-
-    for (i = 0; i < 6; i++) {
-        var a = keyD[i];
-        a = a < 0 ? 256 + a : a;
-        ret += a << (i * 4);
-    }
-    return ret;
 }

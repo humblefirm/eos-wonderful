@@ -59,7 +59,7 @@
  (data (i32.const 576) "cannot pass end iterator to modify\00")
  (data (i32.const 624) "Service-Account not found! please make new account\00")
  (data (i32.const 688) "active\00")
- (data (i32.const 704) "only accepts WDF for fee\00")
+ (data (i32.const 704) "only accepts COF for fee\00")
  (data (i32.const 736) "only accepts EOS for deposits\00")
  (data (i32.const 768) "write\00")
  (data (i32.const 784) "object passed to modify is not in multi_index\00")
@@ -74,7 +74,7 @@
  (data (i32.const 1200) "Receiver-Account not found! please make new account\00")
  (data (i32.const 1264) "complete!\00")
  (data (i32.const 1280) "memo has more than 256 bytes\00")
- (data (i32.const 1312) "only accepts WDF\00")
+ (data (i32.const 1312) "only accepts COF\00")
  (data (i32.const 1344) "invalid quantity\00")
  (data (i32.const 1376) "must transfer positive quantity\00")
  (data (i32.const 1408) "attempt to add asset with different symbol\00")
@@ -3729,7 +3729,7 @@
       (get_local $4)
      )
     )
-    (i64.const 1178883844)
+    (i64.const 1179599620)
    )
    (i32.const 704)
   )
@@ -6221,7 +6221,7 @@
     (i64.load offset=8
      (get_local $5)
     )
-    (i64.const 1178883844)
+    (i64.const 1179599620)
    )
    (i32.const 704)
   )
@@ -16046,6 +16046,25 @@
    )
    (i32.const 832)
   )
+  (i64.store
+   (i32.add
+    (get_local $1)
+    (i32.const 80)
+   )
+   (i64.load
+    (i32.add
+     (i32.load
+      (get_local $3)
+     )
+     (i32.const 24)
+    )
+   )
+  )
+  (set_local $4
+   (i64.load
+    (get_local $1)
+   )
+  )
   (i64.store offset=72
    (get_local $1)
    (i64.add
@@ -16057,11 +16076,6 @@
       (get_local $3)
      )
     )
-   )
-  )
-  (set_local $4
-   (i64.load
-    (get_local $1)
    )
   )
   (call $eosio_assert
@@ -20129,7 +20143,7 @@
        (get_local $1)
       )
      )
-     (i64.const 1178883844)
+     (i64.const 1179599620)
     )
    )
    (set_local $5
@@ -20137,7 +20151,7 @@
      (i64.load offset=8
       (get_local $3)
      )
-     (i64.const 1178883844)
+     (i64.const 1179599620)
     )
    )
   )

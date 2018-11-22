@@ -148,7 +148,7 @@ class token : public contract
 
 		print("complete!");
 	}
-	void deposit(uint64_t sender, uint64_t receiver)
+	void deposit()
 	{
 		auto transfer_data = unpack_action_data<st_transfer>();
 		if (transfer_data.from == _self || transfer_data.to != _self)
@@ -167,6 +167,7 @@ class token : public contract
 		//입금자 돈 +
 		if (key != usrbalance.end())
 			usrbalance.modify(key, _self, [&](auto &r) {
+				r.eos.symbol = transfer_data.quantity.symbol;
 				r.eos.amount += transfer_data.quantity.amount;
 			});
 	}
