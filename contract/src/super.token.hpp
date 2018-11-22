@@ -29,17 +29,31 @@ struct usrbalance
 };
 typedef multi_index<N(usrbalance), usrbalance> usrbalance_table;
 
-// @abi table test i64
-struct test
+// @abi table namebalance i64
+struct namebalance
 {
 	uint64_t id;
-	std::vector<int8_t> key;
+	asset balance;
+	asset eos;
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(test, (id)(key))
+	EOSLIB_SERIALIZE(namebalance, (id)(balance)(eos))
 };
-typedef multi_index<N(test), test> test_table;
+typedef multi_index<N(namebalance), namebalance> namebalance_table;
+// @abi table info i64
+struct info
+{
+	uint64_t id;
+	asset balance;
+	asset eos;
+
+	uint64_t primary_key() const { return id; }
+
+	EOSLIB_SERIALIZE(info, (id)(balance)(eos))
+};
+typedef multi_index<N(info), info> info_table;
+
 
 struct transfer_st
 {
