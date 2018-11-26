@@ -1,2 +1,2 @@
-eosiocpp -o ./super.token/super.token.wast ./src/super.token.cpp 
-eosiocpp -g ./super.token/super.token.abi ./src/super.token.cpp
+eosiocpp -o ./eoswonderful.token/eoswonderful.token.wast ./src/eoswonderful.token.cpp 
+eosiocpp -g ./eoswonderful.token/eoswonderful.token.abi ./src/eoswonderful.token.cpp

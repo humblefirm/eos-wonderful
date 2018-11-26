@@ -14,8 +14,8 @@ constexpr uint32_t DAY = 86400;
 constexpr uint32_t HOUR = 3600;
 constexpr uint32_t MINUTE = 60;
 
-// @abi table usrbalance i64
-struct usrbalance
+// @abi table keybalance i64
+struct keybalance
 {
 	uint64_t id;
 	public_key user;
@@ -25,9 +25,9 @@ struct usrbalance
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(usrbalance, (id)(user)(nonce)(balance)(eos))
+	EOSLIB_SERIALIZE(keybalance, (id)(user)(nonce)(balance)(eos))
 };
-typedef multi_index<N(usrbalance), usrbalance> usrbalance_table;
+typedef multi_index<N(keybalance), keybalance> keybalance_table;
 
 // @abi table namebalance i64
 struct namebalance
@@ -45,6 +45,7 @@ typedef multi_index<N(namebalance), namebalance> namebalance_table;
 struct info
 {
 	uint64_t id;
+	name manager;
 	asset balance;
 	asset eos;
 

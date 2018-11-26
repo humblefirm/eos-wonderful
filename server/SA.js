@@ -4,7 +4,7 @@ var config = {
     CA: "humblefirm43",
     SA: "humblefirm12",
     SAkey: "EOS8NvFPyMHopRbX241k2bH3roNCDxAL9t1mhQrj9kwh6WucaqEHd",
-    SAwif: "5JRuuYTCYvVcXnYzyaGpB7GvGwpScEmA6GBRMqhnKjDH4QhfZAU",
+    SAwif: "",
     SAperm: "active",
     MinFee: 0,
 }
