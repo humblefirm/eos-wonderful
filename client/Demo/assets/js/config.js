@@ -1,6 +1,6 @@
 var SAurl = "https://demo-dot-eoswonderful.appspot.com"
 var eos = Eos({
-  httpEndpoint: 'https://api1.eosasia.one',
+  httpEndpoint: 'https://proxy.eosnode.tools',
   chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906',
   debug: true
 })
