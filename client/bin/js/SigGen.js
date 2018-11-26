@@ -21,15 +21,27 @@ function gen_sig(data) {
 
 //YOU DONT NEED TO READ BELOW LINES
 function gen_sig_transfer(from, to, amount, memo, fee, nonce, key) {
-    var data = [
-        [from, 'key'],
-        [to, 'key'],
-        [amount, 'asset'],
-        [memo, 'string'],
-        [fee, 'asset'],
-        [nonce, 'int'],
-        [key]
-    ]
+    var data = [];
+    if (to.length == 53)
+        data = [
+            [from, 'key'],
+            [to, 'key'],
+            [amount, 'asset'],
+            [memo, 'string'],
+            [fee, 'asset'],
+            [nonce, 'int'],
+            [key]
+        ];
+    else
+        data = [
+            [from, 'key'],
+            [to, 'name'],
+            [amount, 'asset'],
+            [memo, 'string'],
+            [fee, 'asset'],
+            [nonce, 'int'],
+            [key]
+        ]
 
     return gen_sig(data);
 }
@@ -201,5 +213,3 @@ function int2hexB(amount) {
         }
     }
 }
-
-

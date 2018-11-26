@@ -32,7 +32,7 @@ typedef multi_index<N(keybalance), keybalance> keybalance_table;
 // @abi table namebalance i64
 struct namebalance
 {
-	uint64_t id;
+	name id;
 	asset balance;
 	asset eos;
 
@@ -51,7 +51,7 @@ struct info
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(info, (id)(balance)(eos))
+	EOSLIB_SERIALIZE(info, (id)(manager)(balance)(eos))
 };
 typedef multi_index<N(info), info> info_table;
 
