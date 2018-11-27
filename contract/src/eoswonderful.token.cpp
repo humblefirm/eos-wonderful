@@ -24,15 +24,9 @@ class token : public contract
 	}
 
 	//계정 생성 비용 및 설정자 설정
-	void setinfo(name manager, asset balance, asset eos)
+	void setinfo(name manager)
 	{
 		//id : 설정 및 계좌 관리자
-		//token : 계정 생성비 (토큰)
-		//coin : 계정 생성비 (코인)
-
-		Check_asset(balance, "COF");
-		Check_asset(eos, "EOS");
-
 		info_table info(_self, _self);
 		auto itr_info = info.find(0);
 		if (itr_info == info.end())
@@ -41,8 +35,6 @@ class token : public contract
 			info.emplace(_self, [&](auto &r) {
 				r.id = 0;
 				r.manager = manager;
-				r.balance = balance;
-				r.eos = eos;
 			});
 		}
 		else
@@ -50,8 +42,6 @@ class token : public contract
 			require_auth(itr_info->manager);
 			info.modify(itr_info, _self, [&](auto &r) {
 				r.manager = manager;
-				r.balance = balance;
-				r.eos = eos;
 			});
 		}
 	}
@@ -120,7 +110,19 @@ class token : public contract
 		Check_memo(memo);
 
 		balance_sub(from, amount, sa, true);
-		balance_add(to, amount, sa);
+		if (iseos)
+			action(
+				permission_level{_self, N(active)},
+				N(eosio.token),
+				N(transfer),
+				std::make_tuple(
+					_self,
+					to,
+					amount,
+					memo))
+				.send();
+		else
+			balance_add(to, amount, sa);
 	}
 	void transfernn(name from, name to, asset amount, string memo)
 	{
@@ -130,7 +132,19 @@ class token : public contract
 		Check_memo(memo);
 
 		balance_sub(from, amount, from);
-		balance_add(to, amount, from);
+		if (iseos)
+			action(
+				permission_level{_self, N(active)},
+				N(eosio.token),
+				N(transfer),
+				std::make_tuple(
+					_self,
+					to,
+					amount,
+					memo))
+				.send();
+		else
+			balance_add(to, amount, from);
 	}
 	void transfernk(name from, public_key to, asset amount, string memo)
 	{
@@ -145,6 +159,35 @@ class token : public contract
 
 	void income()
 	{
+		auto transfer_data = unpack_action_data<st_transfer>();
+		if (transfer_data.from == _self || transfer_data.to != _self)
+		{
+			return;
+		}
+
+		Check_asset(transfer_data.quantity, "EOS");
+
+		keybalance_table keybalance(_self, _self);
+		auto itr_key = keybalance.find(fast_atoi(transfer_data.memo.c_str()));
+		namebalance_table namebalance(_self, _self);
+		auto itr_name = namebalance.find(eosio::string_to_name(transfer_data.memo.c_str()));
+		//입금자 돈 +
+		if (itr_key != keybalance.end())
+		{
+			keybalance.modify(itr_key, _self, [&](auto &r) {
+				r.eos.symbol = transfer_data.quantity.symbol;
+				r.eos.amount += transfer_data.quantity.amount;
+			});
+		}
+		else if (itr_name != namebalance.end())
+		{
+			namebalance.modify(itr_name, _self, [&](auto &r) {
+				r.eos.symbol = transfer_data.quantity.symbol;
+				r.eos.amount += transfer_data.quantity.amount;
+			});
+		}
+		else
+			eosio_assert(false, "No Account found");
 	}
 
   private:
@@ -221,7 +264,7 @@ class token : public contract
 		}
 		else
 		{
-			keybalance.modify(itr_balance, ram_payer, [&](auto &r) {
+			keybalance.modify(itr_balance, _self, [&](auto &r) {
 				if (amount.symbol == string_to_symbol(4, "EOS"))
 					r.eos += amount;
 				else
@@ -233,6 +276,7 @@ class token : public contract
 	}
 	void balance_add(name account, asset amount, name ram_payer)
 	{
+		require_recipient(account);
 		namebalance_table namebalance(_self, _self);
 		auto itr_balance = namebalance.find(account);
 		if (itr_balance == namebalance.end())
@@ -251,7 +295,7 @@ class token : public contract
 		}
 		else
 		{
-			namebalance.modify(itr_balance, ram_payer, [&](auto &r) {
+			namebalance.modify(itr_balance, _self, [&](auto &r) {
 				if (amount.symbol == string_to_symbol(4, "EOS"))
 					r.eos += amount;
 				else
@@ -264,7 +308,7 @@ class token : public contract
 		keybalance_table keybalance(_self, _self);
 		auto itr_balance = keybalance.find(keytoid(account));
 		eosio_assert(itr_balance != keybalance.end(), "Account doesn't exists");
-		keybalance.modify(itr_balance, ram_payer, [&](auto &r) {
+		keybalance.modify(itr_balance, _self, [&](auto &r) {
 			if (amount.symbol == string_to_symbol(4, "EOS"))
 				r.eos -= amount;
 			else
@@ -276,10 +320,11 @@ class token : public contract
 	}
 	void balance_sub(name account, asset amount, name ram_payer)
 	{
+		require_recipient(account);
 		namebalance_table namebalance(_self, _self);
 		auto itr_balance = namebalance.find(account);
 		eosio_assert(itr_balance != namebalance.end(), "Account doesn't exists");
-		namebalance.modify(itr_balance, ram_payer, [&](auto &r) {
+		namebalance.modify(itr_balance, _self, [&](auto &r) {
 			if (amount.symbol == string_to_symbol(4, "EOS"))
 				r.eos -= amount;
 			else
@@ -341,25 +386,28 @@ class token : public contract
 		{                                                                                                                        \
 			auto self = receiver;                                                                                                \
 			TYPE thiscontract(self);                                                                                             \
-			if (action == N(onerror))                                                                                            \
+			if (code == N(eosio.token) && action == N(transfer))                                                                 \
+			{                                                                                                                    \
+				execute_action(&thiscontract, &token::income);                                                                   \
+			}                                                                                                                    \
+			else if (action == N(onerror))                                                                                       \
 			{                                                                                                                    \
 				/* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
 				eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account");             \
 			}                                                                                                                    \
-			if (code == self)                                                                                                    \
+			else if (action == N(income))                                                                                        \
 			{                                                                                                                    \
-				if (action != N(income))                                                                                         \
+				eosio_assert(code != self, "DONT DO THAT");                                                                      \
+			}                                                                                                                    \
+			else if (action != N(income))                                                                                        \
+			{                                                                                                                    \
+				if (code == self)                                                                                                \
 				{                                                                                                                \
 					switch (action)                                                                                              \
 					{                                                                                                            \
 						EOSIO_API(TYPE, MEMBERS)                                                                                 \
-					}                                                                                                            \
-					/* does not allow destructor of thiscontract to run: eosio_exit(0);    */                                    \
+					} /* does not allow destructor of thiscontract to run: eosio_exit(0);    */                                  \
 				}                                                                                                                \
-			}                                                                                                                    \
-			else if (code == N(eosio.token) && action == N(transfer))                                                            \
-			{                                                                                                                    \
-				execute_action(&thiscontract, &token::income);                                                                   \
 			}                                                                                                                    \
 		}                                                                                                                        \
 	}

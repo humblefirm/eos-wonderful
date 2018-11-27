@@ -53,4 +53,12 @@ struct info
 };
 typedef multi_index<N(info), info> info_table;
 
+struct st_transfer
+{
+	account_name from;
+	account_name to;
+	asset quantity;
+	string memo;
+};
+
 } // namespace types
