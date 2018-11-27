@@ -71,7 +71,7 @@ class token : public contract
 		Check_memo(memo);
 
 		//발행
-		balance_add_key(to, amount, itr_info->manager, false);
+		balance_add(to, amount, itr_info->manager, false);
 	}
 
 	//토큰 발행 - name
@@ -89,7 +89,7 @@ class token : public contract
 		Check_memo(memo);
 
 		//발행
-		balance_add_name(to, amount, itr_info->manager);
+		balance_add(to, amount, itr_info->manager);
 	}
 
 	void transferkk(public_key from, public_key to, asset amount, string memo,
@@ -104,8 +104,8 @@ class token : public contract
 		bool iseos = is_eos(amount);
 		Check_memo(memo);
 
-		balance_sub_key(from, amount, sa, true);
-		balance_add_key(to, amount, sa, false);
+		balance_sub(from, amount, sa, true);
+		balance_add(to, amount, sa, false);
 	}
 	void transferkn(public_key from, name to, asset amount, string memo,
 					asset fee, signature sig, name sa)
@@ -119,8 +119,8 @@ class token : public contract
 		bool iseos = is_eos(amount);
 		Check_memo(memo);
 
-		balance_sub_key(from, amount, sa, true);
-		balance_add_name(to, amount, sa);
+		balance_sub(from, amount, sa, true);
+		balance_add(to, amount, sa);
 	}
 	void transfernn(name from, name to, asset amount, string memo)
 	{
@@ -129,8 +129,8 @@ class token : public contract
 		bool iseos = is_eos(amount);
 		Check_memo(memo);
 
-		balance_sub_name(from, amount, from);
-		balance_add_name(to, amount, from);
+		balance_sub(from, amount, from);
+		balance_add(to, amount, from);
 	}
 	void transfernk(name from, public_key to, asset amount, string memo)
 	{
@@ -139,8 +139,8 @@ class token : public contract
 		bool iseos = is_eos(amount);
 		Check_memo(memo);
 
-		balance_sub_name(from, amount, from);
-		balance_add_key(to, amount, from);
+		balance_sub(from, amount, from);
+		balance_add(to, amount, from);
 	}
 
 	void income()
@@ -199,7 +199,7 @@ class token : public contract
 		return ret;
 	}
 
-	void balance_add_key(public_key account, asset amount, name ram_payer, bool upnonce = false)
+	void balance_add(public_key account, asset amount, name ram_payer, bool upnonce = false)
 	{
 		keybalance_table keybalance(_self, _self);
 		auto itr_balance = keybalance.find(keytoid(account));
@@ -231,7 +231,7 @@ class token : public contract
 			});
 		}
 	}
-	void balance_add_name(name account, asset amount, name ram_payer)
+	void balance_add(name account, asset amount, name ram_payer)
 	{
 		namebalance_table namebalance(_self, _self);
 		auto itr_balance = namebalance.find(account);
@@ -259,7 +259,7 @@ class token : public contract
 			});
 		}
 	}
-	void balance_sub_key(public_key account, asset amount, name ram_payer, bool upnonce = false)
+	void balance_sub(public_key account, asset amount, name ram_payer, bool upnonce = false)
 	{
 		keybalance_table keybalance(_self, _self);
 		auto itr_balance = keybalance.find(keytoid(account));
@@ -274,7 +274,7 @@ class token : public contract
 				r.nonce++;
 		});
 	}
-	void balance_sub_name(name account, asset amount, name ram_payer)
+	void balance_sub(name account, asset amount, name ram_payer)
 	{
 		namebalance_table namebalance(_self, _self);
 		auto itr_balance = namebalance.find(account);

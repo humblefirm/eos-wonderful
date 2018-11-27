@@ -2531,7 +2531,7 @@
      (get_local $9)
     )
    )
-   (call $_ZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEb
+   (call $_ZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEb
     (get_local $0)
     (i32.add
      (get_local $9)
@@ -3377,7 +3377,7 @@
      (get_local $9)
     )
    )
-   (call $_ZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_
+   (call $_ZN5token11balance_addEN5eosio4nameENS0_5assetES1_
     (get_local $0)
     (get_local $1)
     (i32.add
@@ -4560,7 +4560,7 @@
     (get_local $13)
    )
   )
-  (call $_ZN5token15balance_sub_keyE10public_keyN5eosio5assetENS1_4nameEb
+  (call $_ZN5token11balance_subE10public_keyN5eosio5assetENS1_4nameEb
    (get_local $0)
    (i32.add
     (get_local $13)
@@ -4631,7 +4631,7 @@
     (get_local $13)
    )
   )
-  (call $_ZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEb
+  (call $_ZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEb
    (get_local $0)
    (i32.add
     (get_local $13)
@@ -5561,7 +5561,7 @@
     (get_local $13)
    )
   )
-  (call $_ZN5token15balance_sub_keyE10public_keyN5eosio5assetENS1_4nameEb
+  (call $_ZN5token11balance_subE10public_keyN5eosio5assetENS1_4nameEb
    (get_local $0)
    (i32.add
     (get_local $13)
@@ -5639,7 +5639,7 @@
     (get_local $13)
    )
   )
-  (call $_ZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_
+  (call $_ZN5token11balance_addEN5eosio4nameENS0_5assetES1_
    (get_local $0)
    (get_local $2)
    (i32.add
@@ -6083,7 +6083,7 @@
     (get_local $9)
    )
   )
-  (call $_ZN5token16balance_sub_nameEN5eosio4nameENS0_5assetES1_
+  (call $_ZN5token11balance_subEN5eosio4nameENS0_5assetES1_
    (get_local $0)
    (get_local $1)
    (i32.add
@@ -6151,7 +6151,7 @@
     (get_local $9)
    )
   )
-  (call $_ZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_
+  (call $_ZN5token11balance_addEN5eosio4nameENS0_5assetES1_
    (get_local $0)
    (get_local $2)
    (get_local $9)
@@ -6663,7 +6663,7 @@
     (get_local $9)
    )
   )
-  (call $_ZN5token16balance_sub_nameEN5eosio4nameENS0_5assetES1_
+  (call $_ZN5token11balance_subEN5eosio4nameENS0_5assetES1_
    (get_local $0)
    (get_local $1)
    (i32.add
@@ -6730,7 +6730,7 @@
     (get_local $9)
    )
   )
-  (call $_ZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEb
+  (call $_ZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEb
    (get_local $0)
    (i32.add
     (get_local $9)
@@ -8789,7 +8789,7 @@
   )
   (unreachable)
  )
- (func $_ZN5token16balance_sub_nameEN5eosio4nameENS0_5assetES1_ (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+ (func $_ZN5token11balance_subEN5eosio4nameENS0_5assetES1_ (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
   (local $4 i32)
   (local $5 i64)
   (local $6 i32)
@@ -8887,7 +8887,7 @@
    (get_local $4)
    (i32.const 384)
   )
-  (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token16balance_sub_nameENS_4nameENS_5assetES6_EUlRT_E_EEvRKS2_yOS8_
+  (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token11balance_subENS_4nameENS_5assetES6_EUlRT_E_EEvRKS2_yOS8_
    (i32.add
     (get_local $7)
     (i32.const 8)
@@ -8985,7 +8985,7 @@
    )
   )
  )
- (func $_ZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEb (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i32)
+ (func $_ZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEb (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i32)
   (local $5 i64)
   (local $6 i32)
   (i32.store offset=4
@@ -9201,7 +9201,7 @@
       (i32.const 1)
       (i32.const 384)
      )
-     (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token15balance_add_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E0_EEvRKS2_yOS9_
+     (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token11balance_addE10public_keyNS_5assetENS_4nameEbEUlRT_E0_EEvRKS2_yOS9_
       (i32.add
        (get_local $6)
        (i32.const 32)
@@ -9234,7 +9234,7 @@
      (get_local $6)
      (get_local $2)
     )
-    (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE7emplaceIZN5token15balance_add_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E_EENS3_14const_iteratorEyOS9_
+    (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE7emplaceIZN5token11balance_addE10public_keyNS_5assetENS_4nameEbEUlRT_E_EENS3_14const_iteratorEyOS9_
      (i32.add
       (get_local $6)
       (i32.const 8)
@@ -9662,7 +9662,7 @@
   )
   (get_local $6)
  )
- (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token15balance_add_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E0_EEvRKS2_yOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token11balance_addE10public_keyNS_5assetENS_4nameEbEUlRT_E0_EEvRKS2_yOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (i32.store offset=4
@@ -9699,7 +9699,7 @@
     (get_local $1)
    )
   )
-  (call $_ZZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E0_clIN5types10keybalanceEEEDaS5_
+  (call $_ZZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E0_clIN5types10keybalanceEEEDaS5_
    (get_local $3)
    (get_local $1)
   )
@@ -9779,7 +9779,7 @@
    )
   )
  )
- (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE7emplaceIZN5token15balance_add_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E_EENS3_14const_iteratorEyOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE7emplaceIZN5token11balance_addE10public_keyNS_5assetENS_4nameEbEUlRT_E_EENS3_14const_iteratorEyOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i64)
   (local $6 i32)
@@ -9818,7 +9818,7 @@
    (get_local $4)
    (get_local $1)
   )
-  (call $_ZZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_
+  (call $_ZZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_
    (get_local $3)
    (get_local $6)
   )
@@ -10255,7 +10255,7 @@
   )
   (get_local $0)
  )
- (func $_ZZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i32)
   (local $4 i32)
@@ -11141,7 +11141,7 @@
    )
   )
  )
- (func $_ZZN5token15balance_add_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E0_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_addE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E0_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i64)
   (block $label$0
@@ -11836,7 +11836,7 @@
   )
   (get_local $6)
  )
- (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token16balance_sub_nameENS_4nameENS_5assetES6_EUlRT_E_EEvRKS2_yOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token11balance_subENS_4nameENS_5assetES6_EUlRT_E_EEvRKS2_yOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (i32.store offset=4
@@ -11873,7 +11873,7 @@
     (get_local $1)
    )
   )
-  (call $_ZZN5token16balance_sub_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_
+  (call $_ZZN5token11balance_subEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_
    (get_local $3)
    (get_local $1)
   )
@@ -11953,7 +11953,7 @@
    )
   )
  )
- (func $_ZZN5token16balance_sub_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_subEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
   (local $2 i64)
   (local $3 i32)
   (block $label$0
@@ -13724,7 +13724,7 @@
    )
   )
  )
- (func $_ZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_ (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
+ (func $_ZN5token11balance_addEN5eosio4nameENS0_5assetES1_ (param $0 i32) (param $1 i64) (param $2 i32) (param $3 i64)
   (local $4 i32)
   (local $5 i64)
   (local $6 i32)
@@ -13815,7 +13815,7 @@
       (i32.const 1)
       (i32.const 384)
      )
-     (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token16balance_add_nameENS_4nameENS_5assetES6_EUlRT_E0_EEvRKS2_yOS8_
+     (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token11balance_addENS_4nameENS_5assetES6_EUlRT_E0_EEvRKS2_yOS8_
       (i32.add
        (get_local $7)
        (i32.const 16)
@@ -13847,7 +13847,7 @@
       (i32.const 56)
      )
     )
-    (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE7emplaceIZN5token16balance_add_nameENS_4nameENS_5assetES6_EUlRT_E_EENS3_14const_iteratorEyOS8_
+    (call $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE7emplaceIZN5token11balance_addENS_4nameENS_5assetES6_EUlRT_E_EENS3_14const_iteratorEyOS8_
      (get_local $7)
      (i32.add
       (get_local $7)
@@ -13948,7 +13948,7 @@
    )
   )
  )
- (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token16balance_add_nameENS_4nameENS_5assetES6_EUlRT_E0_EEvRKS2_yOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE6modifyIZN5token11balance_addENS_4nameENS_5assetES6_EUlRT_E0_EEvRKS2_yOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (i32.store offset=4
@@ -13985,7 +13985,7 @@
     (get_local $1)
    )
   )
-  (call $_ZZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E0_clIN5types11namebalanceEEEDaS4_
+  (call $_ZZN5token11balance_addEN5eosio4nameENS0_5assetES1_ENKUlRT_E0_clIN5types11namebalanceEEEDaS4_
    (get_local $3)
    (get_local $1)
   )
@@ -14065,7 +14065,7 @@
    )
   )
  )
- (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE7emplaceIZN5token16balance_add_nameENS_4nameENS_5assetES6_EUlRT_E_EENS3_14const_iteratorEyOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy11071153666451444736EN5types11namebalanceEJEE7emplaceIZN5token11balance_addENS_4nameENS_5assetES6_EUlRT_E_EENS3_14const_iteratorEyOS8_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i32)
   (local $5 i64)
   (local $6 i32)
@@ -14104,7 +14104,7 @@
    (get_local $4)
    (get_local $1)
   )
-  (call $_ZZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_
+  (call $_ZZN5token11balance_addEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_
    (get_local $3)
    (get_local $6)
   )
@@ -14309,7 +14309,7 @@
    )
   )
  )
- (func $_ZZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_addEN5eosio4nameENS0_5assetES1_ENKUlRT_E_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
   (local $2 i64)
   (set_local $2
    (i64.load
@@ -14444,7 +14444,7 @@
    (i32.const 592)
   )
  )
- (func $_ZZN5token16balance_add_nameEN5eosio4nameENS0_5assetES1_ENKUlRT_E0_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_addEN5eosio4nameENS0_5assetES1_ENKUlRT_E0_clIN5types11namebalanceEEEDaS4_ (param $0 i32) (param $1 i32)
   (local $2 i64)
   (block $label$0
    (br_if $label$0
@@ -18636,7 +18636,7 @@
    )
   )
  )
- (func $_ZN5token15balance_sub_keyE10public_keyN5eosio5assetENS1_4nameEb (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i32)
+ (func $_ZN5token11balance_subE10public_keyN5eosio5assetENS1_4nameEb (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i64) (param $4 i32)
   (local $5 i64)
   (local $6 i32)
   (i32.store offset=4
@@ -18863,7 +18863,7 @@
    (get_local $1)
    (i32.const 384)
   )
-  (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token15balance_sub_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E_EEvRKS2_yOS9_
+  (call $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token11balance_subE10public_keyNS_5assetENS_4nameEbEUlRT_E_EEvRKS2_yOS9_
    (i32.add
     (get_local $6)
     (i32.const 16)
@@ -18964,7 +18964,7 @@
    )
   )
  )
- (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token15balance_sub_keyE10public_keyNS_5assetENS_4nameEbEUlRT_E_EEvRKS2_yOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
+ (func $_ZN5eosio11multi_indexILy9420531259991556096EN5types10keybalanceEJEE6modifyIZN5token11balance_subE10public_keyNS_5assetENS_4nameEbEUlRT_E_EEvRKS2_yOS9_ (param $0 i32) (param $1 i32) (param $2 i64) (param $3 i32)
   (local $4 i64)
   (local $5 i32)
   (i32.store offset=4
@@ -19001,7 +19001,7 @@
     (get_local $1)
    )
   )
-  (call $_ZZN5token15balance_sub_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_
+  (call $_ZZN5token11balance_subE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_
    (get_local $3)
    (get_local $1)
   )
@@ -19081,7 +19081,7 @@
    )
   )
  )
- (func $_ZZN5token15balance_sub_keyE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
+ (func $_ZZN5token11balance_subE10public_keyN5eosio5assetENS1_4nameEbENKUlRT_E_clIN5types10keybalanceEEEDaS5_ (param $0 i32) (param $1 i32)
   (local $2 i32)
   (local $3 i64)
   (local $4 i32)
