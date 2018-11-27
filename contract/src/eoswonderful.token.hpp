@@ -53,22 +53,4 @@ struct info
 };
 typedef multi_index<N(info), info> info_table;
 
-
-struct transfer_st
-{
-	public_key from;
-	public_key to;
-	asset amount;
-	string memo;
-	uint64_t nonce;
-};
-
-struct st_transfer
-{
-	account_name from;
-	account_name to;
-	asset quantity;
-	string memo;
-};
-
 } // namespace types
