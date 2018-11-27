@@ -46,12 +46,10 @@ struct info
 {
 	uint64_t id;
 	name manager;
-	asset balance;
-	asset eos;
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(info, (id)(manager)(balance)(eos))
+	EOSLIB_SERIALIZE(info, (id)(manager))
 };
 typedef multi_index<N(info), info> info_table;
 
