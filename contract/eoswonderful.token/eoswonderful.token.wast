@@ -155,7 +155,11 @@
     )
    )
   )
-  (i64.store offset=152
+  (i32.store8 offset=152
+   (get_local $9)
+   (i32.const 3)
+  )
+  (i64.store offset=144
    (get_local $9)
    (get_local $0)
   )
@@ -441,17 +445,17 @@
       (get_local $2)
      )
     )
-    (i32.store offset=148
+    (i32.store offset=140
      (get_local $9)
      (i32.const 0)
     )
-    (i32.store offset=144
+    (i32.store offset=136
      (get_local $9)
      (i32.const 1)
     )
-    (i64.store offset=8 align=4
+    (i64.store align=4
      (get_local $9)
-     (i64.load offset=144
+     (i64.load offset=136
       (get_local $9)
      )
     )
@@ -459,12 +463,9 @@
      (call $_ZN5eosio14execute_actionI5tokenS1_JEEEbPT_MT0_FvDpT1_E
       (i32.add
        (get_local $9)
-       (i32.const 152)
+       (i32.const 144)
       )
-      (i32.add
-       (get_local $9)
-       (i32.const 8)
-      )
+      (get_local $9)
      )
     )
     (br $label$6)
@@ -1080,17 +1081,17 @@
             (i64.const -7807102653988601856)
            )
           )
-          (i32.store offset=124
+          (i32.store offset=116
            (get_local $9)
            (i32.const 0)
           )
-          (i32.store offset=120
+          (i32.store offset=112
            (get_local $9)
            (i32.const 2)
           )
-          (i64.store offset=32 align=4
+          (i64.store offset=24 align=4
            (get_local $9)
-           (i64.load offset=120
+           (i64.load offset=112
             (get_local $9)
            )
           )
@@ -1098,11 +1099,11 @@
            (call $_ZN5eosio14execute_actionI5tokenS1_JNS_4nameENS_5assetENSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEEEEbPT_MT0_FvDpT1_E
             (i32.add
              (get_local $9)
-             (i32.const 152)
+             (i32.const 144)
             )
             (i32.add
              (get_local $9)
-             (i32.const 32)
+             (i32.const 24)
             )
            )
           )
@@ -1126,17 +1127,17 @@
            (i64.const -3617168760267603968)
           )
          )
-         (i32.store offset=92
+         (i32.store offset=84
           (get_local $9)
           (i32.const 0)
          )
-         (i32.store offset=88
+         (i32.store offset=80
           (get_local $9)
           (i32.const 3)
          )
-         (i64.store offset=64 align=4
+         (i64.store offset=56 align=4
           (get_local $9)
-          (i64.load offset=88
+          (i64.load offset=80
            (get_local $9)
           )
          )
@@ -1144,11 +1145,11 @@
           (call $_ZN5eosio14execute_actionI5tokenS1_JNS_4nameE10public_keyNS_5assetENSt3__112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEEEEEbPT_MT0_FvDpT1_E
            (i32.add
             (get_local $9)
-            (i32.const 152)
+            (i32.const 144)
            )
            (i32.add
             (get_local $9)
-            (i32.const 64)
+            (i32.const 56)
            )
           )
          )
@@ -1166,17 +1167,17 @@
           (i64.const -3617168760269176832)
          )
         )
-        (i32.store offset=116
+        (i32.store offset=108
          (get_local $9)
          (i32.const 0)
         )
-        (i32.store offset=112
+        (i32.store offset=104
          (get_local $9)
          (i32.const 4)
         )
-        (i64.store offset=40 align=4
+        (i64.store offset=32 align=4
          (get_local $9)
-         (i64.load offset=112
+         (i64.load offset=104
           (get_local $9)
          )
         )
@@ -1184,11 +1185,11 @@
          (call $_ZN5eosio14execute_actionI5tokenS1_J10public_keyS2_NS_5assetENSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEES3_9signatureNS_4nameEEEEbPT_MT0_FvDpT1_E
           (i32.add
            (get_local $9)
-           (i32.const 152)
+           (i32.const 144)
           )
           (i32.add
            (get_local $9)
-           (i32.const 40)
+           (i32.const 32)
           )
          )
         )
@@ -1206,17 +1207,17 @@
          (i64.const 8417589614679687168)
         )
        )
-       (i32.store offset=84
+       (i32.store offset=76
         (get_local $9)
         (i32.const 0)
        )
-       (i32.store offset=80
+       (i32.store offset=72
         (get_local $9)
         (i32.const 1)
        )
-       (i64.store offset=72 align=4
+       (i64.store offset=64 align=4
         (get_local $9)
-        (i64.load offset=80
+        (i64.load offset=72
          (get_local $9)
         )
        )
@@ -1224,27 +1225,27 @@
         (call $_ZN5eosio14execute_actionI5tokenS1_JEEEbPT_MT0_FvDpT1_E
          (i32.add
           (get_local $9)
-          (i32.const 152)
+          (i32.const 144)
          )
          (i32.add
           (get_local $9)
-          (i32.const 72)
+          (i32.const 64)
          )
         )
        )
        (br $label$6)
       )
-      (i32.store offset=132
+      (i32.store offset=124
        (get_local $9)
        (i32.const 0)
       )
-      (i32.store offset=128
+      (i32.store offset=120
        (get_local $9)
        (i32.const 5)
       )
-      (i64.store offset=24 align=4
+      (i64.store offset=16 align=4
        (get_local $9)
-       (i64.load offset=128
+       (i64.load offset=120
         (get_local $9)
        )
       )
@@ -1252,27 +1253,27 @@
        (call $_ZN5eosio14execute_actionI5tokenS1_J10public_keyNS_5assetENSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEEEEbPT_MT0_FvDpT1_E
         (i32.add
          (get_local $9)
-         (i32.const 152)
+         (i32.const 144)
         )
         (i32.add
          (get_local $9)
-         (i32.const 24)
+         (i32.const 16)
         )
        )
       )
       (br $label$6)
      )
-     (i32.store offset=108
+     (i32.store offset=100
       (get_local $9)
       (i32.const 0)
      )
-     (i32.store offset=104
+     (i32.store offset=96
       (get_local $9)
       (i32.const 6)
      )
-     (i64.store offset=48 align=4
+     (i64.store offset=40 align=4
       (get_local $9)
-      (i64.load offset=104
+      (i64.load offset=96
        (get_local $9)
       )
      )
@@ -1280,27 +1281,27 @@
       (call $_ZN5eosio14execute_actionI5tokenS1_J10public_keyNS_4nameENS_5assetENSt3__112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEES4_9signatureS3_EEEbPT_MT0_FvDpT1_E
        (i32.add
         (get_local $9)
-        (i32.const 152)
+        (i32.const 144)
        )
        (i32.add
         (get_local $9)
-        (i32.const 48)
+        (i32.const 40)
        )
       )
      )
      (br $label$6)
     )
-    (i32.store offset=140
+    (i32.store offset=132
      (get_local $9)
      (i32.const 0)
     )
-    (i32.store offset=136
+    (i32.store offset=128
      (get_local $9)
      (i32.const 7)
     )
-    (i64.store offset=16 align=4
+    (i64.store offset=8 align=4
      (get_local $9)
-     (i64.load offset=136
+     (i64.load offset=128
       (get_local $9)
      )
     )
@@ -1308,27 +1309,27 @@
      (call $_ZN5eosio14execute_actionI5tokenS1_JNS_4nameEEEEbPT_MT0_FvDpT1_E
       (i32.add
        (get_local $9)
-       (i32.const 152)
+       (i32.const 144)
       )
       (i32.add
        (get_local $9)
-       (i32.const 16)
+       (i32.const 8)
       )
      )
     )
     (br $label$6)
    )
-   (i32.store offset=100
+   (i32.store offset=92
     (get_local $9)
     (i32.const 0)
    )
-   (i32.store offset=96
+   (i32.store offset=88
     (get_local $9)
     (i32.const 8)
    )
-   (i64.store offset=56 align=4
+   (i64.store offset=48 align=4
     (get_local $9)
-    (i64.load offset=96
+    (i64.load offset=88
      (get_local $9)
     )
    )
@@ -1336,11 +1337,11 @@
     (call $_ZN5eosio14execute_actionI5tokenS1_JNS_4nameES2_NS_5assetENSt3__112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEEEEbPT_MT0_FvDpT1_E
      (i32.add
       (get_local $9)
-      (i32.const 152)
+      (i32.const 144)
      )
      (i32.add
       (get_local $9)
-      (i32.const 56)
+      (i32.const 48)
      )
     )
    )

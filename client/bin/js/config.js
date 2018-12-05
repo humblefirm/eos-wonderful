@@ -10,5 +10,5 @@ var eos = Eos({
   debug: true
 })*/
 var contract = "eos1thefull1" // NEED CHANGE
-var symbol = "WDF"
-var account_tb = "usrbalance"
+var symbol = "COF"
+var account_tb = "keybalance"

@@ -9,8 +9,6 @@
 #include <eosiolib/asset.hpp>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
-#include <eosiolib/time.hpp>
-#include <eosiolib/print.h>
 
 using namespace eosio;
 using namespace std;
@@ -22,7 +20,7 @@ class token : public contract
 		: contract(self)
 	{
 	}
-
+	char version=3;
 	//계정 생성 비용 및 설정자 설정
 	void setinfo(name manager)
 	{
@@ -63,7 +61,6 @@ class token : public contract
 		//발행
 		balance_add(to, amount, itr_info->manager, false);
 	}
-
 	//토큰 발행 - name
 	void mintn(name to, asset amount, string memo)
 	{
@@ -335,7 +332,6 @@ class token : public contract
 	void verify_sig_transfer(public_key from, name to, asset amount, string memo,
 							 asset fee, int64_t nonce, signature sig)
 	{
-
 		char strchar[256];
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;

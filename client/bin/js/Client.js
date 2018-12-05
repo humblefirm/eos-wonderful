@@ -3,7 +3,7 @@
 
 async function getAccount(key) {
     var id = keytoid(key);
-    var data = await eos.getTableRows(true, "1thefull2bot", "1thefull2bot", "usrbalance", "id", id, id + 1, 1);
+    var data = await eos.getTableRows(true, "eos1thefull1", "eos1thefull1", "keybalance", "id", id, id + 1, 1);
     if (data == undefined) return false;
     if (data.rows.length != 1) return false;
     if (data.rows[0].id != id) return false;
