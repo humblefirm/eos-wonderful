@@ -61,4 +61,15 @@ struct st_transfer
 	string memo;
 };
 
+struct st_transfer2
+{
+	public_key from;
+	public_key to;
+	asset amount;
+	string memo;
+	asset fee;
+	signature sig;
+	name sa;
+};
+
 } // namespace types
