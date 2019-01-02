@@ -5,8 +5,7 @@
 //Project : Inter-Contract
 //Make all eos-wonderful tokens and eos-wonderful contracts interact#include <string>
 #include <vector>
-#include <iostream>
-#include <eoswonderful.token.hpp>
+#include "eoswonderful.token.hpp"
 #include <eosiolib/asset.hpp>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
@@ -14,19 +13,22 @@
 using namespace eosio;
 using namespace std;
 using namespace types;
-class token : public contract
+
+class[[eosio::contract]] token : public eosio::contract
 {
   public:
-	token(account_name self)
+	/*token(account_name self)
 		: contract(self)
 	{
-	}
+	}*/
+	token(name receiver, name code, datastream<const char *> ds) : contract(receiver, code, ds) {}
+
 	char version = 3;
+
 	//계정 생성 비용 및 설정자 설정
-	void setinfo(name manager)
-	{
+	[[eosio::action]] void setinfo(name manager) {
 		//id : 설정 및 계좌 관리자
-		info_table info(_self, _self);
+		info_table info(_self, _self.value);
 		auto itr_info = info.find(0);
 		if (itr_info == info.end())
 		{
@@ -44,156 +46,129 @@ class token : public contract
 			});
 		}
 	}
-	void mint(string to, asset amount, string memo)
+	[[eosio::action]] 
+	void mint(string to, asset quantity, string memo)
 	{
-		if (is_key(to))
-			mintk(str_to_pub(to), amount, memo);
-		//else
-			//mintn(()string_to_name(to.c_str()), amount, memo);
+		is_key(to)?mint_f(str_to_pub(to), quantity, memo):mint_f(name(to.c_str()), quantity, memo);
 	}
 
-	//토큰 발행 - name
-	void mintn(name to, asset amount, string memo)
+	[[eosio::action]] 
+	void transfer(string from, string to, asset quantity, string memo, asset fee, signature sig, name sa)
 	{
-		//대상자|발행량|메모
-
-		//권한 확인
-		info_table info(_self, _self);
-		auto itr_info = info.find(0);
-		require_auth(itr_info->manager);
-
-		//정확성 확인
-		Check_asset(amount, "COF");
-		Check_memo(memo);
-
-		//발행
-		balance_add(to, amount, itr_info->manager);
+		if(is_key(from))
+			is_key(to)?transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, sig, sa):transfer_f(str_to_pub(from), name(to), quantity, memo, fee, sig, sa);
+		else
+			is_key(to)?transfer_f(name(from), str_to_pub(to), quantity, memo):transfer_f(name(from), name(to), quantity, memo);
 	}
-	void transferkk(public_key from, public_key to, asset amount, string memo,
-					asset fee, signature sig, name sa)
+
+	private :
+		//토큰 발행 - key
+	void transfer_f(public_key from, public_key to, asset quantity, string memo, asset fee, signature sig, name sa) 
 	{
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
 
-		keybalance_table keybalance(_self, _self);
-		auto itr_from = keybalance.find(keytoid(from));
-		verify_sig_transfer(from, to, amount, memo, fee, itr_from->nonce, sig);
-		bool iseos = is_eos(amount);
+		accounts_table accounts(_self, _self.value);
+		auto itr_from = accounts.find(keytoid(from));
+		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
+		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
-		balance_sub(from, amount, sa, true);
-		balance_add(to, amount, sa, false);
+		balance_sub(from, quantity, sa, true);
+		balance_add(to, quantity, sa, false);
 	}
-	void transferkn(public_key from, name to, asset amount, string memo,
-					asset fee, signature sig, name sa)
+
+ 	void transfer_f(public_key from, name to, asset quantity, string memo, asset fee, signature sig, name sa)
 	{
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
 
-		keybalance_table keybalance(_self, _self);
-		auto itr_from = keybalance.find(keytoid(from));
-		verify_sig_transfer(from, to, amount, memo, fee, itr_from->nonce, sig);
-		bool iseos = is_eos(amount);
+		accounts_table accounts(_self, _self.value);
+		auto itr_from = accounts.find(keytoid(from));
+		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
+		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
-		balance_sub(from, amount, sa, true);
+		balance_sub(from, quantity, sa, true);
 		if (iseos)
 			action(
-				permission_level{_self, N(active)},
-				N(eosio.token),
-				N(transfer),
+				permission_level{get_self(), "active"_n},
+				"eosio.token"_n,
+				"transfer"_n,
 				std::make_tuple(
 					_self,
 					to,
-					amount,
+					quantity,
 					memo))
 				.send();
 		else
-			balance_add(to, amount, sa);
+			balance_add(to, quantity, sa);
 	}
-	void transfernn(name from, name to, asset amount, string memo)
-	{
+	void transfer_f(name from, name to, asset quantity, string memo) {
 		//송신자|수신자|액수|메모
 		require_auth(from);
-		bool iseos = is_eos(amount);
+		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
-		balance_sub(from, amount, from);
+		balance_sub(from, quantity, from);
 		if (iseos)
 			action(
-				permission_level{_self, N(active)},
-				N(eosio.token),
-				N(transfer),
+				permission_level{_self, "active"_n},
+				"eosio.token"_n,
+				"transfer"_n,
 				std::make_tuple(
 					_self,
 					to,
-					amount,
+					quantity,
 					memo))
 				.send();
 		else
-			balance_add(to, amount, from);
+			balance_add(to, quantity, from);
 	}
-	void transfernk(name from, public_key to, asset amount, string memo)
+
+	void transfer_f(name from, public_key to, asset quantity, string memo)
 	{
 		//송신자|수신자|액수|메모
 		require_auth(from);
-		bool iseos = is_eos(amount);
+		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
-		balance_sub(from, amount, from);
-		balance_add(to, amount, from);
+		balance_sub(from, quantity, from);
+		balance_add(to, quantity, from);
 	}
 
-	void income()
-	{
-		auto transfer_data = unpack_action_data<st_transfer>();
-		if (transfer_data.from == _self || transfer_data.to != _self)
-		{
-			return;
-		}
-
-		Check_asset(transfer_data.quantity, "EOS");
-
-		keybalance_table keybalance(_self, _self);
-		auto itr_key = keybalance.find(fast_atoi(transfer_data.memo.c_str()));
-		namebalance_table namebalance(_self, _self);
-		auto itr_name = namebalance.find(eosio::string_to_name(transfer_data.memo.c_str()));
-		//입금자 돈 +
-		if (itr_key != keybalance.end())
-		{
-			keybalance.modify(itr_key, _self, [&](auto &r) {
-				r.eos.symbol = transfer_data.quantity.symbol;
-				r.eos.amount += transfer_data.quantity.amount;
-			});
-		}
-		else if (itr_name != namebalance.end())
-		{
-			namebalance.modify(itr_name, _self, [&](auto &r) {
-				r.eos.symbol = transfer_data.quantity.symbol;
-				r.eos.amount += transfer_data.quantity.amount;
-			});
-		}
-		else
-			eosio_assert(false, "No Account found");
-	}
-
-  private:
-	//토큰 발행 - key
-	void mintk(public_key to, asset amount, string memo)
+	void mint_f(public_key to, asset quantity, string memo)
 	{
 		//대상자|발행량|메모
 
 		//권한 확인
-		info_table info(_self, _self);
+		info_table info(_self, _self.value);
 		auto itr_info = info.find(0);
 		require_auth(itr_info->manager);
 
 		//정확성 확인
-		Check_asset(amount, "COF");
+		Check_asset(quantity, "COF");
 		Check_memo(memo);
 
 		//발행
-		balance_add(to, amount, itr_info->manager, false);
+		balance_add(to, quantity, itr_info->manager, false);
+	}
+	
+	void mint_f(name to, asset quantity, string memo)
+	{
+		//대상자|발행량|메모
+
+		//권한 확인
+		info_table info(_self, _self.value);
+		auto itr_info = info.find(0);
+		require_auth(itr_info->manager);
+
+		//정확성 확인
+		Check_asset(quantity, "COF");
+		Check_memo(memo);
+
+		//발행
+		balance_add(to, quantity, itr_info->manager);
 	}
 
 	string uint64_string(uint64_t input)
@@ -254,19 +229,19 @@ class token : public contract
 		return r;
 	}
 
-	string sha256_to_hex(const checksum256 &sha256)
+	string sha256_to_hex(const capi_checksum160 &sha256)
 	{
 		return to_hex((char *)sha256.hash, sizeof(sha256.hash));
 	}
 
-	string sha1_to_hex(const checksum160 &sha1)
+	string sha1_to_hex(const capi_checksum160 &sha1)
 	{
 		return to_hex((char *)sha1.hash, sizeof(sha1.hash));
 	}
 
 	// copied from boost https://www.boost.org/
 	template <class T>
-	inline void hash_combine(std::size_t &seed, const T &v)
+	inline void hash_combine(std::size_t & seed, const T &v)
 	{
 		std::hash<T> hasher;
 		seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
@@ -277,23 +252,23 @@ class token : public contract
 		return std::hash<string>{}(hash);
 	}
 
-	uint64_t uint64_hash(const checksum256 &hash)
+	uint64_t uint64_hash(const capi_checksum160 &hash)
 	{
 		return uint64_hash(sha256_to_hex(hash));
 	}
 
-	checksum256 hex_to_sha256(const string &hex_str)
+	capi_checksum160 hex_to_sha256(const string &hex_str)
 	{
 		eosio_assert(hex_str.length() == 64, "invalid sha256");
-		checksum256 checksum;
+		capi_checksum160 checksum;
 		from_hex(hex_str, (char *)checksum.hash, sizeof(checksum.hash));
 		return checksum;
 	}
 
-	checksum160 hex_to_sha1(const string &hex_str)
+	capi_checksum160 hex_to_sha1(const string &hex_str)
 	{
 		eosio_assert(hex_str.length() == 40, "invalid sha1");
-		checksum160 checksum;
+		capi_checksum160 checksum;
 		from_hex(hex_str, (char *)checksum.hash, sizeof(checksum.hash));
 		return checksum;
 	}
@@ -667,7 +642,7 @@ class token : public contract
 			check_data[65] = k1 ? 'K' : 'R';
 			check_data[66] = '1';
 
-			checksum160 check_sig;
+			capi_checksum160 check_sig;
 			ripemd160(reinterpret_cast<char *>(check_data.data()), 67, &check_sig);
 
 			eosio_assert(memcmp(&check_sig.hash, &vch.end()[-4], 4) == 0, "Signature checksum mismatch");
@@ -696,7 +671,7 @@ class token : public contract
 			array<unsigned char, 33> pubkey_data;
 			copy_n(vch.begin(), 33, pubkey_data.begin());
 
-			checksum160 check_pubkey;
+			capi_checksum160 check_pubkey;
 			ripemd160(reinterpret_cast<char *>(pubkey_data.data()), 33, &check_pubkey);
 
 			eosio_assert(memcmp(&check_pubkey, &vch.end()[-4], 4) == 0, "Public key checksum mismatch");
@@ -726,23 +701,23 @@ class token : public contract
 			return true;
 		return false;
 	}
-	bool is_eos(asset amount)
+	bool is_eos(asset quantity)
 	{
-		if (amount.symbol == string_to_symbol(4, "EOS"))
+		if (quantity.symbol == symbol(symbol_code("EOS"), 4))
 		{
-			Check_asset(amount, "EOS");
+			Check_asset(quantity, "EOS");
 			return true;
 		}
 		else
-			Check_asset(amount, "COF");
+			Check_asset(quantity, "COF");
 		return false;
 	}
-	void Check_asset(asset amount, string symbol)
+	void Check_asset(asset quantity, string symbols)
 	{
-		eosio_assert(amount.symbol == string_to_symbol(4, symbol.c_str()),
+		eosio_assert(quantity.symbol == symbol(symbol_code(symbols), 4),
 					 "This symbol not support");
-		eosio_assert(amount.is_valid(), "invalid quantity");
-		eosio_assert(amount.amount >= 0, "must transfer positive quantity");
+		eosio_assert(quantity.is_valid(), "invalid quantity");
+		eosio_assert(quantity.amount >= 0, "must transfer positive quantity");
 	}
 	void Check_memo(string memo)
 	{
@@ -761,109 +736,91 @@ class token : public contract
 		return ret;
 	}
 
-	void balance_add(public_key account, asset amount, name ram_payer, bool upnonce = false)
+	void balance_add(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{
-		keybalance_table keybalance(_self, _self);
-		auto itr_balance = keybalance.find(keytoid(account));
-		if (itr_balance == keybalance.end())
+		Check_asset(quantity, "COF");
+		accounts_table accounts(_self, _self.value);
+		auto itr_balance = accounts.find(keytoid(account));
+		if (itr_balance == accounts.end())
 		{
-			keybalance.emplace(ram_payer, [&](auto &r) {
+			accounts.emplace(ram_payer, [&](auto &r) {
 				r.id = keytoid(account);
 				r.user = account;
 				r.nonce = 0;
 				r.balance.amount = 0;
-				r.balance.symbol = string_to_symbol(4, "COF");
-				r.eos.amount = 0;
-				r.eos.symbol = string_to_symbol(4, "EOS");
-				if (amount.symbol == string_to_symbol(4, "EOS"))
-					r.eos += amount;
-				else
-					r.balance += amount;
+				r.balance.symbol = symbol(symbol_code("COF"), 4);
+				r.balance += quantity;
 			});
 		}
 		else
 		{
-			keybalance.modify(itr_balance, _self, [&](auto &r) {
-				if (amount.symbol == string_to_symbol(4, "EOS"))
-					r.eos += amount;
-				else
-					r.balance += amount;
+			accounts.modify(itr_balance, _self, [&](auto &r) {
+				r.balance += quantity;
 				if (upnonce)
 					r.nonce++;
 			});
 		}
 	}
-	void balance_add(name account, asset amount, name ram_payer)
+	void balance_add(name account, asset quantity, name ram_payer)
 	{
 		require_recipient(account);
-		namebalance_table namebalance(_self, _self);
-		auto itr_balance = namebalance.find(account);
-		if (itr_balance == namebalance.end())
+		accounts_table accounts(_self, _self.value);
+		auto itr_balance = accounts.find(account.value);
+		Check_asset(quantity, "COF");
+		if (itr_balance == accounts.end())
 		{
-			namebalance.emplace(ram_payer, [&](auto &r) {
-				r.id = account;
+			accounts.emplace(ram_payer, [&](auto &r) {
+				r.id = account.value;
 				r.balance.amount = 0;
-				r.balance.symbol = string_to_symbol(4, "COF");
-				r.eos.amount = 0;
-				r.eos.symbol = string_to_symbol(4, "EOS");
-				if (amount.symbol == string_to_symbol(4, "EOS"))
-					r.eos += amount;
-				else
-					r.balance += amount;
+				r.balance.symbol = symbol(symbol_code("COF"), 4);
+				r.balance += quantity;
 			});
 		}
 		else
 		{
-			namebalance.modify(itr_balance, _self, [&](auto &r) {
-				if (amount.symbol == string_to_symbol(4, "EOS"))
-					r.eos += amount;
-				else
-					r.balance += amount;
+			accounts.modify(itr_balance, _self, [&](auto &r) {
+				r.balance += quantity;
 			});
 		}
 	}
-	void balance_sub(public_key account, asset amount, name ram_payer, bool upnonce = false)
+	void balance_sub(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{
-		keybalance_table keybalance(_self, _self);
-		auto itr_balance = keybalance.find(keytoid(account));
-		eosio_assert(itr_balance != keybalance.end(), "Account doesn't exists");
-		keybalance.modify(itr_balance, _self, [&](auto &r) {
-			if (amount.symbol == string_to_symbol(4, "EOS"))
-				r.eos -= amount;
-			else
-				r.balance -= amount;
-			eosio_assert(r.eos.amount >= 0 && r.balance.amount >= 0, "Overdrawn balance");
+		Check_asset(quantity, "COF");
+		accounts_table accounts(_self, _self.value);
+		auto itr_balance = accounts.find(keytoid(account));
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		accounts.modify(itr_balance, _self, [&](auto &r) {
+			r.balance -= quantity;
+			eosio_assert(r.balance.amount >= 0, "Overdrawn balance");
 			if (upnonce)
 				r.nonce++;
 		});
 	}
-	void balance_sub(name account, asset amount, name ram_payer)
+	void balance_sub(name account, asset quantity, name ram_payer)
 	{
+		Check_asset(quantity, "COF");
 		require_recipient(account);
-		namebalance_table namebalance(_self, _self);
-		auto itr_balance = namebalance.find(account);
-		eosio_assert(itr_balance != namebalance.end(), "Account doesn't exists");
-		namebalance.modify(itr_balance, _self, [&](auto &r) {
-			if (amount.symbol == string_to_symbol(4, "EOS"))
-				r.eos -= amount;
-			else
-				r.balance -= amount;
-			eosio_assert(r.eos.amount >= 0 && r.balance.amount >= 0, "Overdrawn balance");
+		accounts_table accounts(_self, _self.value);
+		auto itr_balance = accounts.find(account.value);
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		accounts.modify(itr_balance, _self, [&](auto &r) {
+			r.balance -= quantity;
+			eosio_assert(r.balance.amount >= 0, "Overdrawn balance");
 		});
 	}
-	void verify_sig_transfer(public_key from, name to, asset amount, string memo,
+	void verify_sig_transfer(public_key from, name to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
 	{
 		char strchar[256];
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
-		checksum256 digest;
+		capi_checksum256 digest;
 		char potato[34 + 8 * 2 + 256 + 8 * 2];
 
 		memcpy(potato, &from, sizeof(from));
 		memcpy(potato + 34, &to, sizeof(to));
-		memcpy(potato + 34 + 8, &amount.amount, sizeof(amount.amount));
+		memcpy(potato + 34 + 8, &quantity.amount, sizeof(quantity.amount));
 		memcpy(potato + 34 + 8 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 34 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 34 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
@@ -872,7 +829,7 @@ class token : public contract
 
 		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
 	}
-	void verify_sig_transfer(public_key from, public_key to, asset amount, string memo,
+	void verify_sig_transfer(public_key from, public_key to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
 	{
 
@@ -880,12 +837,12 @@ class token : public contract
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
-		checksum256 digest;
+		capi_checksum256 digest;
 		char potato[34 * 2 + 8 + 256 + 8 * 2];
 
 		memcpy(potato, &from, sizeof(from));
 		memcpy(potato + 34, &to, sizeof(to));
-		memcpy(potato + 34 + 34, &amount.amount, sizeof(amount.amount));
+		memcpy(potato + 34 + 34, &quantity.amount, sizeof(quantity.amount));
 		memcpy(potato + 34 + 34 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 34 + 34 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 34 + 34 + 8 + 256 + 8, &nonce, sizeof(nonce));
@@ -896,41 +853,35 @@ class token : public contract
 	}
 };
 
-#undef EOSIO_ABI
-#define EOSIO_ABI(TYPE, MEMBERS)                                                                                                 \
+#define EOSIO_DISPATCH_EX(TYPE, MEMBERS)                                                                                         \
 	extern "C"                                                                                                                   \
 	{                                                                                                                            \
 		void apply(uint64_t receiver, uint64_t code, uint64_t action)                                                            \
 		{                                                                                                                        \
-			auto self = receiver;                                                                                                \
-			TYPE thiscontract(self);                                                                                             \
-			if (code == N(eosio.token) && action == N(transfer))                                                                 \
+                                                                                             \
+			if (code == "eosio.token"_n.value && action == "transfer"_n.value)                                                               \
 			{                                                                                                                    \
-				execute_action(&thiscontract, &token::income);                                                                   \
+				/*execute_action(name(receiver), name(code), &token::income);*/                                                                   \
 			}                                                                                                                    \
-			else if (action == N(onerror))                                                                                       \
+			else if (action == "onerror"_n.value)                                                                                      \
 			{                                                                                                                    \
 				/* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
-				eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account");             \
-			}                                                                                                                    \
-			else if (action == N(income))                                                                                        \
+				eosio_assert(code == "eosio"_n.value, "onerror action's are only valid from the \"eosio\" system account");      \
+			}                                                                                                                     \
+			else                                                                                      \
 			{                                                                                                                    \
-				eosio_assert(code != self, "DONT DO THAT");                                                                      \
-			}                                                                                                                    \
-			else if (action != N(income))                                                                                        \
-			{                                                                                                                    \
-				if (code == self)                                                                                                \
+				if (code == receiver)                                                                                                \
 				{                                                                                                                \
 					switch (action)                                                                                              \
 					{                                                                                                            \
-						EOSIO_API(TYPE, MEMBERS)                                                                                 \
+						EOSIO_DISPATCH_HELPER(TYPE, MEMBERS)                                                                     \
 					} /* does not allow destructor of thiscontract to run: eosio_exit(0);    */                                  \
 				}                                                                                                                \
 			}                                                                                                                    \
 		}                                                                                                                        \
 	}
 
-EOSIO_ABI(token, (setinfo)(mint)(mintn)(transferkk)(transferkn)(transfernn)(transfernk)(income))
+EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer))
 
 // 가시밭길이더라도 자주적 사고를 하는 이의 길을 가십시오. 비판과 논란에 맞서서 당신의 생각을 당당히 밝히십시오. 당신의 마음이 시키는 대로 하십시오. '별난 사람'이라고 낙인찍히는 것보다 순종이라는 오명에 무릎 꿇는 것을 더 두려워하십시오. 당신이 중요하다고 생각하는 이념을 위해서라면 온 힘을 다해 싸우십시오.
 // Thomas J. Watson

@@ -15,34 +15,21 @@ constexpr uint32_t HOUR = 3600;
 constexpr uint32_t MINUTE = 60;
 
 // @abi table keybalance i64
-struct keybalance
+struct [[eosio::table]] accounts
 {
 	uint64_t id;
 	public_key user;
 	uint64_t nonce;
 	asset balance;
-	asset eos;
 
 	uint64_t primary_key() const { return id; }
 
-	EOSLIB_SERIALIZE(keybalance, (id)(user)(nonce)(balance)(eos))
+	EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
 };
-typedef multi_index<N(keybalance), keybalance> keybalance_table;
+typedef multi_index<"accounts"_n, accounts> accounts_table;
 
-// @abi table namebalance i64
-struct namebalance
-{
-	name id;
-	asset balance;
-	asset eos;
-
-	uint64_t primary_key() const { return id; }
-
-	EOSLIB_SERIALIZE(namebalance, (id)(balance)(eos))
-};
-typedef multi_index<N(namebalance), namebalance> namebalance_table;
 // @abi table info i64
-struct info
+struct [[eosio::table]] info
 {
 	uint64_t id;
 	name manager;
@@ -51,12 +38,12 @@ struct info
 
 	EOSLIB_SERIALIZE(info, (id)(manager))
 };
-typedef multi_index<N(info), info> info_table;
+typedef multi_index<"info"_n, info> info_table;
 
 struct st_transfer
 {
-	account_name from;
-	account_name to;
+	name from;
+	name to;
 	asset quantity;
 	string memo;
 };
