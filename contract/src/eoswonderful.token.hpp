@@ -14,32 +14,6 @@ constexpr uint32_t DAY = 86400;
 constexpr uint32_t HOUR = 3600;
 constexpr uint32_t MINUTE = 60;
 
-// @abi table keybalance i64
-struct [[eosio::table]] accounts
-{
-	uint64_t id;
-	public_key user;
-	uint64_t nonce;
-	asset balance;
-
-	uint64_t primary_key() const { return id; }
-
-	EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
-};
-typedef multi_index<"accounts"_n, accounts> accounts_table;
-
-// @abi table info i64
-struct [[eosio::table]] info
-{
-	uint64_t id;
-	name manager;
-
-	uint64_t primary_key() const { return id; }
-
-	EOSLIB_SERIALIZE(info, (id)(manager))
-};
-typedef multi_index<"info"_n, info> info_table;
-
 struct st_transfer
 {
 	name from;

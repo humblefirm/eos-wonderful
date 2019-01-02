@@ -62,7 +62,30 @@ class[[eosio::contract]] token : public eosio::contract
 	}
 
 	private :
-		//토큰 발행 - key
+    struct [[eosio::table]] accounts {
+		uint64_t id;
+		public_key user;
+		uint64_t nonce;
+		asset balance;
+
+		uint64_t primary_key() const { return id; }
+
+		EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
+	};
+	typedef multi_index<"accounts"_n, accounts> accounts_table;
+
+	struct [[eosio::table]] info
+	{
+		uint64_t id;
+		name manager;
+
+		uint64_t primary_key() const { return id; }
+
+		EOSLIB_SERIALIZE(info, (id)(manager))
+	};
+	typedef multi_index<"info"_n, info> info_table;
+    
+    //토큰 발행 - key
 	void transfer_f(public_key from, public_key to, asset quantity, string memo, asset fee, signature sig, name sa) 
 	{
 		//송신자|수신자|액수|메모|{sadata}

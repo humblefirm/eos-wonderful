@@ -1,2 +1,2 @@
-eosiocpp -o ./eoswonderful.token/eoswonderful.token.wast ./src/eoswonderful.token.cpp 
-eosiocpp -g ./eoswonderful.token/eoswonderful.token.abi ./src/eoswonderful.token.cpp
+eosio-cpp -o eoswonderful.token.wasm eoswonderful.token.cpp
+eosio-abigen eoswonderful.token.cpp --output=eoswonderful.token.abi -contract=token
