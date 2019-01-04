@@ -20,7 +20,16 @@
         "iterator": "cpp",
         "memory": "cpp",
         "utility": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "__functional_base": "cpp",
+        "atomic": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "tuple": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "__locale": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

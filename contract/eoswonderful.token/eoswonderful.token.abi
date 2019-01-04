@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Jan  4 11:04:06 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Jan  4 17:01:28 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -35,6 +35,10 @@
                 {
                     "name": "manager",
                     "type": "name"
+                },
+                {
+                    "name": "token_type",
+                    "type": "string"
                 }
             ]
         },
@@ -63,6 +67,10 @@
                 {
                     "name": "manager",
                     "type": "name"
+                },
+                {
+                    "name": "token_type",
+                    "type": "string"
                 }
             ]
         },
@@ -72,11 +80,11 @@
             "fields": [
                 {
                     "name": "from",
-                    "type": "string"
+                    "type": "name"
                 },
                 {
                     "name": "to",
-                    "type": "string"
+                    "type": "name"
                 },
                 {
                     "name": "quantity",
@@ -85,18 +93,6 @@
                 {
                     "name": "memo",
                     "type": "string"
-                },
-                {
-                    "name": "fee",
-                    "type": "asset"
-                },
-                {
-                    "name": "sig",
-                    "type": "string"
-                },
-                {
-                    "name": "sa",
-                    "type": "name"
                 }
             ]
         }
