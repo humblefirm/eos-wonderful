@@ -19,7 +19,8 @@
         "__split_buffer": "cpp",
         "iterator": "cpp",
         "memory": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "system_error": "cpp"
     },
     "git.ignoreLimitWarning": true
 }

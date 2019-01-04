@@ -46,25 +46,7 @@ class[[eosio::contract]] token : public eosio::contract
 			});
 		}
 	}
-<<<<<<< HEAD
-	[[eosio::action]] 
-	void mint(string to, asset quantity, string memo)
-	{
-		is_key(to)?mint_f(str_to_pub(to), quantity, memo):mint_f(name(to.c_str()), quantity, memo);
-	}
 
-	[[eosio::action]] 
-	void transfer(string from, string to, asset quantity, string memo, asset fee, signature sig, name sa)
-	{
-		if(is_key(from))
-			is_key(to)?transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, sig, sa):transfer_f(str_to_pub(from), name(to), quantity, memo, fee, sig, sa);
-		else
-			is_key(to)?transfer_f(name(from), str_to_pub(to), quantity, memo):transfer_f(name(from), name(to), quantity, memo);
-	}
-
-	private :
-    struct [[eosio::table]] accounts {
-=======
 		[[eosio::action]] void
 		mint(string to, asset quantity, string memo)
 	{
@@ -80,17 +62,16 @@ class[[eosio::contract]] token : public eosio::contract
 
 	private :
 
-	struct [[eosio::table]] accounts {
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
-		uint64_t id;
-		public_key user;
-		uint64_t nonce;
-		asset balance;
+		struct [[eosio::table]] accounts {
+			uint64_t id;
+			public_key user;
+			uint64_t nonce;
+			asset balance;
 
-		uint64_t primary_key() const { return id; }
+			uint64_t primary_key() const { return id; }
 
-		EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
-	};
+			EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
+		};
 	typedef multi_index<"accounts"_n, accounts> accounts_table;
 
 	struct [[eosio::table]] info
@@ -103,14 +84,8 @@ class[[eosio::contract]] token : public eosio::contract
 		EOSLIB_SERIALIZE(info, (id)(manager))
 	};
 	typedef multi_index<"info"_n, info> info_table;
-<<<<<<< HEAD
-    
-    //토큰 발행 - key
-	void transfer_f(public_key from, public_key to, asset quantity, string memo, asset fee, signature sig, name sa) 
-=======
 	//토큰 발행 - key
 	void transfer_f(public_key from, public_key to, asset quantity, string memo, asset fee, signature sig, name sa)
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
 	{
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
@@ -125,11 +100,7 @@ class[[eosio::contract]] token : public eosio::contract
 		balance_add(to, quantity, sa, false);
 	}
 
-<<<<<<< HEAD
- 	void transfer_f(public_key from, name to, asset quantity, string memo, asset fee, signature sig, name sa)
-=======
 	void transfer_f(public_key from, name to, asset quantity, string memo, asset fee, signature sig, name sa)
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
 	{
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
@@ -156,7 +127,8 @@ class[[eosio::contract]] token : public eosio::contract
 			balance_add(to, quantity, sa);
 	}
 <<<<<<< HEAD
-	void transfer_f(name from, name to, asset quantity, string memo) {
+	void transfer_f(name from, name to, asset quantity, string memo)
+	{
 =======
 	void transfer_f(name from, name to, asset quantity, string memo)
 	{
@@ -209,11 +181,7 @@ class[[eosio::contract]] token : public eosio::contract
 		//발행
 		balance_add(to, quantity, itr_info->manager, false);
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
 	void mint_f(name to, asset quantity, string memo)
 	{
 		//대상자|발행량|메모
@@ -918,18 +886,6 @@ class[[eosio::contract]] token : public eosio::contract
 	{                                                                                                                            \
 		void apply(uint64_t receiver, uint64_t code, uint64_t action)                                                            \
 		{                                                                                                                        \
-<<<<<<< HEAD
-                                                                                             \
-			if (action == "onerror"_n.value)                                                                                      \
-			{                                                                                                                    \
-				/* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
-				eosio_assert(code == "eosio"_n.value, "onerror action's are only valid from the \"eosio\" system account");      \
-			}                                                                                                                     \
-			else                                                                                      \
-			{                                                                                                                    \
-				if (code == receiver)                                                                                                \
-=======
-                                                                                                                                 \
 			if (code == "eosio.token"_n.value && action == "transfer"_n.value)                                                   \
 			{                                                                                                                    \
 				/*execute_action(name(receiver), name(code), &token::income);*/                                                  \
@@ -942,7 +898,6 @@ class[[eosio::contract]] token : public eosio::contract
 			else                                                                                                                 \
 			{                                                                                                                    \
 				if (code == receiver)                                                                                            \
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
 				{                                                                                                                \
 					switch (action)                                                                                              \
 					{                                                                                                            \
