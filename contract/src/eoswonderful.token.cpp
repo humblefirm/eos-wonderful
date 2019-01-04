@@ -53,10 +53,10 @@ class[[eosio::contract]] token : public eosio::contract
 	}
 
 	[[eosio::action]] 
-	void transfer(string from, string to, asset quantity, string memo, asset fee, signature sig, name sa)
+	void transfer(string from, string to, asset quantity, string memo, asset fee, string sig, name sa)
 	{
 		if(is_key(from))
-			is_key(to)?transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, sig, sa):transfer_f(str_to_pub(from), name(to), quantity, memo, fee, sig, sa);
+			is_key(to)?transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, str_to_sig(sig), sa):transfer_f(str_to_pub(from), name(to), quantity, memo, fee, str_to_sig(sig), sa);
 		else
 			is_key(to)?transfer_f(name(from), str_to_pub(to), quantity, memo):transfer_f(name(from), name(to), quantity, memo);
 	}
