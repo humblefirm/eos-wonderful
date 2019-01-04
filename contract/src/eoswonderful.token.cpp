@@ -53,11 +53,14 @@ class[[eosio::contract]] token : public eosio::contract
 		is_key(to) ? mint_f(str_to_pub(to), quantity, memo) : mint_f(name(to.c_str()), quantity, memo);
 	}
 
-	[[eosio::action]] void transfer(string from, string to, asset quantity, string memo, asset fee, string sig, name sa) {
-		if (is_key(from))
-			is_key(to) ? transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, str_to_sig(sig), sa) : transfer_f(str_to_pub(from), name(to), quantity, memo, fee, str_to_sig(sig), sa);
-		else
-			is_key(to) ? transfer_f(name(from), str_to_pub(to), quantity, memo) : transfer_f(name(from), name(to), quantity, memo);
+	// [[eosio::action]] void transfer(string from, string to, asset quantity, string memo, asset fee, string sig, name sa) {
+	// 	if (is_key(from))
+	// 		is_key(to) ? transfer_f(str_to_pub(from), str_to_pub(to), quantity, memo, fee, str_to_sig(sig), sa) : transfer_f(str_to_pub(from), name(to), quantity, memo, fee, str_to_sig(sig), sa);
+	// 	else
+	// 		is_key(to) ? transfer_f(name(from), str_to_pub(to), quantity, memo) : transfer_f(name(from), name(to), quantity, memo);
+	// }
+	[[eosio::action]] void transfer(name from, name to, asset quantity, string memo) {
+		
 	}
 
 	private :
@@ -126,13 +129,8 @@ class[[eosio::contract]] token : public eosio::contract
 		else
 			balance_add(to, quantity, sa);
 	}
-<<<<<<< HEAD
 	void transfer_f(name from, name to, asset quantity, string memo)
 	{
-=======
-	void transfer_f(name from, name to, asset quantity, string memo)
-	{
->>>>>>> 5517c245d0672b36df5352f4ebce2a5a09e85e8e
 		//송신자|수신자|액수|메모
 		require_auth(from);
 		bool iseos = is_eos(quantity);
@@ -774,7 +772,7 @@ class[[eosio::contract]] token : public eosio::contract
 			accounts.emplace(ram_payer, [&](auto &r) {
 				r.id = keytoid(account);
 				r.user = account;
-				r.nonce = 0;
+				r.nonce = 1;
 				r.balance.amount = 0;
 				r.balance.symbol = symbol(symbol_code("COF"), 4);
 				r.balance += quantity;
@@ -782,6 +780,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 		else
 		{
+		itr_balance->key==true -> OK
 			accounts.modify(itr_balance, _self, [&](auto &r) {
 				r.balance += quantity;
 				if (upnonce)
@@ -802,6 +801,7 @@ class[[eosio::contract]] token : public eosio::contract
 				r.balance.amount = 0;
 				r.balance.symbol = symbol(symbol_code("COF"), 4);
 				r.balance += quantity;
+				r.key=false;
 			});
 		}
 		else
