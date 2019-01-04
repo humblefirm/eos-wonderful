@@ -26,7 +26,7 @@ class[[eosio::contract]] token : public eosio::contract
 	char version = 3;
 
 	//계정 생성 비용 및 설정자 설정
-	[[eosio::action]] void setinfo(name manager) {
+	[[eosio::action]] void setinfo(name manager, string token_type) {
 		//id : 설정 및 계좌 관리자
 		info_table info(_self, _self.value);
 		auto itr_info = info.find(0);
@@ -36,6 +36,7 @@ class[[eosio::contract]] token : public eosio::contract
 			info.emplace(_self, [&](auto &r) {
 				r.id = 0;
 				r.manager = manager;
+				r.token_type = token_type;
 			});
 		}
 		else
@@ -43,12 +44,12 @@ class[[eosio::contract]] token : public eosio::contract
 			require_auth(itr_info->manager);
 			info.modify(itr_info, _self, [&](auto &r) {
 				r.manager = manager;
+				r.token_type = token_type;
 			});
 		}
 	}
 
-		[[eosio::action]] void
-		mint(string to, asset quantity, string memo)
+	[[eosio::action]] void mint(string to, asset quantity, string memo)
 	{
 		is_key(to) ? mint_f(str_to_pub(to), quantity, memo) : mint_f(name(to.c_str()), quantity, memo);
 	}
@@ -81,7 +82,7 @@ class[[eosio::contract]] token : public eosio::contract
 	{
 		uint64_t id;
 		name manager;
-
+		string token_type;
 		uint64_t primary_key() const { return id; }
 
 		EOSLIB_SERIALIZE(info, (id)(manager))
@@ -98,6 +99,8 @@ class[[eosio::contract]] token : public eosio::contract
 		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
 		bool iseos = is_eos(quantity);
 		Check_memo(memo);
+
+		
 
 		balance_sub(from, quantity, sa, true);
 		balance_add(to, quantity, sa, false);
@@ -173,7 +176,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_auth(itr_info->manager);
 
 		//정확성 확인
-		Check_asset(quantity, "COF");
+		Check_asset(quantity, itr_info->token_type);
 		Check_memo(memo);
 
 		//발행
@@ -190,7 +193,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_auth(itr_info->manager);
 
 		//정확성 확인
-		Check_asset(quantity, "COF");
+		Check_asset(quantity, itr_info->token_type);
 		Check_memo(memo);
 
 		//발행
@@ -780,7 +783,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 		else
 		{
-		itr_balance->key==true -> OK
+			eosio_assert(itr_balance->nonce > 0, "Wrong balance");
 			accounts.modify(itr_balance, _self, [&](auto &r) {
 				r.balance += quantity;
 				if (upnonce)
@@ -793,7 +796,8 @@ class[[eosio::contract]] token : public eosio::contract
 		require_recipient(account);
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(account.value);
-		Check_asset(quantity, "COF");
+		eosio_assert(itr_balance->nonce == 0, "Wrong balance");
+
 		if (itr_balance == accounts.end())
 		{
 			accounts.emplace(ram_payer, [&](auto &r) {
@@ -836,6 +840,7 @@ class[[eosio::contract]] token : public eosio::contract
 			eosio_assert(r.balance.amount >= 0, "Overdrawn balance");
 		});
 	}
+
 	void verify_sig_transfer(public_key from, name to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
 	{
