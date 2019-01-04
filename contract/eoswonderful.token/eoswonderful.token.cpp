@@ -42,7 +42,8 @@ class[[eosio::contract]] token : public eosio::contract
 		else
 		{
 			require_auth(itr_info->manager);
-			info.modify(itr_info, _self, [&](auto &r) {
+			info.emplace(_self, [&](auto &r) {
+				r.id = 0;
 				r.manager = manager;
 				r.token_type = token_type;
 			});
@@ -62,6 +63,10 @@ class[[eosio::contract]] token : public eosio::contract
 	// 		is_key(to) ? transfer_f(name(from), str_to_pub(to), quantity, memo) : transfer_f(name(from), name(to), quantity, memo);
 	// }
 	[[eosio::action]] void transfer(name from, name to, asset quantity, string memo) {
+		info_table info(_self, _self.value);
+		auto itr_info = info.find(0);
+		Check_asset(quantity, itr_info->token_type);
+
 		public_key fromkey;
 		public_key tokey;
 
@@ -127,7 +132,7 @@ class[[eosio::contract]] token : public eosio::contract
 		string token_type;
 		uint64_t primary_key() const { return id; }
 
-		EOSLIB_SERIALIZE(info, (id)(manager))
+		EOSLIB_SERIALIZE(info, (id)(manager)(token_type))
 	};
 	typedef multi_index<"info"_n, info> info_table;
 	//토큰 발행 - key
@@ -139,7 +144,6 @@ class[[eosio::contract]] token : public eosio::contract
 		accounts_table accounts(_self, _self.value);
 		auto itr_from = accounts.find(keytoid(from));
 		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
-		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
@@ -154,52 +158,25 @@ class[[eosio::contract]] token : public eosio::contract
 		accounts_table accounts(_self, _self.value);
 		auto itr_from = accounts.find(keytoid(from));
 		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
-		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
-		if (iseos)
-			action(
-				permission_level{get_self(), "active"_n},
-				"eosio.token"_n,
-				"transfer"_n,
-				std::make_tuple(
-					_self,
-					to,
-					quantity,
-					memo))
-				.send();
-		else
-			balance_add(to, quantity, sa);
+		balance_add(to, quantity, sa);
 	}
 	void transfer_f(name from, name to, asset quantity, string memo)
 	{
 		//송신자|수신자|액수|메모
 		require_auth(from);
-		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, from);
-		if (iseos)
-			action(
-				permission_level{_self, "active"_n},
-				"eosio.token"_n,
-				"transfer"_n,
-				std::make_tuple(
-					_self,
-					to,
-					quantity,
-					memo))
-				.send();
-		else
-			balance_add(to, quantity, from);
+		balance_add(to, quantity, from);
 	}
 
 	void transfer_f(name from, public_key to, asset quantity, string memo)
 	{
 		//송신자|수신자|액수|메모
 		require_auth(from);
-		bool iseos = is_eos(quantity);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, from);
@@ -768,17 +745,6 @@ class[[eosio::contract]] token : public eosio::contract
 	{
 		if (account.size() == 53)
 			return true;
-		return false;
-	}
-	bool is_eos(asset quantity)
-	{
-		if (quantity.symbol == symbol(symbol_code("EOS"), 4))
-		{
-			Check_asset(quantity, "EOS");
-			return true;
-		}
-		else
-			Check_asset(quantity, "ONE");
 		return false;
 	}
 	void Check_asset(asset quantity, string symbols)

@@ -23,7 +23,7 @@ class[[eosio::contract]] token : public eosio::contract
 	}*/
 	token(name receiver, name code, datastream<const char *> ds) : contract(receiver, code, ds) {}
 
-	char version = 3;
+	char version = 4;
 
 	//계정 생성 비용 및 설정자 설정
 	[[eosio::action]] void setinfo(name manager, string token_type) {
@@ -122,7 +122,7 @@ class[[eosio::contract]] token : public eosio::contract
 		string token_type;
 		uint64_t primary_key() const { return id; }
 
-		EOSLIB_SERIALIZE(info, (id)(manager))
+		EOSLIB_SERIALIZE(info, (id)(manager)(token_type))
 	};
 	typedef multi_index<"info"_n, info> info_table;
 	//토큰 발행 - key
