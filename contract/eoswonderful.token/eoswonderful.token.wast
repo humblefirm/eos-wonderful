@@ -90,7 +90,7 @@
  (data (i32.const 1024) "subtraction overflow\00")
  (data (i32.const 1056) "Overdrawn balance\00")
  (data (i32.const 1088) "EOS\00")
- (data (i32.const 1104) "COF\00")
+ (data (i32.const 1104) "BOT\00")
  (data (i32.const 1120) "This symbol not support\00")
  (data (i32.const 1152) "invalid quantity\00")
  (data (i32.const 1184) "must transfer positive quantity\00")
@@ -14243,7 +14243,7 @@
     (get_local $1)
     (i32.const 64)
    )
-   (i64.const 1179599620)
+   (i64.const 1414480388)
   )
   (i64.store offset=72
    (get_local $1)
@@ -14317,7 +14317,7 @@
   (call $eosio_assert
    (i64.eq
     (get_local $2)
-    (i64.const 1179599620)
+    (i64.const 1414480388)
    )
    (i32.const 592)
   )
@@ -18603,7 +18603,7 @@
     (get_local $1)
     (i32.const 16)
    )
-   (i64.const 1179599620)
+   (i64.const 1414480388)
   )
   (i64.store offset=24
    (get_local $1)
@@ -18677,7 +18677,7 @@
   (call $eosio_assert
    (i64.eq
     (get_local $2)
-    (i64.const 1179599620)
+    (i64.const 1414480388)
    )
    (i32.const 592)
   )
