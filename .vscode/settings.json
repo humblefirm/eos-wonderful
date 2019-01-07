@@ -23,8 +23,18 @@
         "system_error": "cpp",
         "__functional_base": "cpp",
         "atomic": "cpp",
+<<<<<<< HEAD
         "limits": "cpp",
         "tuple": "cpp"
+=======
+        "functional": "cpp",
+        "limits": "cpp",
+        "tuple": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "ratio": "cpp",
+        "__locale": "cpp"
+>>>>>>> 681f0f69d95122d1a80b91db782063fbb6fcf7b7
     },
     "git.ignoreLimitWarning": true
 }
