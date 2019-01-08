@@ -41,6 +41,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 		else
 		{
+			info.erase(itr_info);
 			require_auth(itr_info->manager);
 			info.emplace(_self, [&](auto &r) {
 				r.id = 0;
@@ -50,8 +51,8 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 	}
 
-		[[eosio::action]] void
-		mint(string to, asset quantity, string memo)
+	[[eosio::action]] void
+	mint(string to, asset quantity, string memo)
 	{
 		is_key(to) ? mint_f(str_to_pub(to), quantity, memo) : mint_f(name(to.c_str()), quantity, memo);
 	}
@@ -76,26 +77,34 @@ class[[eosio::contract]] token : public eosio::contract
 		signature sig;
 		name sa;
 		bool fromiskey = false;
-		if (from.value == name("").value)
+		if (from.value == name("").value)    
 			fromiskey = true;
 		bool toiskey = false;
 		if (to.value == name("").value)
 			toiskey = true;
-		if (fromiskey || toiskey)
+		if (fromiskey || toiskey) 
 		{
 			string temp;
-			if (toiskey && !fromiskey)
+			if (toiskey && !fromiskey) 
 			{
 				temp = memo;
 				memo = memo.substr(0, memo.find('$'));
 				temp = temp.substr(temp.find('$') + 1, temp.length() - 1);
 				tokey = str_to_pub(temp);
 			}
-
-			if (fromiskey)
+			if(!toiskey && fromiskey)
 			{
+				temp = memo;
+				memo = memo.substr(0, memo.find('$'));
+				temp = temp.substr(temp.find('$') + 1, temp.length() - 1);
+				fromkey = str_to_pub(temp);
+			}
+			if (toiskey && fromiskey)
+			{
+				temp = temp.substr(memo.find('$') + 1, memo.length());
+				fromkey = str_to_pub(temp.substr(0, temp.find('$')));
 				temp = temp.substr(temp.find('$') + 1, temp.length());
-				fromkey = str_to_pub(memo.substr(0, memo.find('$')));
+				tokey = temp.substr(temp.find('$') + 1, temp.length()); 
 				temp = temp.substr(temp.find('$') + 1, temp.length());
 				feeamount = (uint64_t)stoi(temp.substr(0, temp.find('$')));
 				temp = temp.substr(temp.find('$') + 1, temp.length());
@@ -103,7 +112,7 @@ class[[eosio::contract]] token : public eosio::contract
 				temp = temp.substr(temp.find('$') + 1, temp.length());
 				sa = name(temp);
 			}
-		}
+		} 
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
@@ -773,7 +782,6 @@ class[[eosio::contract]] token : public eosio::contract
 
 	void balance_add(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{
-		Check_asset(quantity, "ONE");
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(keytoid(account));
 		if (itr_balance == accounts.end())
@@ -783,7 +791,7 @@ class[[eosio::contract]] token : public eosio::contract
 				r.user = account;
 				r.nonce = 1;
 				r.balance.amount = 0;
-				r.balance.symbol = symbol(symbol_code("ONE"), 4);
+				r.balance.symbol = quantity.symbol;
 				r.balance += quantity;
 			});
 		}
@@ -791,7 +799,8 @@ class[[eosio::contract]] token : public eosio::contract
 		{
 			eosio_assert(itr_balance->nonce > 0, "Wrong balance");
 			accounts.modify(itr_balance, _self, [&](auto &r) {
-				r.balance += quantity;
+				r.balance.symbol = quantity.symbol;
+				r.balance.amount += quantity.amount;
 				if (upnonce)
 					r.nonce++;
 			});
@@ -809,25 +818,26 @@ class[[eosio::contract]] token : public eosio::contract
 			accounts.emplace(ram_payer, [&](auto &r) {
 				r.id = account.value;
 				r.balance.amount = 0;
-				r.balance.symbol = symbol(symbol_code("ONE"), 4);
+				r.balance.symbol = quantity.symbol;
 				r.balance += quantity;
 			});
 		}
 		else
 		{
 			accounts.modify(itr_balance, _self, [&](auto &r) {
-				r.balance += quantity;
+				r.balance.symbol = quantity.symbol;
+				r.balance.amount += quantity.amount;
 			});
 		}
 	}
 	void balance_sub(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{
-		Check_asset(quantity, "ONE");
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(keytoid(account));
 		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
-			r.balance -= quantity;
+			r.balance.symbol = quantity.symbol;
+			r.balance.amount -= quantity.amount;
 			eosio_assert(r.balance.amount >= 0, "Overdrawn balance");
 			if (upnonce)
 				r.nonce++;
@@ -835,13 +845,13 @@ class[[eosio::contract]] token : public eosio::contract
 	}
 	void balance_sub(name account, asset quantity, name ram_payer)
 	{
-		Check_asset(quantity, "ONE");
 		require_recipient(account);
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(account.value);
 		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
-			r.balance -= quantity;
+			r.balance.symbol = quantity.symbol;
+			r.balance.amount -= quantity.amount;
 			eosio_assert(r.balance.amount >= 0, "Overdrawn balance");
 		});
 	}
