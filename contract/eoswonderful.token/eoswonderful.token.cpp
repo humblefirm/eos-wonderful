@@ -85,34 +85,27 @@ class[[eosio::contract]] token : public eosio::contract
 		if (fromiskey || toiskey) 
 		{
 			string temp;
-			if (toiskey && !fromiskey) 
+			if (toiskey) 
 			{
 				temp = memo;
 				memo = memo.substr(0, memo.find('$'));
 				temp = temp.substr(temp.find('$') + 1, temp.length() - 1);
 				tokey = str_to_pub(temp);
+
 			}
-			if(!toiskey && fromiskey)
+			if (fromiskey)
 			{
-				temp = memo;
-				memo = memo.substr(0, memo.find('$'));
-				temp = temp.substr(temp.find('$') + 1, temp.length() - 1);
-				fromkey = str_to_pub(temp);
-			}
-			if (toiskey && fromiskey)
-			{
-				temp = temp.substr(memo.find('$') + 1, memo.length());
+				temp = temp.substr(memo.find('$') + 1, memo.length()-1);
 				fromkey = str_to_pub(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length());
-				tokey = temp.substr(temp.find('$') + 1, temp.length()); 
-				temp = temp.substr(temp.find('$') + 1, temp.length());
+				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
 				feeamount = (uint64_t)stoi(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length());
+				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
 				sig = str_to_sig(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length());
+				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
 				sa = name(temp);
 			}
 		} 
+		
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
@@ -122,16 +115,16 @@ class[[eosio::contract]] token : public eosio::contract
 
 	private :
 
-		struct [[eosio::table]] accounts {
-			uint64_t id;
-			public_key user;
-			uint64_t nonce;
-			asset balance;
+	struct [[eosio::table]] accounts {
+		uint64_t id;
+		public_key user;
+		uint64_t nonce;
+		asset balance;
 
-			uint64_t primary_key() const { return id; }
+		uint64_t primary_key() const { return id; }
 
-			EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
-		};
+		EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
+	};
 	typedef multi_index<"accounts"_n, accounts> accounts_table;
 
 	struct [[eosio::table]] info
