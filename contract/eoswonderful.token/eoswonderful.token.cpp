@@ -71,41 +71,49 @@ class[[eosio::contract]] token : public eosio::contract
 		public_key fromkey;
 		public_key tokey;
 
+		vector<string> result;
+
 		asset fee;
 		uint64_t feeamount = 0;
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
+
+		result = split(memo.c_str(), '$');
+
 		bool fromiskey = false;
 		if (from.value == name("").value)    
 			fromiskey = true;
 		bool toiskey = false;
 		if (to.value == name("").value)
 			toiskey = true;
+				
+		result = split(memo.c_str(), '$');
+
 		if (fromiskey || toiskey) 
 		{
 			string temp;
 			if (toiskey) 
 			{
-				temp = memo;
-				memo = memo.substr(0, memo.find('$'));
-				temp = temp.substr(temp.find('$') + 1, temp.length() - 1);
-				tokey = str_to_pub(temp);
-
+				memo = result[0];
+				tokey = str_to_pub(result[1]);
+				if(fromiskey)
+				{
+					fromkey = str_to_pub(result[2]);
+					feeamount = (uint64_t)stoi(result[3]);
+					sig = str_to_sig(result[4]);
+					sa	= name(result[5]);
+				}
 			}
-			if (fromiskey)
+			if (fromiskey&&!toiskey)
 			{
-				temp = temp.substr(memo.find('$') + 1, memo.length()-1);
-				fromkey = str_to_pub(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
-				feeamount = (uint64_t)stoi(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
-				sig = str_to_sig(temp.substr(0, temp.find('$')));
-				temp = temp.substr(temp.find('$') + 1, temp.length()-1);
-				sa = name(temp);
+					fromkey = str_to_pub(result[1]);
+					feeamount = (uint64_t)stoi(result[2]);
+					sig = str_to_sig(result[3]);
+					sa	= name(result[4]);
 			}
 		} 
-		
+
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
@@ -773,6 +781,22 @@ class[[eosio::contract]] token : public eosio::contract
 		return ret;
 	}
 
+	vector<string> split(const char *str, char c = ' ')
+	{
+    	vector<string> result;
+
+	    do
+	    {
+	        const char *begin = str;
+
+	        while(*str != c && *str)
+	            str++;
+
+	        result.push_back(string(begin, str));
+	    } while (0 != *str++);
+
+	    return result;
+	}
 	void balance_add(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{
 		accounts_table accounts(_self, _self.value);
