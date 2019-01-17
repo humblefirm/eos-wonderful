@@ -41,9 +41,9 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 		else
 		{
-			info.erase(itr_info);
+			//info.erase(itr_info);
 			require_auth(itr_info->manager);
-			info.emplace(_self, [&](auto &r) {
+			info.modify(itr_info, _self, [&](auto &r) {
 				r.id = 0;
 				r.manager = manager;
 				r.token_type = token_type;
@@ -78,7 +78,11 @@ class[[eosio::contract]] token : public eosio::contract
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		bool fromiskey = false;
 		if (from.value == name("").value)
 			fromiskey = true;
@@ -87,12 +91,29 @@ class[[eosio::contract]] token : public eosio::contract
 			toiskey = true;
 
 		result = split(memo.c_str(), '$');
+<<<<<<< HEAD
 
+=======
+		print(to_string(result.size()).c_str());
+		print("\n");
+		print(result[0].c_str());
+		print("\n");
+		print(result[1].c_str());
+		print("\n");
+		print(result[2].c_str());
+		print("\n");
+		print(result[3].c_str());
+		print("\n");
+		print(result[4].c_str());
+		print("\n");
+	
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		if (fromiskey || toiskey)
 		{
 			string temp;
 			if (toiskey)
 			{
+				print(to_string(result.size()).c_str());
 				memo = result[0];
 				tokey = str_to_pub(result[1]);
 				if (fromiskey)
@@ -108,9 +129,15 @@ class[[eosio::contract]] token : public eosio::contract
 				fromkey = str_to_pub(result[1]);
 				feeamount = (uint64_t)stoi(result[2]);
 				sig = str_to_sig(result[3]);
+<<<<<<< HEAD
 				sa = name(result[4]);
 			}
 		}
+=======
+				sa	= name(result[4]);
+			}
+		} 
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
@@ -159,12 +186,12 @@ class[[eosio::contract]] token : public eosio::contract
 
 	void transfer_f(public_key from, name to, asset quantity, string memo, asset fee, signature sig, name sa)
 	{
+		print("start transfer \n");
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
-
 		accounts_table accounts(_self, _self.value);
 		auto itr_from = accounts.find(keytoid(from));
-		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
+		//verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
@@ -175,7 +202,6 @@ class[[eosio::contract]] token : public eosio::contract
 		//송신자|수신자|액수|메모
 		require_auth(from);
 		Check_memo(memo);
-
 		balance_sub(from, quantity, from);
 		balance_add(to, quantity, from);
 	}
@@ -859,6 +885,8 @@ class[[eosio::contract]] token : public eosio::contract
 	}
 	void balance_sub(name account, asset quantity, name ram_payer)
 	{
+		print("balance_sub start\n");
+		print(name{account});
 		require_recipient(account);
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(account.value);
