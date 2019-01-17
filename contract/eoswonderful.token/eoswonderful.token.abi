@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 15:11:17 2019",
-=======
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 11:22:25 2019",
->>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 15:27:42 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -65,6 +61,20 @@
             ]
         },
         {
+            "name": "notify",
+            "base": "",
+            "fields": [
+                {
+                    "name": "user",
+                    "type": "name"
+                },
+                {
+                    "name": "sig",
+                    "type": "signature"
+                }
+            ]
+        },
+        {
             "name": "setinfo",
             "base": "",
             "fields": [
@@ -106,6 +116,11 @@
         {
             "name": "mint",
             "type": "mint",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "notify",
+            "type": "notify",
             "ricardian_contract": ""
         },
         {
