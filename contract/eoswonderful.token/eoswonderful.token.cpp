@@ -177,7 +177,8 @@ class[[eosio::contract]] token : public eosio::contract
 		require_auth(sa);
 		accounts_table accounts(_self, _self.value);
 		auto itr_from = accounts.find(keytoid(from));
-		//verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
+		print("verity_sig start\n");
+		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
