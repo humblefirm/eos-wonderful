@@ -78,11 +78,7 @@ class[[eosio::contract]] token : public eosio::contract
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		bool fromiskey = false;
 		if (from.value == name("").value)
 			fromiskey = true;
@@ -91,9 +87,6 @@ class[[eosio::contract]] token : public eosio::contract
 			toiskey = true;
 
 		result = split(memo.c_str(), '$');
-<<<<<<< HEAD
-
-=======
 		print(to_string(result.size()).c_str());
 		print("\n");
 		print(result[0].c_str());
@@ -106,8 +99,7 @@ class[[eosio::contract]] token : public eosio::contract
 		print("\n");
 		print(result[4].c_str());
 		print("\n");
-	
->>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
+
 		if (fromiskey || toiskey)
 		{
 			string temp;
@@ -129,34 +121,35 @@ class[[eosio::contract]] token : public eosio::contract
 				fromkey = str_to_pub(result[1]);
 				feeamount = (uint64_t)stoi(result[2]);
 				sig = str_to_sig(result[3]);
-<<<<<<< HEAD
 				sa = name(result[4]);
 			}
 		}
-=======
-				sa	= name(result[4]);
-			}
-		} 
->>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
+
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
 		else
 			toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
 	}
+		[[eosio::action]] void
+		notify(name user, signature sig)
+	{
+		require_auth(user);
+		require_recipient(user);
+	};
 
-	private :
+  private:
+	struct [[eosio::table]] accounts
+	{
+		uint64_t id;
+		public_key user;
+		uint64_t nonce;
+		asset balance;
 
-		struct [[eosio::table]] accounts {
-			uint64_t id;
-			public_key user;
-			uint64_t nonce;
-			asset balance;
+		uint64_t primary_key() const { return id; }
 
-			uint64_t primary_key() const { return id; }
-
-			EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
-		};
+		EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
+	};
 	typedef multi_index<"accounts"_n, accounts> accounts_table;
 
 	struct [[eosio::table]] info
@@ -169,7 +162,16 @@ class[[eosio::contract]] token : public eosio::contract
 		EOSLIB_SERIALIZE(info, (id)(manager)(token_type))
 	};
 	typedef multi_index<"info"_n, info> info_table;
-	//토큰 발행 - key
+
+	void sendSummary(name user, signature sig)
+	{
+		action(
+			permission_level{user, "active"_n},
+			get_self(),
+			"notify"_n,
+			std::make_tuple(user, sig))
+			.send();
+	}
 	void transfer_f(public_key from, public_key to, asset quantity, string memo, asset fee, signature sig, name sa)
 	{
 		//송신자|수신자|액수|메모|{sadata}
@@ -731,9 +733,9 @@ class[[eosio::contract]] token : public eosio::contract
 		signature _sig;
 		unsigned int type = k1 ? 0 : 1;
 		_sig.data[0] = (uint8_t)type;
-		for (int i = 1; i < sizeof(_sig.data); i++)
+		for (int i = 0; i < sizeof(_sig.data); i++)
 		{
-			_sig.data[i] = vch[i - 1];
+			_sig.data[i] = vch[i];
 		}
 		return _sig;
 	}
@@ -917,7 +919,6 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 34 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
 
 		sha256(potato, sizeof(potato), &digest);
-
 		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
 	}
 	void verify_sig_transfer(public_key from, public_key to, asset quantity, string memo,
@@ -971,7 +972,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}                                                                                                                        \
 	}
 
-EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer))
+EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer)(notify))
 
 // 가시밭길이더라도 자주적 사고를 하는 이의 길을 가십시오. 비판과 논란에 맞서서 당신의 생각을 당당히 밝히십시오. 당신의 마음이 시키는 대로 하십시오. '별난 사람'이라고 낙인찍히는 것보다 순종이라는 오명에 무릎 꿇는 것을 더 두려워하십시오. 당신이 중요하다고 생각하는 이념을 위해서라면 온 힘을 다해 싸우십시오.
 // Thomas J. Watson
