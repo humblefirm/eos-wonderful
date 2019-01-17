@@ -925,17 +925,17 @@ class[[eosio::contract]] token : public eosio::contract
 		strchar[sizeof(strchar) - 1] = 0;
 
 		capi_checksum256 digest;
-		char potato[34 * 2 + 8 + 256 + 8 * 2];
+		char potato[33 * 2 + 8 + 256 + 8 * 2];
 
-		memcpy(potato, &from, sizeof(from));
-		memcpy(potato + 34, &to, sizeof(to));
-		memcpy(potato + 34 + 34, &quantity.amount, sizeof(quantity.amount));
-		memcpy(potato + 34 + 34 + 8, &strchar, sizeof(strchar));
-		memcpy(potato + 34 + 34 + 8 + 256, &fee.amount, sizeof(fee.amount));
-		memcpy(potato + 34 + 34 + 8 + 256 + 8, &nonce, sizeof(nonce));
+		memcpy(potato, &from.data, sizeof(from.data));
+		memcpy(potato + 33, &to.data, sizeof(to.data));
+		memcpy(potato + 33 + 33, &quantity.amount, sizeof(quantity.amount));
+		memcpy(potato + 33 + 33 + 8, &strchar, sizeof(strchar));
+		memcpy(potato + 33 + 33 + 8 + 256, &fee.amount, sizeof(fee.amount));
+		memcpy(potato + 33 + 33 + 8 + 256 + 8, &nonce, sizeof(nonce));
 
-		printhex(&potato, 348);
 		sha256(potato, sizeof(potato), &digest);
+		printhex(&sig, sizeof(sig));
 		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
 	}
 };
