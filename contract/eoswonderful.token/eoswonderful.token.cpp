@@ -195,6 +195,7 @@ class[[eosio::contract]] token : public eosio::contract
 		auto itr_from = accounts.find(keytoid(from));
 		print("verity_sig start\n");
 		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
+		print("end");
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
@@ -917,9 +918,10 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 34 + 8 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 34 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 34 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
-
+		print("\nStart sha256\n");
 		sha256(potato, sizeof(potato), &digest);
-		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
+		assert_recover_key(&digest, to_string(sig).c_str(), to_string(sig).size(), to_string(from).c_str(), to_string(from).size());
+		print("Start assert_recover_key\n");
 	}
 	void verify_sig_transfer(public_key from, public_key to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
