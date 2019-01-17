@@ -51,8 +51,8 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 	}
 
-	[[eosio::action]] void
-	mint(string to, asset quantity, string memo)
+		[[eosio::action]] void
+		mint(string to, asset quantity, string memo)
 	{
 		is_key(to) ? mint_f(str_to_pub(to), quantity, memo) : mint_f(name(to.c_str()), quantity, memo);
 	}
@@ -78,15 +78,22 @@ class[[eosio::contract]] token : public eosio::contract
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
+<<<<<<< HEAD
+
+=======
 		
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		bool fromiskey = false;
-		if (from.value == name("").value)    
+		if (from.value == name("").value)
 			fromiskey = true;
 		bool toiskey = false;
 		if (to.value == name("").value)
 			toiskey = true;
-				
+
 		result = split(memo.c_str(), '$');
+<<<<<<< HEAD
+
+=======
 		print(to_string(result.size()).c_str());
 		print("\n");
 		print(result[0].c_str());
@@ -100,30 +107,37 @@ class[[eosio::contract]] token : public eosio::contract
 		print(result[4].c_str());
 		print("\n");
 	
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		if (fromiskey || toiskey)
 		{
 			string temp;
-			if (toiskey) 
+			if (toiskey)
 			{
 				print(to_string(result.size()).c_str());
 				memo = result[0];
 				tokey = str_to_pub(result[1]);
-				if(fromiskey)
+				if (fromiskey)
 				{
 					fromkey = str_to_pub(result[2]);
 					feeamount = (uint64_t)stoi(result[3]);
 					sig = str_to_sig(result[4]);
-					sa	= name(result[5]);
+					sa = name(result[5]);
 				}
 			}
-			if (fromiskey&&!toiskey)
+			if (fromiskey && !toiskey)
 			{
 				fromkey = str_to_pub(result[1]);
 				feeamount = (uint64_t)stoi(result[2]);
 				sig = str_to_sig(result[3]);
+<<<<<<< HEAD
+				sa = name(result[4]);
+			}
+		}
+=======
 				sa	= name(result[4]);
 			}
 		} 
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
 		fee.amount = feeamount;
 		if (fromiskey)
 			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
@@ -133,16 +147,16 @@ class[[eosio::contract]] token : public eosio::contract
 
 	private :
 
-	struct [[eosio::table]] accounts {
-		uint64_t id;
-		public_key user;
-		uint64_t nonce;
-		asset balance;
+		struct [[eosio::table]] accounts {
+			uint64_t id;
+			public_key user;
+			uint64_t nonce;
+			asset balance;
 
-		uint64_t primary_key() const { return id; }
+			uint64_t primary_key() const { return id; }
 
-		EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
-	};
+			EOSLIB_SERIALIZE(accounts, (id)(user)(nonce)(balance))
+		};
 	typedef multi_index<"accounts"_n, accounts> accounts_table;
 
 	struct [[eosio::table]] info
@@ -744,10 +758,10 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 		public_key _pub_key;
 		unsigned int type = 0;
-		_pub_key.data[0] = (char)type;
-		for (int i = 1; i < sizeof(_pub_key.data); i++)
+		//_pub_key.data[0] = (char)type;
+		for (int i = 0; i < sizeof(_pub_key.data); i++)
 		{
-			_pub_key.data[i] = vch[i - 1];
+			_pub_key.data[i] = vch[i];
 		}
 		return _pub_key;
 	}
@@ -793,19 +807,19 @@ class[[eosio::contract]] token : public eosio::contract
 
 	vector<string> split(const char *str, char c = ' ')
 	{
-    	vector<string> result;
+		vector<string> result;
 
-	    do
-	    {
-	        const char *begin = str;
+		do
+		{
+			const char *begin = str;
 
-	        while(*str != c && *str)
-	            str++;
+			while (*str != c && *str)
+				str++;
 
-	        result.push_back(string(begin, str));
-	    } while (0 != *str++);
+			result.push_back(string(begin, str));
+		} while (0 != *str++);
 
-	    return result;
+		return result;
 	}
 	void balance_add(public_key account, asset quantity, name ram_payer, bool upnonce = false)
 	{

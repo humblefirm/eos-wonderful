@@ -1,5 +1,13 @@
 {
+<<<<<<< HEAD
     "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 14:37:03 2019",
+=======
+<<<<<<< HEAD
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 15:11:17 2019",
+=======
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 11:22:25 2019",
+>>>>>>> 3966c981c0ec934ee5672dd6c24f3be8f24f200a
+>>>>>>> d6f5df9f198b39c0e51bee805b9cf25cb1446f0d
     "version": "eosio::abi/1.1",
     "structs": [
         {
