@@ -113,11 +113,11 @@ class[[eosio::contract]] token : public eosio::contract
 			}
 		}
 
-		 fee.amount = feeamount;
-		 if (fromiskey)
-		 	toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
-		 else
-		 	toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
+		fee.amount = feeamount;
+		if (fromiskey)
+			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
+		else
+			toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
 	}
 
 		[[eosio::action]] void
@@ -127,10 +127,10 @@ class[[eosio::contract]] token : public eosio::contract
 		require_recipient(user);
 	};
 	[[eosio::action]] void
-		verify(public_key from, public_key to, asset quantity, string memo, asset fee, uint64_t nonce, signature sig)
-	{
-		
+	verify(public_key from, public_key to, asset quantity, string memo,
+							 asset fee, int64_t nonce, signature sig) {
 		verify_sig_transfer(from, to, quantity, memo, fee, nonce, sig);
+		print("VALID");
 	};
 
   private:
@@ -333,10 +333,10 @@ class[[eosio::contract]] token : public eosio::contract
 		return uint64_hash(sha256_to_hex(hash));
 	}
 
-	capi_checksum160 hex_to_sha256(const string &hex_str)
+	capi_checksum256 hex_to_sha256(const string &hex_str)
 	{
 		eosio_assert(hex_str.length() == 64, "invalid sha256");
-		capi_checksum160 checksum;
+		capi_checksum256 checksum;
 		from_hex(hex_str, (char *)checksum.hash, sizeof(checksum.hash));
 		return checksum;
 	}
@@ -898,21 +898,21 @@ class[[eosio::contract]] token : public eosio::contract
 	void verify_sig_transfer(public_key from, name to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
 	{
-		
+
 		char strchar[256];
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
 		capi_checksum256 digest;
-		char potato[34 + 8 * 2 + 256 + 8 * 2];
+		char potato[33 + 8 * 2 + 256 + 8 * 2];
 
-		memcpy(potato, &from, sizeof(from));
-		memcpy(potato + 34, &to, sizeof(to));
-		memcpy(potato + 34 + 8, &quantity.amount, sizeof(quantity.amount));
-		memcpy(potato + 34 + 8 + 8, &strchar, sizeof(strchar));
-		memcpy(potato + 34 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
-		memcpy(potato + 34 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
-		
+		memcpy(potato, &from.data, sizeof(from.data));
+		memcpy(potato + 33, &to, sizeof(to));
+		memcpy(potato + 33 + 8, &quantity.amount, sizeof(quantity.amount));
+		memcpy(potato + 33 + 8 + 8, &strchar, sizeof(strchar));
+		memcpy(potato + 33 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
+		memcpy(potato + 33 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
+
 		sha256(potato, sizeof(potato), &digest);
 		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
 	}
@@ -924,7 +924,7 @@ class[[eosio::contract]] token : public eosio::contract
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
-		capi_checksum256 digest;
+		checksum256 digest;
 		char potato[33 * 2 + 8 + 256 + 8 * 2];
 
 		memcpy(potato, &from.data, sizeof(from.data));
@@ -934,9 +934,8 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 33 + 33 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 33 + 33 + 8 + 256 + 8, &nonce, sizeof(nonce));
 
-		sha256(potato, sizeof(potato), &digest);
-		printhex(&sig, sizeof(sig));
-		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
+		digest = eosio::sha256(potato, sizeof(potato));
+		eosio::assert_recover_key(digest, sig, from);
 	}
 };
 

@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 17:12:46 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Thu Jan 17 19:33:23 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -136,7 +136,7 @@
                 },
                 {
                     "name": "nonce",
-                    "type": "uint64"
+                    "type": "int64"
                 },
                 {
                     "name": "sig",
