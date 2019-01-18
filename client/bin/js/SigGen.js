@@ -15,6 +15,11 @@ function gen_sig(data) {
         buf = buf.concat(toHexBuf(tmp[0], tmp[1]));
     }
     var hash = eosjs_ecc.sha256(buf);
+    console.log(buf);
+    console.log("\n")
+    console.log(hash);
+    console.log("\n")
+    console.log(wif);
     return eosjs_ecc.signHash(hash, wif);
 }
 
@@ -142,7 +147,7 @@ function strH2hexB(str) {
     var ret = [];
     for (var i = 0; i < str.length; i += 2) {
         var hex = str[i] + str[i + 1];
-        ret.push(parseInt(hex, 16));
+        ret.push(parseInt(hex, 16)>128?parseInt(hex, 16)-256:parseInt(hex, 16));
     }
     return ret;
 }
