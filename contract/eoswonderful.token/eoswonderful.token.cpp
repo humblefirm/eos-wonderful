@@ -912,7 +912,7 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 33 + 8 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 33 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 33 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
-
+		printhex(&potato, sizeof(potato));
 		sha256(potato, sizeof(potato), &digest);
 		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
 	}
