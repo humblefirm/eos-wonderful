@@ -107,7 +107,7 @@ function toHexBuf(data, type) {
 //YOU REALLY DONT NEED TO READ BELOW LINES
 //key to hex
 function key2hexB(key) {
-    var ret = [0];
+    var ret = [];
     var keyD = base58.decode(key.replace("EOS", ''));
     for (i = 0; i < 33; i++) {
         ret.push(keyD[i]);
