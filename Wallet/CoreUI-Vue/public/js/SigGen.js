@@ -173,6 +173,7 @@ function int2hexB(amount) {
     function nameS2hexB(str) {
         var value = nameS2nameI(str);
         value = value.toString(16);
+        value = value>127?value-256:value;
         var ret = [0, 0, 0, 0, 0, 0, 0, 0];
         var i = 0,
             j = 7;

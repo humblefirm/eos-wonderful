@@ -115,7 +115,7 @@ class[[eosio::contract]] token : public eosio::contract
 
 		fee.amount = feeamount;
 		if (fromiskey)
-			toiskey ? transfer_f(fromkey, tokey, quantity, memo, fee, sig, sa) : transfer_f(fromkey, to, quantity, memo, fee, sig, sa);
+			toiskey ? transfer_f(fromkey, tokey, quantity, result[0], fee, sig, sa) : transfer_f(fromkey, to, quantity, result[0], fee, sig, sa);
 		else
 			toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
 	}
@@ -126,12 +126,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_auth(user);
 		require_recipient(user);
 	};
-	[[eosio::action]] void
-	verify(public_key from, public_key to, asset quantity, string memo,
-							 asset fee, int64_t nonce, signature sig) {
-		verify_sig_transfer(from, to, quantity, memo, fee, nonce, sig);
-		print("VALID");
-	};
+
 
   private:
 	struct [[eosio::table]] accounts
@@ -966,7 +961,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}                                                                                                                        \
 	}
 
-EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer)(notify)(verify))
+EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer)(notify))
 
 // 가시밭길이더라도 자주적 사고를 하는 이의 길을 가십시오. 비판과 논란에 맞서서 당신의 생각을 당당히 밝히십시오. 당신의 마음이 시키는 대로 하십시오. '별난 사람'이라고 낙인찍히는 것보다 순종이라는 오명에 무릎 꿇는 것을 더 두려워하십시오. 당신이 중요하다고 생각하는 이념을 위해서라면 온 힘을 다해 싸우십시오.
 // Thomas J. Watson

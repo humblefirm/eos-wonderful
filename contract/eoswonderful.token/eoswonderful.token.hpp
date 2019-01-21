@@ -1,12 +1,15 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/asset.hpp>
+
 using std::map;
 using std::string;
 using std::vector;
 using namespace eosio;
+
 namespace types
 {
 typedef uint64_t uuid;

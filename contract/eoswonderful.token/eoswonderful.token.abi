@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Jan 21 16:36:28 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Jan 21 17:07:19 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -109,40 +109,6 @@
                     "type": "string"
                 }
             ]
-        },
-        {
-            "name": "verify",
-            "base": "",
-            "fields": [
-                {
-                    "name": "from",
-                    "type": "public_key"
-                },
-                {
-                    "name": "to",
-                    "type": "public_key"
-                },
-                {
-                    "name": "quantity",
-                    "type": "asset"
-                },
-                {
-                    "name": "memo",
-                    "type": "string"
-                },
-                {
-                    "name": "fee",
-                    "type": "asset"
-                },
-                {
-                    "name": "nonce",
-                    "type": "int64"
-                },
-                {
-                    "name": "sig",
-                    "type": "signature"
-                }
-            ]
         }
     ],
     "types": [],
@@ -165,11 +131,6 @@
         {
             "name": "transfer",
             "type": "transfer",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "verify",
-            "type": "verify",
             "ricardian_contract": ""
         }
     ],
