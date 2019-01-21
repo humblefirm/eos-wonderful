@@ -871,7 +871,7 @@ class[[eosio::contract]] token : public eosio::contract
 	{
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(keytoid(account));
-		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists!!");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
 			r.balance.symbol = quantity.symbol;
 			r.balance.amount -= quantity.amount;
@@ -887,7 +887,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_recipient(account);
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(account.value);
-		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists!");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
 			r.balance.symbol = quantity.symbol;
 			r.balance.amount -= quantity.amount;
@@ -903,7 +903,7 @@ class[[eosio::contract]] token : public eosio::contract
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
-		capi_checksum256 digest;
+		checksum256 digest;
 		char potato[33 + 8 * 2 + 256 + 8 * 2];
 
 		memcpy(potato, &from.data, sizeof(from.data));
@@ -912,9 +912,9 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 33 + 8 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 33 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 33 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
-		printhex(&potato, sizeof(potato));
-		sha256(potato, sizeof(potato), &digest);
-		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
+		printhex(&potato,sizeof(potato));
+		digest = eosio::sha256(potato, sizeof(potato));
+		eosio::assert_recover_key(digest, sig, from);
 	}
 	void verify_sig_transfer(public_key from, public_key to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
