@@ -10,13 +10,9 @@
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
 
-#include "/usr/local/include/rapidjson/document.h"  
-#include "/usr/local/include/rapidjson/prettywriter.h"
-
 using namespace eosio;
 using namespace std;
 using namespace types;
-using namespace rapidjson;
 
 class[[eosio::contract]] token : public eosio::contract
 {
@@ -28,6 +24,7 @@ class[[eosio::contract]] token : public eosio::contract
 	token(name receiver, name code, datastream<const char *> ds) : contract(receiver, code, ds) {}
 
 	char version = 3;
+
 	//계정 생성 비용 및 설정자 설정
 	[[eosio::action]] void setinfo(name manager, string token_type) {
 		//id : 설정 및 계좌 관리자
@@ -66,13 +63,11 @@ class[[eosio::contract]] token : public eosio::contract
 	// 	else
 	// 		is_key(to) ? transfer_f(name(from), str_to_pub(to), quantity, memo) : transfer_f(name(from), name(to), quantity, memo);
 	// }
-
 	[[eosio::action]] void transfer(name from, name to, asset quantity, string memo) {
 		info_table info(_self, _self.value);
 		auto itr_info = info.find(0);
 		Check_asset(quantity, itr_info->token_type);
 
-		Document document;
 		public_key fromkey;
 		public_key tokey;
 
@@ -83,8 +78,6 @@ class[[eosio::contract]] token : public eosio::contract
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
-		string temp = memo;
-		print("start\n");
 
 		bool fromiskey = false;
 		if (from.value == name("").value)
@@ -93,9 +86,7 @@ class[[eosio::contract]] token : public eosio::contract
 		if (to.value == name("").value)
 			toiskey = true;
 
-		result = split(temp.c_str(), '$');
-		print(string(result[0].c_str()));
-		print("\n");
+		result = split(memo.c_str(), '$');
 
 		if (fromiskey || toiskey)
 		{
@@ -107,8 +98,6 @@ class[[eosio::contract]] token : public eosio::contract
 				tokey = str_to_pub(result[1]);
 				if (fromiskey)
 				{
-					print("start2\n");
-
 					fromkey = str_to_pub(result[2]);
 					feeamount = (uint64_t)stoi(result[3]);
 					sig = str_to_sig(result[4]);
@@ -123,7 +112,6 @@ class[[eosio::contract]] token : public eosio::contract
 				sa = name(result[4]);
 			}
 		}
-		print(fromiskey);
 
 		fee.amount = feeamount;
 		if (fromiskey)
@@ -132,11 +120,13 @@ class[[eosio::contract]] token : public eosio::contract
 			toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
 	}
 
-	[[eosio::action]] void notify(name user, public_key sig)
+		[[eosio::action]] void
+		notify(name user, public_key sig)
 	{
 		require_auth(user);
 		require_recipient(user);
 	};
+
 
   private:
 	struct [[eosio::table]] accounts
@@ -193,9 +183,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_auth(sa);
 		accounts_table accounts(_self, _self.value);
 		auto itr_from = accounts.find(keytoid(from));
-		print("verity_sig start\n");
 		verify_sig_transfer(from, to, quantity, memo, fee, itr_from->nonce, sig);
-		print("end");
 		Check_memo(memo);
 
 		balance_sub(from, quantity, sa, true);
@@ -909,9 +897,8 @@ class[[eosio::contract]] token : public eosio::contract
 		char strchar[256];
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
-		print(memo.c_str());
-		print("\n");
-		checksum256 digest;
+
+		capi_checksum256 digest;
 		char potato[33 + 8 * 2 + 256 + 8 * 2];
 
 		memcpy(potato, &from.data, sizeof(from.data));
