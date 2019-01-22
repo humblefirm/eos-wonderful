@@ -188,7 +188,7 @@
         this.balance=eventBus.balance;
         this.balance.splice(99999);
         this.trades=eventBus.trades;
-        this.trades.splice(99999);
+        this.trades.rows.splice(99999);
         this.$set(this.trades, 0, eventBus.trades);
         this.refreshing = false;
       }

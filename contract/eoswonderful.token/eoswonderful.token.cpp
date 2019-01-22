@@ -940,7 +940,7 @@ class[[eosio::contract]] token : public eosio::contract
 	{
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(keytoid(account));
-		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists!!");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
 			r.balance.symbol = quantity.symbol;
 			r.balance.amount -= quantity.amount;
@@ -956,7 +956,7 @@ class[[eosio::contract]] token : public eosio::contract
 		require_recipient(account);
 		accounts_table accounts(_self, _self.value);
 		auto itr_balance = accounts.find(account.value);
-		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists");
+		eosio_assert(itr_balance != accounts.end(), "Account doesn't exists!");
 		accounts.modify(itr_balance, _self, [&](auto &r) {
 			r.balance.symbol = quantity.symbol;
 			r.balance.amount -= quantity.amount;
@@ -981,7 +981,11 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 33 + 8 + 8, &strchar, sizeof(strchar));
 		memcpy(potato + 33 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 33 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
+<<<<<<< HEAD
 		printhex(&potato, sizeof(potato));
+=======
+		printhex(&potato,sizeof(potato));
+>>>>>>> 1759296193cf3a2e8892787dc6374e9327201504
 		digest = eosio::sha256(potato, sizeof(potato));
 		eosio::assert_recover_key(digest, sig, from);
 	}
