@@ -9,7 +9,12 @@
 #include <eosiolib/asset.hpp>
 #include <eosiolib/eosio.hpp>
 #include <eosiolib/crypto.h>
+#include <string.h>
 
+#include "/usr/local/include/rapidjson/document.h"  
+#include "/usr/local/include/rapidjson/prettywriter.h"
+
+using namespace rapidjson;
 using namespace eosio;
 using namespace std;
 using namespace types;
@@ -51,8 +56,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}
 	}
 
-		[[eosio::action]] void
-		mint(string to, asset quantity, string memo)
+	[[eosio::action]] void mint(string to, asset quantity, string memo)
 	{
 		is_key(to) ? mint_f(str_to_pub(to), quantity, memo) : mint_f(name(to.c_str()), quantity, memo);
 	}
@@ -63,7 +67,82 @@ class[[eosio::contract]] token : public eosio::contract
 	// 	else
 	// 		is_key(to) ? transfer_f(name(from), str_to_pub(to), quantity, memo) : transfer_f(name(from), name(to), quantity, memo);
 	// }
+	/*
+	{ "memo" : "KST FUCK FUCK FUCK", "idx" : 4, "opt" : trade, "fromkey" : EOS5GhNbh4Ekmn4FYU28Q1xtjkt36348GiS5iThiMT4akfbaMWEfE, "tokey": null, "fee":0.0000 TWO, "sig": SIG_K1_K6B5wFHUBU4VhPPgo4bPh6Ym6kdWRFWSAQsYtAUTXQtRim8QeoMFgbL4F7DsrLesFGj6TNE7cM6TdpBdJiCYcCYuEhy5qe, "sa" : "madb31f3iend" } 
+	*/
 	[[eosio::action]] void transfer(name from, name to, asset quantity, string memo) {
+		asset fee;
+		Document document;
+		public_key fromkey;
+		public_key tokey;
+		signature sig;
+		string message;
+		name sa;
+		uint64_t feeamount = 0;
+
+		info_table info(_self, _self.value);
+		auto itr_info = info.find(0);
+		Check_asset(quantity, itr_info->token_type);
+
+		const char json_buf = *memo.c_str();
+		char buffer[memo.size()+1];
+
+		fee.symbol = quantity.symbol;
+
+
+		//memcpy(buffer, json_buf, sizeof(json_buf));
+		strncpy(buffer, memo.c_str(), memo.size());
+		buffer[memo.size()+1] = '\0';
+		eosio_assert(!document.ParseInsitu(buffer).HasParseError(), "json parsing error");
+
+		bool fromiskey = false;
+		if (from.value == name("").value)
+			fromiskey = true;
+		bool toiskey = false;
+		if (to.value == name("").value)
+			toiskey = true;
+
+		message = document["memo"].GetString();
+
+		if (fromiskey || toiskey)
+		{
+			if (toiskey)
+			{
+				tokey = str_to_pub(document["tokey"].GetString());
+				if (fromiskey)
+				{
+					print(document["fromkey"].GetString());
+					fromkey = str_to_pub(document["fromkey"].GetString());
+					feeamount = document["fee"].GetUint64();
+					sig = str_to_sig(document["sig"].GetString());
+					sa = name(document["sa"].GetString());
+				}
+			}
+			if (fromiskey && !toiskey)
+			{
+				print(document["fromkey"].GetString());
+				fromkey = str_to_pub(document["fromkey"].GetString());
+				feeamount = document["fee"].GetUint64();
+				sig = str_to_sig(document["sig"].GetString());
+				sa = name(document["sa"].GetString());
+			}
+		}
+
+		fee.amount = feeamount;
+		if (fromiskey)
+			toiskey ? transfer_f(fromkey, tokey, quantity, message, fee, sig, sa) : transfer_f(fromkey, to, quantity, message, fee, sig, sa);
+		else
+			toiskey ? transfer_f(from, tokey, quantity, message) : transfer_f(from, to, quantity, message);
+	}
+
+	[[eosio::action]] void notify(name user, public_key sig)
+	{
+		require_auth(user);
+		require_recipient(user);
+	};
+
+
+	[[eosio::action]] void mbus(name from, name to, asset quantity, string memo) {
 		info_table info(_self, _self.value);
 		auto itr_info = info.find(0);
 		Check_asset(quantity, itr_info->token_type);
@@ -78,6 +157,7 @@ class[[eosio::contract]] token : public eosio::contract
 		fee.symbol = quantity.symbol;
 		signature sig;
 		name sa;
+		string temp = memo;
 
 		bool fromiskey = false;
 		if (from.value == name("").value)
@@ -86,7 +166,7 @@ class[[eosio::contract]] token : public eosio::contract
 		if (to.value == name("").value)
 			toiskey = true;
 
-		result = split(memo.c_str(), '$');
+		result = split(temp.c_str(), '$');
 
 		if (fromiskey || toiskey)
 		{
@@ -98,6 +178,8 @@ class[[eosio::contract]] token : public eosio::contract
 				tokey = str_to_pub(result[1]);
 				if (fromiskey)
 				{
+					print("start2\n");
+
 					fromkey = str_to_pub(result[2]);
 					feeamount = (uint64_t)stoi(result[3]);
 					sig = str_to_sig(result[4]);
@@ -112,6 +194,7 @@ class[[eosio::contract]] token : public eosio::contract
 				sa = name(result[4]);
 			}
 		}
+		print(fromiskey);
 
 		fee.amount = feeamount;
 		if (fromiskey)
@@ -119,14 +202,6 @@ class[[eosio::contract]] token : public eosio::contract
 		else
 			toiskey ? transfer_f(from, tokey, quantity, memo) : transfer_f(from, to, quantity, memo);
 	}
-
-		[[eosio::action]] void
-		notify(name user, public_key sig)
-	{
-		require_auth(user);
-		require_recipient(user);
-	};
-
 
   private:
 	struct [[eosio::table]] accounts
@@ -178,7 +253,6 @@ class[[eosio::contract]] token : public eosio::contract
 
 	void transfer_f(public_key from, name to, asset quantity, string memo, asset fee, signature sig, name sa)
 	{
-		print("start transfer \n");
 		//송신자|수신자|액수|메모|{sadata}
 		require_auth(sa);
 		accounts_table accounts(_self, _self.value);
@@ -898,7 +972,7 @@ class[[eosio::contract]] token : public eosio::contract
 		strncpy(strchar, memo.c_str(), sizeof(strchar));
 		strchar[sizeof(strchar) - 1] = 0;
 
-		capi_checksum256 digest;
+		checksum256 digest;
 		char potato[33 + 8 * 2 + 256 + 8 * 2];
 
 		memcpy(potato, &from.data, sizeof(from.data));
@@ -908,8 +982,8 @@ class[[eosio::contract]] token : public eosio::contract
 		memcpy(potato + 33 + 8 + 8 + 256, &fee.amount, sizeof(fee.amount));
 		memcpy(potato + 33 + 8 + 8 + 256 + 8, &nonce, sizeof(nonce));
 		printhex(&potato, sizeof(potato));
-		sha256(potato, sizeof(potato), &digest);
-		assert_recover_key(&digest, (const char *)&sig, sizeof(sig), (const char *)&from, sizeof(from));
+		digest = eosio::sha256(potato, sizeof(potato));
+		eosio::assert_recover_key(digest, sig, from);
 	}
 	void verify_sig_transfer(public_key from, public_key to, asset quantity, string memo,
 							 asset fee, int64_t nonce, signature sig)
@@ -961,7 +1035,7 @@ class[[eosio::contract]] token : public eosio::contract
 		}                                                                                                                        \
 	}
 
-EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer)(notify))
+EOSIO_DISPATCH_EX(token, (setinfo)(mint)(transfer)(notify)(mbus))
 
 // 가시밭길이더라도 자주적 사고를 하는 이의 길을 가십시오. 비판과 논란에 맞서서 당신의 생각을 당당히 밝히십시오. 당신의 마음이 시키는 대로 하십시오. '별난 사람'이라고 낙인찍히는 것보다 순종이라는 오명에 무릎 꿇는 것을 더 두려워하십시오. 당신이 중요하다고 생각하는 이념을 위해서라면 온 힘을 다해 싸우십시오.
 // Thomas J. Watson

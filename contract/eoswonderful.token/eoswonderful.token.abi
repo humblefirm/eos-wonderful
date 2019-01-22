@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Jan 21 16:03:12 2019",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Jan 22 16:17:00 2019",
     "version": "eosio::abi/1.1",
     "structs": [
         {
@@ -38,6 +38,28 @@
                 },
                 {
                     "name": "token_type",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "mbus",
+            "base": "",
+            "fields": [
+                {
+                    "name": "from",
+                    "type": "name"
+                },
+                {
+                    "name": "to",
+                    "type": "name"
+                },
+                {
+                    "name": "quantity",
+                    "type": "asset"
+                },
+                {
+                    "name": "memo",
                     "type": "string"
                 }
             ]
@@ -113,6 +135,11 @@
     ],
     "types": [],
     "actions": [
+        {
+            "name": "mbus",
+            "type": "mbus",
+            "ricardian_contract": ""
+        },
         {
             "name": "mint",
             "type": "mint",
