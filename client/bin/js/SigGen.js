@@ -147,7 +147,7 @@ function strH2hexB(str) {
     var ret = [];
     for (var i = 0; i < str.length; i += 2) {
         var hex = str[i] + str[i + 1];
-        ret.push(parseInt(hex, 16)>128?parseInt(hex, 16)-256:parseInt(hex, 16));
+        ret.push(parseInt(hex, 16) > 128 ? parseInt(hex, 16) - 256 : parseInt(hex, 16));
     }
     return ret;
 }
@@ -178,6 +178,7 @@ function int2hexB(amount) {
             j = 7;
         for (i = 0; i < 16; i += 2) {
             ret[j] = parseInt("0x" + value[i] + value[i + 1]);
+            ret[j] = ret[j] = ret[j] > 127 ? ret[j] - 256 : ret[j];
             j--;
         }
         console.log(ret);
