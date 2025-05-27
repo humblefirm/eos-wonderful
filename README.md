@@ -145,7 +145,7 @@ eos-wonderful/
 
 This work is licensed under [**CC BY-NC-SA 2.0 KR**](https://creativecommons.org/licenses/by-nc-sa/2.0/kr/) for non-commercial use with attribution.
 
-**Commercial licensing**: Contact [kstae@1thefull.com](mailto:kstae@1thefull.com)
+**Commercial licensing**: Contact [humblefirm@gmail.com](mailto:humblefirm@gmail.com)
 
 ---
 
